@@ -1,6 +1,6 @@
 class Level1 extends Phaser.Scene {
     constructor() {
-        super("playScene");
+        super("levelOneScene");
     }
     
     preload() {
@@ -8,7 +8,6 @@ class Level1 extends Phaser.Scene {
         this.load.image('player', './assets/Player.png');
         this.load.image('tile', './assets/Tile.png');
     }
-
 
     create() {
         // variables and settings
@@ -77,12 +76,14 @@ class Level1 extends Phaser.Scene {
 
         //menu
         if (keyESC.isDown) {
-            this.scene.start("menuScene");
+            this.scene.launch("pauseScene");
+            this.scene.pause();
         }
 
         // check enemy collision
         if(this.checkCollision(this.player, this.enemy01)) {
-            this.scene.start("menuScene");
+            this.scene.launch("deathScene");
+            this.scene.pause();
         }
     }
 
