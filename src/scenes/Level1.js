@@ -24,10 +24,24 @@ class Level1 extends Phaser.Scene {
             this.ground.add(groundTile);
         }
 
+        // make additional ground tiles
+        for(let i = tileSize*19; i < game.config.width-tileSize*4; i += tileSize) {
+            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize*5, 'tile').setScale(SCALE).setOrigin(0);
+            groundTile.body.immovable = true;
+            groundTile.body.allowGravity = false;
+            this.ground.add(groundTile);
+        }
+        for(let i = tileSize*2; i < game.config.width-tileSize*13; i += tileSize) {
+            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize*9, 'tile').setScale(SCALE).setOrigin(0);
+            groundTile.body.immovable = true;
+            groundTile.body.allowGravity = false;
+            this.ground.add(groundTile);
+        }
+
         // set up player
         this.player = this.physics.add.sprite(game.config.width/2, game.config.height/6, 'player').setScale(SCALE);
         this.player.setCollideWorldBounds(true);
-        this.player.body.setMaxVelocity(400);
+        this.player.body.setMaxVelocity(700);
 
         // set up key input
         cursors = this.input.keyboard.createCursorKeys();
