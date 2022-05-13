@@ -1,10 +1,7 @@
 let config = {
     type: Phaser.CANVAS,
     width: 1280,
-    height: 520,
-    width: 750,
-    height: 500,
-    autoCenter: true,
+    height: 640,
     backgroundColor: '#B7410E',
     autoCenter: true,
     physics: {
@@ -14,7 +11,7 @@ let config = {
             debug: false,
         }
     },
-    scene: [Menu, Gamescreen1, Gamescreen2]
+    scene: [ Gamescreen ]
 }
 
 let game = new Phaser.Game(config);
