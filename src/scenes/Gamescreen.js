@@ -3,52 +3,84 @@ class Gamescreen extends Phaser.Scene {
         super("Level1");
     }
 
-    preload(){
-        this.load.atlas('player_atlas', 'Character_actions.png', 'sprites.json');
-    }
-
     create(){
 
-        this.VELOCITY = 500;
-        this.AVATAR_SCALE = 0.5;
+        this.ACCELERATION = 500;
+        this.MAX_X_VEL = 500;   // pixels/second
+        this.MAX_Y_VEL = 5000;
+        this.DRAG = 600;
+        this.SCALE = 0.5;
 
-        this.anims.create({
-            key: 'Walk_left',
-            frames: this.anims.generateFrameNames('player_atlas', {
-                prefix: 'Walk_left_',
-                frames: [1, 2, 3, 2],
-                suffix: '',
-                zeroPad: 3
-            }),
-            frameRate: 20,
-            repeat: -1,
-        });
-        this.anims.create({
-            key: 'Walk_right',
-            frames: this.anims.generateFrameNames('player_atlas', {
-                prefix: 'Walk_right_',
-                frames: [1, 2, 3, 2],
-                suffix: '',
-                zeroPad: 3
-            }),
-            frameRate: 20,
-            repeat: -1,
-        });
+        //predecessor to collapsing platforms
+        this.cloud01 = this.physics.add.sprite(600, 200, 'platformer_atlas', 'cloud_1');
+        this.cloud01.body.setAllowGravity(false).setVelocityX(25);
+        this.cloud02 = this.physics.add.sprite(200, 250, 'platformer_atlas', 'cloud_2');
+        this.cloud02.body.setAllowGravity(false).setVelocityX(45);
 
+        //some ground
+        this.ground =this.add.group();
+        for(let i = 0; i < game.config.width; i += tileSize) {
+            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'platformer_atlas', 'block').setScale(this.SCALE)
+            groundTile.body.immovable = true;
+            groundTile.body.allowGravity = false;
+            this.ground.add(groundTile);
+        }
+        for(let i = tileSize*7; i < game.config.width-tileSize*4; i += tileSize) {
+            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize*5, 'platformer_atlas', 'block').setScale(this.SCALE).setOrigin(0);
+            groundTile.body.immovable = true;
+            groundTile.body.allowGravity = false;
+            this.ground.add(groundTile);
+        }
+        for(let i = tileSize*2; i < game.config.width-tileSize*13; i += tileSize) {
+            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize*9, 'platformer_atlas', 'block').setScale(this.SCALE).setOrigin(0);
+            groundTile.body.immovable = true;
+            groundTile.body.allowGravity = false;
+            this.ground.add(groundTile);
+        }
+        this.player = this.physics.add.sprite(game.config.width/2, game.config.height/3, 'platformer_atlas', 'front').setScale(this.SCALE);
+        this.player.setMaxVelocity(this.MAX_X_VEL, this.MAX_Y_VEL);
 
-        this.player = this.physics.add.sprite(game.config.width/2, game.config.height/2, 'player_atlas', 'Idle_001').setScale(this.AVATAR_SCALE);
+        this.cursors = this.input.keyboard.createCursorKeys();
 
-        cursors = this.input.keyboard.createCursorKeys();
+        // add physics collider
+        this.physics.add.collider(this.player, this.ground);
+        this.physics.add.collider(this.player, this.cloud02);
     }
 
-    update(){
-        if(cursors.left.isDown) {
-            this.player.body.setVelocityX(-this.VELOCITY);
-            this.player.anims.play('Walk_left', true);
+    update() {
 
-        } else if(cursors.right.isDown) {
-            this.player.body.setVelocityX(this.VELOCITY);
-            this.player.anims.play('Walk_right', true);
+        //character animations
+        if(this.cursors.left.isDown) {
+            this.player.body.setAccelerationX(-this.ACCELERATION);
+            this.player.setFlip(true, false);
+            this.player.anims.play('walk', true);
+
+        } else if(this.cursors.right.isDown) {
+            this.player.body.setAccelerationX(this.ACCELERATION);
+            this.player.resetFlip();
+            this.player.anims.play('walk', true);
+
+        } else {
+            this.player.body.setAccelerationX(0);
+            this.player.body.setDragX(this.DRAG);
+            this.player.anims.play('idle');
+
         }
+
+        if(!this.player.body.touching.down) {
+            this.player.anims.play('jump', true);
+        }
+        //jumping
+        if(this.player.body.touching.down && Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
+            this.player.setVelocityY(-1000);
+        }
+        //world wrapping
+        this.physics.world.wrap(this.cloud01, this.cloud01.width/2);
+        this.physics.world.wrap(this.cloud02, this.cloud02.width/2);
+        this.physics.world.wrap(this.player, 0);
+
+        this.player.setBounce(0, 4);
+        this.physics.collide(this.player, this.cloud01);
+        this.player.setBounce(0, 0);
     }
 }
