@@ -1,3 +1,5 @@
+const tileSize = 35;
+
 let config = {
     type: Phaser.CANVAS,
     width: 1280,
@@ -7,11 +9,11 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: {y: 500},
+            gravity: {y: 2500},
             debug: false,
         }
     },
-    scene: [ Gamescreen ]
+    scene: [ Load, Gamescreen ]
 }
 
 let game = new Phaser.Game(config);
