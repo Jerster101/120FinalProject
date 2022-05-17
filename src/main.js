@@ -26,8 +26,6 @@ let config = {
 
 let game = new Phaser.Game(config);
 
-let keyLEFT, keyRIGHT, keyA, keyD, keySPACE, keyESC;
-
 let sceneSwitcher = (event) => {
     //console.log("Key is: " + event.key);
     switch(event.key) {
@@ -44,3 +42,4 @@ let sceneSwitcher = (event) => {
             break;
     }
 }
+
