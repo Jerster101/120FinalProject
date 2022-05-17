@@ -26,19 +26,30 @@ class Platformscreen extends Phaser.Scene {
         this.player = this.physics.add.sprite(game.config.width/2, game.config.height/3, 'platformer_atlas', 'front').setScale(SCALE);
         this.player.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
 
-        this.cursors = this.input.keyboard.createCursorKeys();
+        cursors = this.input.keyboard.createCursorKeys();
+
+        function checkOneWay(player, platform) {
+            if(player.y < platform.y && !cursors.down.isDown) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        //should allow us to not fall through the platforms
+        this.physics.add.collider(this.player, this.clouds, null, checkOneWay, this);
         //allows us to switch scenes
         this.input.keyboard.on('keydown', sceneSwitcher);
     }
 
     update() {
         //player movements and animations
-        if(this.cursors.left.isDown) {
+        if(cursors.left.isDown) {
             this.player.body.setAccelerationX(-ACCELERATION);
             this.player.setFlip(true, false);
             this.player.anims.play('walk', true);
 
-        } else if(this.cursors.right.isDown) {
+        } else if(cursors.right.isDown) {
             this.player.body.setAccelerationX(ACCELERATION);
             this.player.resetFlip();
             this.player.anims.play('walk', true);
@@ -54,7 +65,7 @@ class Platformscreen extends Phaser.Scene {
             this.player.anims.play('jump', true);
         }
         //jumping
-        if(this.player.body.touching.down && Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
+        if(this.player.body.touching.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             this.player.setVelocityY(-1000);
         }
         this.physics.world.wrap(this.player, 0);
