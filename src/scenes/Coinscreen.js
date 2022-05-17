@@ -70,7 +70,8 @@ class Coinscreen extends Phaser.Scene {
         }
         this.currentScore = this.add.text(50, 20, 'SCORE: ' + `${this.score}`, scoreConfig);
 
-        this.cursors = this.input.keyboard.createCursorKeys();
+        //this needs to be made in order for the control inputs to work (as far as I can figure anyway)
+        cursors = this.input.keyboard.createCursorKeys();
 
         // add physics collider
         this.physics.add.collider(this.player, this.ground);
@@ -85,12 +86,12 @@ class Coinscreen extends Phaser.Scene {
     update() {
 
         //character animations
-        if(this.cursors.left.isDown) {
+        if(cursors.left.isDown) {
             this.player.body.setAccelerationX(-ACCELERATION);
             this.player.setFlip(true, false);
             this.player.anims.play('walk', true);
 
-        } else if(this.cursors.right.isDown) {
+        } else if(cursors.right.isDown) {
             this.player.body.setAccelerationX(ACCELERATION);
             this.player.resetFlip();
             this.player.anims.play('walk', true);
@@ -106,7 +107,7 @@ class Coinscreen extends Phaser.Scene {
             this.player.anims.play('jump', true);
         }
         //jumping
-        if(this.player.body.touching.down && Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
+        if(this.player.body.touching.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             this.player.setVelocityY(-1000);
         }
         //world wrapping
