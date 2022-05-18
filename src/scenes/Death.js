@@ -2,7 +2,9 @@ class Death extends Phaser.Scene {
     constructor() {
         super("deathScene");
     }
-
+    preload() {
+        this.load.audio('temp_menu_sfx', './assets/temp_menu_sfx.wav');
+    }
     create() {
 
         let menuConfig = {
@@ -30,10 +32,13 @@ class Death extends Phaser.Scene {
     update() {
         if (keyQ.isDown) {
             this.scene.stop('levelOneScene');
+            this.sound.play('temp_menu_sfx');
             this.scene.start('menuScene');
         }
         if (keyR.isDown) {
+            this.sound.play('temp_menu_sfx');
             this.scene.start('levelOneScene');
+
         }
         
     }

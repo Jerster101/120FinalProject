@@ -9,6 +9,9 @@ class Level1 extends Phaser.Scene {
         this.load.image('player', 'Player.png');
         this.load.image('tiles', 'red_ground.png');
         this.load.tilemapTiledJSON('map', 'red_map.json');
+        this.load.audio('temp_menu_sfx', 'temp_menu_sfx.wav');
+        this.load.audio('temp_jump_sfx', 'temp_jump_sfx.wav');
+        this.load.audio('music', 'background_music.m4a');
     }
 
     create() {
@@ -23,6 +26,15 @@ class Level1 extends Phaser.Scene {
         
         // variables and settings
         this.physics.world.gravity.y = GRAV;
+
+        let musicConfig = {
+            volume: 0.1,
+            loop: true,
+        }
+
+        this.music = this.sound.add('music');
+
+        this.music.play(musicConfig);
 
         // add a tilemap
         const map = this.add.tilemap('map');
@@ -73,11 +85,13 @@ class Level1 extends Phaser.Scene {
 
         // jumping
         if ((cursors.up.isDown || cursors.space.isDown || keyW.isDown) && this.player.body.onFloor) {
+            //this.sound.play('temp_jump_sfx');
             this.player.setVelocityY(-JUMPHEIGHT);
         }
 
         //menu
         if (keyESC.isDown) {
+            this.sound.play('temp_menu_sfx');
             this.scene.launch("pauseScene");
             this.scene.pause();
         }

@@ -2,7 +2,9 @@ class Menu extends Phaser.Scene {
     constructor() {
         super("menuScene");
     }
-
+    preload() {
+        this.load.audio('temp_menu_sfx', './assets/temp_menu_sfx.wav');
+    }
     create() {
         // menu text configuration
         let menuConfig = {
@@ -31,6 +33,7 @@ class Menu extends Phaser.Scene {
     update() {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
           // Start game
+          this.sound.play('temp_menu_sfx');
           this.scene.start("levelOneScene");
         }
     }
