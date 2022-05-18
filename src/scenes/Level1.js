@@ -36,7 +36,7 @@ class Level1 extends Phaser.Scene {
         });
         
         // set up player
-        this.player = this.physics.add.sprite(200, 1160, 'player');
+        this.player = this.physics.add.sprite(200, 1168, 'player');
         this.player.body.setMaxVelocity(300);
         //this.player.setCollideWorldBounds(true);
         
@@ -61,7 +61,6 @@ class Level1 extends Phaser.Scene {
     update() {
         // movement
         if((cursors.left.isDown || keyA.isDown) && this.player.body.onFloor) {
-            console.log('hit');
             this.player.setAccelerationX(-MOVESPEED);
             this.player.setFlip(true, false);
         } else if((cursors.right.isDown || keyD.isDown) && this.player.body.onFloor) {
