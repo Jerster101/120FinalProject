@@ -16,18 +16,18 @@ const MOVESPEED = 300;
 const JUMPHEIGHT = 500;
 
 let config = {
-    type: Phaser.CANVAS,
+    type: Phaser.WebGL,
     width: 640,
     height: 360,
     autoCenter: true,
-    backgroundColor: '#C4ADA8',
+    backgroundColor: '#D56F59',
     autoCenter: true,
     pixelArt: true,
     zoom: 2,
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            debug: false,
             tileBias: 32,
         }
     },
