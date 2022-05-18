@@ -6,7 +6,6 @@ class Platformscreen extends Phaser.Scene {
     create() {
 
         //var alreadyShook;
-
         this.cameras.main.setBackgroundColor('#227B96');
 
         this.clouds = this.add.group();
@@ -41,6 +40,8 @@ class Platformscreen extends Phaser.Scene {
 
         //should allow us to not fall through the platforms
         this.physics.add.collider(this.player, this.clouds, null, checkOneWay, this);
+        //allows us to call a bounce function when the player lands on bouncy tiles
+        this.physics.add.collider(this.player, this.bouncy_ground, bouncePlayer, null, this);
         //allows us to land on some tiles and start a reaction, note the fact that the functions are in two different places for the different platforms, this is very important
         this.physics.add.collider(this.player, this.shaking_ground, shakePlatform, null, this);
         //allows us to switch scenes
@@ -56,6 +57,16 @@ class Platformscreen extends Phaser.Scene {
             }
         }
 
+        //the player can bounce on select tiles with this function, and by holding down the jump button, can bounce higher
+        function bouncePlayer(player, tile) {
+            this.sound.play('temporaryBounce');
+            if(cursors.up.isDown) {
+                player.setVelocityY(-2000);
+            }
+            else {
+                player.setVelocityY(-700);
+            }
+        }
         //function to cause the platform to shake and then be destroyed
         function shakePlatform(player, platform) {
             /*trying to figure out how to get the audio to play once for each block you step on, and not loop
@@ -134,16 +145,6 @@ class Platformscreen extends Phaser.Scene {
             this.sound.play('temporaryJump');
         }
         this.physics.world.wrap(this.player, 0);
-
-        //bounce collision
-        this.player.setBounce(1, 1);
-        /*can't seem to get this sound effect to work either, don't use it unless you think you know how to make it work
-        if(!alreadyBounced){
-            this.sound.play('temporaryBounce');
-            alreadyBounced = true;
-        } */
-        this.physics.collide(this.player, this.bouncy_ground);
-        this.player.setBounce(0, 0);
     }
     
 }
