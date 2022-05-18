@@ -55,6 +55,7 @@ class Coinscreen extends Phaser.Scene {
 
         this.player = this.physics.add.sprite(game.config.width/2, game.config.height/3, 'platformer_atlas', 'front').setScale(SCALE);
         this.player.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
+        this.player.setBounce(0.0);
 
         this.score = 0;
         //score stuff
@@ -109,6 +110,7 @@ class Coinscreen extends Phaser.Scene {
         //jumping
         if(this.player.body.touching.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             this.player.setVelocityY(-1000);
+            this.sound.play('temporaryJump');
         }
         //world wrapping
         this.physics.world.wrap(this.cloud01, this.cloud01.width/2);
@@ -124,7 +126,7 @@ class Coinscreen extends Phaser.Scene {
             if (this.checkCollision(this.player, coin)) {
                 this.bronze_coins.killAndHide(coin);
                 this.bronze_coins.remove(coin);
-                //this.sound.play('fall');
+                this.sound.play('temporaryCoin');
                 this.score += 10;
                 this.currentScore.text = 'SCORE: ' + `${this.score}`;
             }
@@ -136,7 +138,7 @@ class Coinscreen extends Phaser.Scene {
             if (this.checkCollision(this.player, coin)) {
                 this.silver_coins.killAndHide(coin);
                 this.silver_coins.remove(coin);
-                //this.sound.play('fall');
+                this.sound.play('temporaryCoin');
                 this.score += 25;
                 this.currentScore.text = 'SCORE: ' + `${this.score}`;
             }
@@ -148,7 +150,7 @@ class Coinscreen extends Phaser.Scene {
             if (this.checkCollision(this.player, coin)) {
                 this.gold_coins.killAndHide(coin);
                 this.gold_coins.remove(coin);
-                //this.sound.play('fall');
+                this.sound.play('temporaryCoin');
                 this.score += 50;
                 this.currentScore.text = 'SCORE: ' + `${this.score}`;
             }
