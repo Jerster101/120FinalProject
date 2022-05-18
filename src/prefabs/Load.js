@@ -6,9 +6,15 @@ class Load extends Phaser.Scene {
     preload() {
         //sets a loading path
         this.load.path = "assets/";
+
         this.load.atlas('platformer_atlas', 'kenny_sheet.png', 'kenny_sheet.json');
         this.load.image('groundScroll', 'ground.png');
         this.load.image('tall_trees', 'talltrees.png');
+
+        this.load.audio('temporaryJump', 'temp_jump.wav');
+        this.load.audio('temporaryCoin', 'temp_coin.wav');
+        this.load.audio('temporaryShake', 'temp_shake.wav');
+        this.load.audio('temporaryBounce', 'temp_bounce.wav');
     }
 
     create() {
