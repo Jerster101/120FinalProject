@@ -5,6 +5,8 @@ class Platformscreen extends Phaser.Scene {
 
     create() {
 
+        //var alreadyShook;
+
         this.cameras.main.setBackgroundColor('#227B96');
 
         this.clouds = this.add.group();
@@ -33,6 +35,7 @@ class Platformscreen extends Phaser.Scene {
 
         this.player = this.physics.add.sprite(game.config.width/2, game.config.height/3, 'platformer_atlas', 'front').setScale(SCALE);
         this.player.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
+        this.player.setBounce(0.0);
 
         cursors = this.input.keyboard.createCursorKeys();
 
@@ -55,16 +58,22 @@ class Platformscreen extends Phaser.Scene {
 
         //function to cause the platform to shake and then be destroyed
         function shakePlatform(player, platform) {
-            //if the player is standing on the platform
-            if(player.body.blocked.down){
-                this.cameras.main.shake(200, 0.001);
+            /*trying to figure out how to get the audio to play once for each block you step on, and not loop
+            or stop when running on multiple blocks, haven't worked it out yet
+            if(!alreadyShook){
+                this.sound.play('temporaryShake');
+                alreadyShook = true;
+            }
+            */
+            if(player.body.blocked.down) {      //if the player is standing on the platform
+                this.cameras.main.shake(200, 0.001);        //then shake the camera
                 //this is a global variable we have to use so that Phaser doesn't get confused
                 var ourScene = this;
                 var tween = this.tweens.add({
                     targets: platform,
                     yoyo: true,
                     repeat: 10,
-                    x: {
+                    x: {    //if the player is not on the block, then shake the block 
                         from: platform.x,
                         to: platform.x + 2 *1
                     },
@@ -78,6 +87,7 @@ class Platformscreen extends Phaser.Scene {
         }
         //function to destroy the platforms specifically, not sure if this needs to be seperate, we can decide later
         function destroyPlatform(platform) {
+            //alreadyShook = false;
             var tween = this.tweens.add({
                 targets: platform,
                 alpha: 0,
@@ -96,6 +106,7 @@ class Platformscreen extends Phaser.Scene {
     }
 
     update() {
+
         //player movements and animations
         if(cursors.left.isDown) {
             this.player.body.setAccelerationX(-ACCELERATION);
@@ -120,11 +131,17 @@ class Platformscreen extends Phaser.Scene {
         //jumping
         if(this.player.body.touching.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             this.player.setVelocityY(-1000);
+            this.sound.play('temporaryJump');
         }
         this.physics.world.wrap(this.player, 0);
 
         //bounce collision
         this.player.setBounce(1, 1);
+        /*can't seem to get this sound effect to work either, don't use it unless you think you know how to make it work
+        if(!alreadyBounced){
+            this.sound.play('temporaryBounce');
+            alreadyBounced = true;
+        } */
         this.physics.collide(this.player, this.bouncy_ground);
         this.player.setBounce(0, 0);
     }
