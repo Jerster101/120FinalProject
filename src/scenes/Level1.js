@@ -72,7 +72,7 @@ class Level1 extends Phaser.Scene {
         }
 
         // jumping
-        if ((cursors.up.isDown || cursors.space.isDown || keyW.isDown) && this.player.body.onFloor) {
+        if (Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(cursors.space) || Phaser.Input.Keyboard.JustDown(keyW) && this.player.body.onFloor) {
             this.player.setVelocityY(-JUMPHEIGHT);
         }
 
