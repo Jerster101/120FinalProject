@@ -48,6 +48,6 @@ class Load extends Phaser.Scene {
                 { frame: 'jump' }
             ],
         });
-        this.scene.start("Level1");
+        this.scene.start("Tutorial1");
     }
 }
