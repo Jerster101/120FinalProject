@@ -1,6 +1,6 @@
 class Coinscreen extends Phaser.Scene {
     constructor() {
-        super("Level1");
+        super("Tutorial1");
     }
 
     create() {
