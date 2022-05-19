@@ -1,6 +1,6 @@
 class Platformscreen extends Phaser.Scene {
     constructor() {
-        super("Level2");
+        super("Tutorial2");
     }
 
     create() {
