@@ -66,6 +66,16 @@ class Platformscreen extends Phaser.Scene {
             else {
                 player.setVelocityY(-700);
             }
+            this.tweens.add({
+                targets: tile,
+                yoyo: true,
+                y: {
+                    from: tile.y,
+                    to: tile.y + 2 * 1
+                },
+                ease: 'Linear',
+                duration: 50,
+            });
         }
         //function to cause the platform to shake and then be destroyed
         function shakePlatform(player, platform) {
