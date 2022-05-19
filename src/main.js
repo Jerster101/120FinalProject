@@ -4,14 +4,14 @@ const tileSize = 35;
 const cloudSize = 65;
 var SCALE = 0.5,
 ACCELERATION = 500,
-DRAG = 600,
+DRAG = 950,
 MAX_X_VEL = 500,
 MAX_Y_VEL = 5000;
 
 let config = {
     type: Phaser.CANVAS,
-    width: 1280,
-    height: 640,
+    width: 640,
+    height: 360,
     backgroundColor: '#B7410E',
     autoCenter: true,
     physics: {
@@ -21,7 +21,7 @@ let config = {
             debug: false,
         }
     },
-    scene: [ Load, Coinscreen, Platformscreen ]
+    scene: [ Load, Coinscreen, Platformscreen, Level1 ]
 }
 
 let game = new Phaser.Game(config);
@@ -32,12 +32,20 @@ let sceneSwitcher = (event) => {
         case '1':
             game.scene.start('Level1');
             game.scene.bringToTop('Level1');
-            game.scene.pause('Level2');
+            game.scene.pause('Tutorial1');
+            game.scene.pause('Tutorial2');
             break;
         case '2':
-            game.scene.start('Level2');
-            game.scene.bringToTop('Level2');
+            game.scene.start('Tutorial1');
+            game.scene.bringToTop('Tutorial1');
             game.scene.pause('Level1');
+            game.scene.pause('Tutorial2');
+            break;
+        case '3':
+            game.scene.start('Tutorial2');
+            game.scene.bringToTop('Tutorial2');
+            game.scene.pause('Level1');
+            game.scene.pause('Tutorial1');
         default:
             break;
     }
