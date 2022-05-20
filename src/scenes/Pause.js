@@ -4,10 +4,12 @@ class Pause extends Phaser.Scene {
     }
 
     create() {
+        // ensure this scene displays above others
+        this.scene.bringToTop();
 
         let menuConfig = {
             fontFamily: 'Courier',
-            fontSize: '35px',
+            fontSize: '20px',
             fontStyle: 'italic',
             backgroundColor: '#000000',
             color: '#ffffff',

@@ -4,43 +4,45 @@ class Level1 extends Phaser.Scene {
     }
     
     preload() {
-        this.load.image('enemy', './assets/Enemy.png');
-        this.load.image('player', './assets/Player.png');
-        this.load.image('tile', './assets/Tile.png');
+        this.load.path = 'assets/';
+        this.load.image('enemy', 'Enemy.png');
+        this.load.image('player', 'Player.png');
+        this.load.image('tiles', 'red_ground.png');
+        this.load.tilemapTiledJSON('map', 'red_map.json');
     }
 
     create() {
+        /*const gui = new dat.GUI();
+        gui.addFolder("Main Camera");
+        gui.add(this.cameras.main, 'scrollX');
+        gui.add(this.cameras.main, 'scrollY');
+        gui.add(this.cameras.main, 'zoom');
+        */
+
+        this.CAMWIDTH = 640;
+        this.CAMHEIGHT = 360;
+        
         // variables and settings
         this.physics.world.gravity.y = GRAV;
 
-        // make ground tiles
-        this.tileSize = 5;
-        this.ground = this.add.group();
-        for(let i = 0; i < game.config.width; i += tileSize) {
-            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'tile').setScale(SCALE).setOrigin(0);
-            groundTile.body.immovable = true;
-            groundTile.body.allowGravity = false;
-            this.ground.add(groundTile);
-        }
-
-        // make additional ground tiles
-        for(let i = tileSize*19; i < game.config.width-tileSize*4; i += tileSize) {
-            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize*5, 'tile').setScale(SCALE).setOrigin(0);
-            groundTile.body.immovable = true;
-            groundTile.body.allowGravity = false;
-            this.ground.add(groundTile);
-        }
-        for(let i = tileSize*2; i < game.config.width-tileSize*13; i += tileSize) {
-            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize*9, 'tile').setScale(SCALE).setOrigin(0);
-            groundTile.body.immovable = true;
-            groundTile.body.allowGravity = false;
-            this.ground.add(groundTile);
-        }
-
+        // add a tilemap
+        const map = this.add.tilemap('map');
+        // add a tileset to the map
+        const tileset = map.addTilesetImage('red_ground','tiles');
+        // create tilemap layers
+        const platformLayer = map.createLayer('platform', tileset, 0, 0);
+        // set map collisions
+        platformLayer.setCollisionByProperty({
+            collides: true,
+        });
+        
         // set up player
-        this.player = this.physics.add.sprite(game.config.width/2, game.config.height/6, 'player').setScale(SCALE);
-        this.player.setCollideWorldBounds(true);
-        this.player.body.setMaxVelocity(700);
+        this.player = this.physics.add.sprite(200, 1168, 'player');
+        this.player.body.setMaxVelocity(300);
+        //this.player.setCollideWorldBounds(true);
+        
+        // add physics collider
+        this.physics.add.collider(this.player, platformLayer);
 
         // set up key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -49,28 +51,29 @@ class Level1 extends Phaser.Scene {
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
-        // add physics collider
-        this.physics.add.collider(this.player, this.ground);
-
         // add enemy
-        this.enemy01 = new Enemy(this, 500, 700, 'enemy', 0);
+        //this.enemy01 = new Enemy(this, 500, 700, 'enemy', 0);
+
+        // camera
+        this.cameras.main.setBounds(0,0,1216, 1280);
+        this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
     }
 
     update() {
         // movement
-        if((cursors.left.isDown || keyA.isDown) && this.player.body.touching.down) {
+        if((cursors.left.isDown || keyA.isDown) && this.player.body.onFloor) {
             this.player.setAccelerationX(-MOVESPEED);
             this.player.setFlip(true, false);
-        } else if((cursors.right.isDown || keyD.isDown) && this.player.body.touching.down) {
+        } else if((cursors.right.isDown || keyD.isDown) && this.player.body.onFloor) {
             this.player.setAccelerationX(MOVESPEED);
             this.player.resetFlip();
-        } else if (this.player.body.touching.down) {
+        } else if (this.player.body.onFloor) {
             this.player.body.setDragX(DRAG);
             this.player.setAccelerationX(0);
         }
 
         // jumping
-        if ((cursors.up.isDown || cursors.space.isDown || keyW.isDown) && this.player.body.touching.down) {
+        if (Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(cursors.space) || Phaser.Input.Keyboard.JustDown(keyW) && this.player.body.onFloor) {
             this.player.setVelocityY(-JUMPHEIGHT);
         }
 
@@ -81,10 +84,10 @@ class Level1 extends Phaser.Scene {
         }
 
         // check enemy collision
-        if(this.checkCollision(this.player, this.enemy01)) {
-            this.scene.launch("deathScene");
-            this.scene.pause();
-        }
+        //if(this.checkCollision(this.player, this.enemy01)) {
+        //    this.scene.launch("deathScene");
+        //    this.scene.pause();
+        //}
     }
 
     checkCollision(a, b) {
