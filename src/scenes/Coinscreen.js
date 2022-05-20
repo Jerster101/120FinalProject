@@ -5,6 +5,8 @@ class Coinscreen extends Phaser.Scene {
 
     create() {
 
+        var dust = this.add.rectangle(10, 10, '#FF0000');
+
         this.tall_trees = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'tall_trees').setOrigin(0);
 
         //predecessor to collapsing platforms
@@ -55,7 +57,17 @@ class Coinscreen extends Phaser.Scene {
 
         this.player = this.physics.add.sprite(game.config.width/2, game.config.height/3, 'platformer_atlas', 'front').setScale(SCALE);
         this.player.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
-        this.player.setBounce(0.0);
+
+         //jump particles
+         this.particles = this.add.particles(dust);
+
+         this.jumpEmitter = this.particles.createEmitter({
+             follow: this.player,
+             quantity: 30,
+             scale: {start: 1.0, end: 0.0},  // start big, end small
+             lifespan: 800,
+             deathZone: {type: 'onEnter', source: this.ground},
+         });
 
         this.score = 0;
         //score stuff
@@ -131,6 +143,7 @@ class Coinscreen extends Phaser.Scene {
         //jumping
         if(this.player.body.touching.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             this.player.setVelocityY(-1000);
+            //this.jumpEmitter.explode();
             this.sound.play('temporaryJump');
         }
         //world wrapping
