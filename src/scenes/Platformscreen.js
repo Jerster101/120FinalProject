@@ -34,7 +34,6 @@ class Platformscreen extends Phaser.Scene {
 
         this.player = this.physics.add.sprite(game.config.width/2, game.config.height/3, 'platformer_atlas', 'front').setScale(SCALE);
         this.player.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
-        this.player.setBounce(0.0);
 
         cursors = this.input.keyboard.createCursorKeys();
 
