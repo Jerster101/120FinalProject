@@ -77,9 +77,30 @@ class Coinscreen extends Phaser.Scene {
         // add physics collider
         this.physics.add.collider(this.player, this.ground);
 
-        //coin collision
-        this.physics.add.overlap(this.player, this.coins);
+        //coin collision, this is different for each coin, and doesn't result in any issues with distance detection
+        this.physics.add.overlap(this.player, this.bronze_coins, (obj1, obj2) => {
+            this.sound.play('temporaryCoin');
+            this.score += 10;
+            this.currentScore.text = 'SCORE: ' + `${this.score}`;
+            obj2.destroy();
 
+        });
+
+        this.physics.add.overlap(this.player, this.silver_coins, (obj1, obj2) => {
+            this.sound.play('temporaryCoin');
+            this.score += 25;
+            this.currentScore.text = 'SCORE: ' + `${this.score}`;
+            obj2.destroy();
+
+        });
+
+        this.physics.add.overlap(this.player, this.gold_coins, (obj1, obj2) => {
+            this.sound.play('temporaryCoin');
+            this.score += 50;
+            this.currentScore.text = 'SCORE: ' + `${this.score}`;
+            obj2.destroy();
+
+        });
         //allows us to switch scenes
         this.input.keyboard.on('keydown', sceneSwitcher);
     }
@@ -117,44 +138,6 @@ class Coinscreen extends Phaser.Scene {
         this.physics.world.wrap(this.cloud02, this.cloud02.width/2);
         this.physics.world.wrap(this.player, 0);
 
-        //when colliding with a coin
-        let minDistance = game.config.width;
-        this.bronze_coins.getChildren().forEach(function(coin){
-            let coinDistance = game.config.width - coin.x - coin.displayWidth /2;
-            minDistance = Math.min(minDistance, coinDistance);
-
-            if (this.checkCollision(this.player, coin)) {
-                this.bronze_coins.killAndHide(coin);
-                this.bronze_coins.remove(coin);
-                this.sound.play('temporaryCoin');
-                this.score += 10;
-                this.currentScore.text = 'SCORE: ' + `${this.score}`;
-            }
-        }, this);
-        this.silver_coins.getChildren().forEach(function(coin){
-            let coinDistance = game.config.width - coin.x - coin.displayWidth /2;
-            minDistance = Math.min(minDistance, coinDistance);
-
-            if (this.checkCollision(this.player, coin)) {
-                this.silver_coins.killAndHide(coin);
-                this.silver_coins.remove(coin);
-                this.sound.play('temporaryCoin');
-                this.score += 25;
-                this.currentScore.text = 'SCORE: ' + `${this.score}`;
-            }
-        }, this);
-        this.gold_coins.getChildren().forEach(function(coin){
-            let coinDistance = game.config.width - coin.x - coin.displayWidth /2;
-            minDistance = Math.min(minDistance, coinDistance);
-
-            if (this.checkCollision(this.player, coin)) {
-                this.gold_coins.killAndHide(coin);
-                this.gold_coins.remove(coin);
-                this.sound.play('temporaryCoin');
-                this.score += 50;
-                this.currentScore.text = 'SCORE: ' + `${this.score}`;
-            }
-        }, this);
     }
     checkCollision(player, coin) {
         if (player.x < coin.x + coin.width && 
