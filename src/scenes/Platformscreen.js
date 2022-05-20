@@ -84,8 +84,7 @@ class Platformscreen extends Phaser.Scene {
             if(!alreadyShook){
                 this.sound.play('temporaryShake');
                 alreadyShook = true;
-            }
-            */
+            }*/
             if(player.body.blocked.down) {      //if the player is standing on the platform
                 this.cameras.main.shake(200, 0.001);        //then shake the camera
                 //this is a global variable we have to use so that Phaser doesn't get confused
@@ -143,7 +142,6 @@ class Platformscreen extends Phaser.Scene {
             this.player.body.setAccelerationX(0);
             this.player.body.setDragX(DRAG);
             this.player.anims.play('idle');
-
         }
 
         if(!this.player.body.touching.down) {
@@ -156,5 +154,4 @@ class Platformscreen extends Phaser.Scene {
         }
         this.physics.world.wrap(this.player, 0);
     }
-    
 }
