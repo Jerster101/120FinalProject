@@ -1,11 +1,15 @@
-class Enemy extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture, frame) {
-        super(scene, x, y, texture, frame);
-        scene.add.existing(this);   // add to existing scene
+class EnemyJumper extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y, key, frame) {
+        // call Phaser Physics Sprite constructor
+        super(scene, x, y, key, frame);
+        // setup Physics Sprite
+        scene.add.existing(this);               // make it real
+        scene.physics.add.existing(this);       // add physics body
+        
         // set properties
-        //this.body.setImmovable();
-        //this.setOrigin(0, 1);  
-    
+        this.body.setImmovable();
+        this.setOrigin(0, 1);  
+        
         // add custom properties    
         this.JUMP_VELOCITY = -600;              
         this.jumpDelay = 2000;
@@ -26,10 +30,5 @@ class Enemy extends Phaser.GameObjects.Sprite {
                 this.body.setVelocityY(this.JUMP_VELOCITY);
             }
         });
-    }
-
-    update() {
-        // call Physics Sprite update
-        super.update();
     }
 }

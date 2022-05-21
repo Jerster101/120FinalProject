@@ -6,6 +6,7 @@
  * Eamon Sherris-Watt
 
 ******************************************************************/
+// Player settings
 let cursors;
 let currentScene = 0;
 const tileSize = 35;

@@ -54,8 +54,11 @@ class Level1 extends Phaser.Scene {
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         // add enemy
-        this.enemy01 = new Enemy(this, 500, 700, 'enemy', 0);
+        this.enemy01 = new EnemyJumper(this, 570, 1100, 'enemy', 0);
         this.physics.add.collider(this.enemy01, platformLayer);
+
+        this.enemy02 = new EnemyPatroller(this, 700, 1100, 'enemy', 0);
+        this.physics.add.collider(this.enemy02, platformLayer);
 
         // camera
         this.cameras.main.setBounds(0,0,1216, 1280);
@@ -63,22 +66,24 @@ class Level1 extends Phaser.Scene {
     }
 
     update() {
-        this.enemy01.update();
+
+        this.enemy02.update();
+
         // movement
         if((cursors.left.isDown || keyA.isDown) && this.player.body.onFloor) {
-            if (this.player.body.velocity > 0) {
+            if (this.player.body.velocity.x < 0) {
                 this.player.body.setDragX(DRAG*2);
-            } else {
+            }
             this.player.setAccelerationX(-MOVESPEED);
             this.player.setFlip(true, false);
-            }
+            
         } else if((cursors.right.isDown || keyD.isDown) && this.player.body.onFloor) {
-            if (this.player.body.velocity < 0) {
+            if (this.player.body.velocity.x > 0) {
                 this.player.body.setDragX(DRAG*2);
-            } else {
-                this.player.setAccelerationX(MOVESPEED);
-                this.player.resetFlip();
             }
+            this.player.setAccelerationX(MOVESPEED);
+            this.player.resetFlip();
+
         } else if (this.player.body.onFloor) {
             this.player.body.setDragX(DRAG);
             this.player.setAccelerationX(0);
@@ -96,7 +101,7 @@ class Level1 extends Phaser.Scene {
         }
 
         // check enemy collision
-        if(this.checkCollision(this.player, this.enemy01)) {
+        if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
             if (!this.invincible) {
                 playerHealth -=33;
                 this.player.setVelocityX(500);
