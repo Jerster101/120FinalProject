@@ -12,8 +12,9 @@ const tileSize = 35;
 const SCALE = 1.2;
 const GRAV = 1000;
 const DRAG = 950;
-const MOVESPEED = 300;
+const MOVESPEED = 250;
 const JUMPHEIGHT = 500;
+let playerHealth = 0;
 
 let config = {
     type: Phaser.WebGL,

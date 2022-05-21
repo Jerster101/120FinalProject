@@ -39,6 +39,8 @@ class Level1 extends Phaser.Scene {
         // set up player
         this.player = this.physics.add.sprite(200, 1168, 'player');
         this.player.body.setMaxVelocity(300);
+        playerHealth = 99;
+        this.invincible = false;
         //this.player.setCollideWorldBounds(true);
         
         // add physics collider
@@ -52,7 +54,8 @@ class Level1 extends Phaser.Scene {
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         // add enemy
-        //this.enemy01 = new Enemy(this, 500, 700, 'enemy', 0);
+        this.enemy01 = new Enemy(this, 500, 700, 'enemy', 0);
+        this.physics.add.collider(this.enemy01, platformLayer);
 
         // camera
         this.cameras.main.setBounds(0,0,1216, 1280);
@@ -60,13 +63,22 @@ class Level1 extends Phaser.Scene {
     }
 
     update() {
+        this.enemy01.update();
         // movement
         if((cursors.left.isDown || keyA.isDown) && this.player.body.onFloor) {
+            if (this.player.body.velocity > 0) {
+                this.player.body.setDragX(DRAG*2);
+            } else {
             this.player.setAccelerationX(-MOVESPEED);
             this.player.setFlip(true, false);
+            }
         } else if((cursors.right.isDown || keyD.isDown) && this.player.body.onFloor) {
-            this.player.setAccelerationX(MOVESPEED);
-            this.player.resetFlip();
+            if (this.player.body.velocity < 0) {
+                this.player.body.setDragX(DRAG*2);
+            } else {
+                this.player.setAccelerationX(MOVESPEED);
+                this.player.resetFlip();
+            }
         } else if (this.player.body.onFloor) {
             this.player.body.setDragX(DRAG);
             this.player.setAccelerationX(0);
@@ -84,10 +96,21 @@ class Level1 extends Phaser.Scene {
         }
 
         // check enemy collision
-        //if(this.checkCollision(this.player, this.enemy01)) {
-        //    this.scene.launch("deathScene");
-        //    this.scene.pause();
-        //}
+        if(this.checkCollision(this.player, this.enemy01)) {
+            if (!this.invincible) {
+                playerHealth -=33;
+                this.player.setVelocityX(500);
+                this.invincible = true;
+                this.player.setAlpha(0.5);
+                this.timedEvent = this.time.addEvent({ delay: 1500, callback: this.setVulnerable, callbackScope: this, loop: false});
+            }
+        }
+
+        // check for death scene
+        if(playerHealth <= 0) {
+            this.scene.launch("deathScene");
+            this.scene.pause();
+        }
     }
 
     checkCollision(a, b) {
@@ -99,5 +122,10 @@ class Level1 extends Phaser.Scene {
         } else {
             return false;
         }
+    }
+
+    setVulnerable() {
+        this.invincible = false;
+        this.player.setAlpha(1);
     }
 }
