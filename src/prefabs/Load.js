@@ -10,6 +10,7 @@ class Load extends Phaser.Scene {
         this.load.atlas('platformer_atlas', 'kenny_sheet.png', 'kenny_sheet.json');
         this.load.image('groundScroll', 'ground.png');
         this.load.image('tall_trees', 'talltrees.png');
+        this.load.image('star', 'star.png');
         //stuff for level 1
         this.load.image('tiles', 'red_ground.png');
         this.load.tilemapTiledJSON('map', 'red_map.json')
