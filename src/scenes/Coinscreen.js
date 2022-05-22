@@ -5,8 +5,6 @@ class Coinscreen extends Phaser.Scene {
 
     create() {
 
-        var dust = this.add.rectangle(10, 10, '#FF0000');
-
         this.tall_trees = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'tall_trees').setOrigin(0);
 
         //predecessor to collapsing platforms
@@ -55,18 +53,22 @@ class Coinscreen extends Phaser.Scene {
             this.gold_coins.add(coin);
         }
 
+        this.r1 = this.add.rectangle(200, 200, 50, 50, 0x008000).setBlendMode(Phaser.BlendModes.MULTIPLY);
+        var r2 = this.add.rectangle(225, 200, 50, 50, 0xff0000).setBlendMode(Phaser.BlendModes.MULTIPLY);
+
         this.player = this.physics.add.sprite(game.config.width/2, game.config.height/3, 'platformer_atlas', 'front').setScale(SCALE);
         this.player.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
 
-         //jump particles
-         this.particles = this.add.particles(dust);
 
-         this.jumpEmitter = this.particles.createEmitter({
+         //jump particles
+         let particles = this.add.particles('star');
+
+         this.jumpEmitter = particles.createEmitter({
              follow: this.player,
              quantity: 30,
              scale: {start: 1.0, end: 0.0},  // start big, end small
              lifespan: 800,
-             deathZone: {type: 'onEnter', source: this.ground},
+             setBlendMode: Phaser.BlendModes.ADD,
          });
 
         this.score = 0;
@@ -74,6 +76,7 @@ class Coinscreen extends Phaser.Scene {
         let scoreConfig = {
             fontFamily: 'Romulus',
             fontSize: '44px',
+            backgroundColor: '#000000',
             color: '#F0F306',
             align: 'left',
             padding: {
