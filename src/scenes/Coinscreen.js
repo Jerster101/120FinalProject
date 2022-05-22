@@ -5,7 +5,8 @@ class Coinscreen extends Phaser.Scene {
 
     create() {
 
-        this.tall_trees = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'tall_trees').setOrigin(0);
+        this.duskSky = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'duskSky').setOrigin(0);
+        this.duskSky.setDepth(-2);
 
         //predecessor to collapsing platforms
         this.cloud01 = this.physics.add.sprite(600, 200, 'platformer_atlas', 'cloud_1');
@@ -53,23 +54,20 @@ class Coinscreen extends Phaser.Scene {
             this.gold_coins.add(coin);
         }
 
-        this.r1 = this.add.rectangle(200, 200, 50, 50, 0x008000).setBlendMode(Phaser.BlendModes.MULTIPLY);
-        var r2 = this.add.rectangle(225, 200, 50, 50, 0xff0000).setBlendMode(Phaser.BlendModes.MULTIPLY);
-
         this.player = this.physics.add.sprite(game.config.width/2, game.config.height/3, 'platformer_atlas', 'front').setScale(SCALE);
         this.player.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
 
-
-         //jump particles
-         let particles = this.add.particles('star');
-
-         this.jumpEmitter = particles.createEmitter({
-             follow: this.player,
-             quantity: 30,
-             scale: {start: 1.0, end: 0.0},  // start big, end small
-             lifespan: 800,
-             setBlendMode: Phaser.BlendModes.ADD,
-         });
+        //jump particles
+        let particles = this.add.particles('star');
+        particles.setDepth(-1);
+    
+        this.jumpEmitter = particles.createEmitter({
+            follow: this.player,
+            quantity: 30,
+            scale: {start: 1.0, end: 0.25},  // start big, end small
+            lifespan: 1600,
+            setBlendMode: Phaser.BlendModes.ADD,
+        });
 
         this.score = 0;
         //score stuff
@@ -91,6 +89,14 @@ class Coinscreen extends Phaser.Scene {
 
         // add physics collider
         this.physics.add.collider(this.player, this.ground);
+
+        //some colored objects to show the polish that we might want to add
+        var r1 = this.add.rectangle(150, 200, 200, 150, 0xff0000).setBlendMode(Phaser.BlendModes.MULTIPLY);
+        var r2 = this.add.rectangle(350, 200, 200, 150, 0xff7519).setBlendMode(Phaser.BlendModes.MULTIPLY);
+        var r3 = this.add.rectangle(550, 200, 200, 150, 0xffff00).setBlendMode(Phaser.BlendModes.MULTIPLY);
+        var r4 = this.add.rectangle(750, 200, 200, 150, 0x00ff00).setBlendMode(Phaser.BlendModes.MULTIPLY);
+        var r5 = this.add.rectangle(950, 200, 200, 150, 0x0000ff).setBlendMode(Phaser.BlendModes.MULTIPLY);
+        var r6 = this.add.rectangle(1150, 200, 200, 150, 0x080080).setBlendMode(Phaser.BlendModes.MULTIPLY);
 
         //coin collision, this is different for each coin, and doesn't result in any issues with distance detection
         this.physics.add.overlap(this.player, this.bronze_coins, (obj1, obj2) => {
@@ -154,15 +160,5 @@ class Coinscreen extends Phaser.Scene {
         this.physics.world.wrap(this.cloud02, this.cloud02.width/2);
         this.physics.world.wrap(this.player, 0);
 
-    }
-    checkCollision(player, coin) {
-        if (player.x < coin.x + coin.width && 
-            player.x + player.width > coin.x && 
-            player.y < coin.y + coin.height &&
-            player.height + player.y > coin.y) {
-                return true;
-        } else {
-            return false;
-        }
     }
 }
