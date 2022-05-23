@@ -20,11 +20,11 @@ const DRAG = 3000;
 let playerHealth = 0;
 
 let config = {
-    type: Phaser.WebGL,
+    type: Phaser.CANVAS,
     width: 640,
     height: 360,
     autoCenter: true,
-    backgroundColor: '#D56F59',
+    backgroundColor: '#BDFFAF',
     autoCenter: true,
     pixelArt: true,
     zoom: 2,
