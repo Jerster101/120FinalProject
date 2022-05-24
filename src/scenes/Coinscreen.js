@@ -66,7 +66,7 @@ class Coinscreen extends Phaser.Scene {
             quantity: 30,
             scale: {start: 1.0, end: 0.25},  // start big, end small
             lifespan: 1600,
-            setBlendMode: Phaser.BlendModes.ADD,
+            //blendMode: 'ADD'
         });
 
         this.score = 0;
