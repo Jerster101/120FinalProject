@@ -21,7 +21,7 @@ let config = {
             debug: false,
         }
     },
-    scene: [ Load, Coinscreen, Platformscreen, Level1 ]
+    scene: [ Load, Coinscreen, Platformscreen, Buttonscreen, Level1 ]
 }
 
 let game = new Phaser.Game(config);
@@ -42,12 +42,21 @@ let sceneSwitcher = (event) => {
             game.scene.bringToTop('Tutorial1');
             game.scene.pause('Level1');
             game.scene.pause('Tutorial2');
+            game.scene.pause('Tutorial3');
             break;
         case '2':
             game.scene.start('Tutorial2');
             game.scene.bringToTop('Tutorial2');
             game.scene.pause('Level1');
             game.scene.pause('Tutorial1');
+            game.scene.pause('Tutorial3');
+            break;
+        case '3':
+            game.scene.start('Tutorial3');
+            game.scene.bringToTop('Tutorial3');
+            game.scene.pause('Level1');
+            game.scene.pause('Tutorial1');
+            game.scene.pause('Tutorial2');
         default:
             break;
     }
