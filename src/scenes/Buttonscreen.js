@@ -19,14 +19,8 @@ class Buttonscreen extends Phaser.Scene {
             groundTile.body.allowGravity = false;
             this.ground.add(groundTile);
         }
-        for(let i = tileSize*15; i < game.config.width-tileSize*10; i += tileSize) {
-            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize*10, 'platformer_atlas', 'block').setScale(SCALE);
-            groundTile.body.immovable = true;
-            groundTile.body.allowGravity = false;
-            this.ground.add(groundTile);
-        }
-        for(let i = tileSize*7; i < game.config.width-tileSize*16; i += tileSize) {
-            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize*6, 'platformer_atlas', 'block').setScale(SCALE);
+        for(let i = tileSize*17; i < game.config.width-tileSize*10; i += tileSize) {
+            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize*9, 'platformer_atlas', 'block').setScale(SCALE);
             groundTile.body.immovable = true;
             groundTile.body.allowGravity = false;
             this.ground.add(groundTile);
@@ -37,6 +31,15 @@ class Buttonscreen extends Phaser.Scene {
             groundTile.body.allowGravity = false;
             this.ground.add(groundTile);
         }
+        //platform that is partially see through and can't be interacted with until you press the button
+        this.activatablePlatform = this.add.group();
+        for(let i = tileSize*7; i < game.config.width-tileSize*16; i += tileSize) {
+            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize*6, 'platformer_atlas', 'crate').setScale(SCALE);
+            groundTile.body.immovable = true;
+            groundTile.body.allowGravity = false;
+            this.activatablePlatform.add(groundTile);
+        }
+        this.bluePlatform.setAlpha(0.5);
 
         this.player = this.physics.add.sprite(game.config.width/2, game.config.height/3, 'platformer_atlas', 'front').setScale(SCALE);
         this.player.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
@@ -49,13 +52,6 @@ class Buttonscreen extends Phaser.Scene {
 
         cursors = this.input.keyboard.createCursorKeys();
 
-        this.blue_shapes = this.add.group();
-        let blue_square = this.add.rectangle(250, 150, 70, 70, 0x0000ff).setBlendMode(Phaser.BlendModes.MULTIPLY);
-        let blue_circle = this.add.circle(875, 325, 80, 0x0014ff).setBlendMode(Phaser.BlendModes.MULTIPLY);
-        this.blue_shapes.add(blue_square);
-        this.blue_shapes.add(blue_circle);
-        this.blue_shapes.setVisible(false);
-
         this.physics.add.collider(this.player, this.ground);
         this.physics.add.collider(this.ground, this.blueButton);
         this.physics.add.collider(this.ground, pressedBlueButton);
@@ -67,7 +63,8 @@ class Buttonscreen extends Phaser.Scene {
         function pressButton(player, button){
             if(player.x > button.x - 20 && player.x < button.x + 20) {
                 button.destroy();
-                this.blue_shapes.setVisible(true);
+                this.activatablePlatform.setAlpha(1);
+                this.physics.add.collider(this.player, this.activatablePlatform);
             }
         }
 
