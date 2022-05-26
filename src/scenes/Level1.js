@@ -11,6 +11,8 @@ class Level1 extends Phaser.Scene {
         this.load.image('circle', 'red2.png');
         this.load.image('circle2', 'whiteborder.png');
         this.load.tilemapTiledJSON('map', 'red_map.json');
+        //load music
+        this.load.audio('redMusic', 'level1Music.wav');
     }
 
     create() {
@@ -22,6 +24,16 @@ class Level1 extends Phaser.Scene {
 
         this.CAMWIDTH = 640;
         this.CAMHEIGHT = 360;
+
+        //music configuration and playing for level
+        let musicConfig = {
+            volume: 0.7,
+            loop: true,
+        }
+
+        let redMusic = this.sound.add('redMusic');
+
+        redMusic.play(musicConfig);
         
         // turns area around player red but reveals green near player
         // used for following level crystal gained but not yet added to center
