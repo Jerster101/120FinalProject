@@ -8,19 +8,43 @@ class Level1 extends Phaser.Scene {
         this.load.image('enemy', 'Enemy.png');
         this.load.image('player', 'Player.png');
         this.load.image('tiles', 'red_ground.png');
+        this.load.image('circle', 'red2.png');
+        this.load.image('circle2', 'whiteborder.png');
         this.load.tilemapTiledJSON('map', 'red_map.json');
+        //load music
+        this.load.audio('redMusic', 'level1Music.wav');
     }
 
     create() {
-        /*const gui = new dat.GUI();
+        const gui = new dat.GUI();
         gui.addFolder("Main Camera");
         gui.add(this.cameras.main, 'scrollX');
         gui.add(this.cameras.main, 'scrollY');
         gui.add(this.cameras.main, 'zoom');
-        */
 
         this.CAMWIDTH = 640;
         this.CAMHEIGHT = 360;
+
+        //music configuration and playing for level
+        let musicConfig = {
+            volume: 0.7,
+            loop: true,
+        }
+
+        let redMusic = this.sound.add('redMusic');
+
+        redMusic.play(musicConfig);
+        
+        // turns area around player red but reveals green near player
+        // used for following level crystal gained but not yet added to center
+        this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.HUE);
+        this.r1.depth = 2;
+        // erases area around player, could use opposed to desaturate
+        //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
+        
+        // desaturates area around player, used for when crystal is obtained
+        this.r2 = this.add.image(200, 1200, 'circle2').setBlendMode(Phaser.BlendModes.SATURATION);
+        this.r2.depth = 1;
         
         // variables and settings
         this.physics.world.gravity.y = GRAV;
@@ -38,7 +62,8 @@ class Level1 extends Phaser.Scene {
         
         // set up player
         this.player = this.physics.add.sprite(200, 1168, 'player');
-        this.player.body.setMaxVelocity(300);
+        this.player.depth = 2;
+        this.player.body.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
         playerHealth = 99;
         this.invincible = false;
         //this.player.setCollideWorldBounds(true);
@@ -54,10 +79,12 @@ class Level1 extends Phaser.Scene {
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         // add enemy
-        this.enemy01 = new EnemyJumper(this, 570, 1100, 'enemy', 0);
+        this.enemy01 = new EnemyJumper(this, 570, 1100, 'enemy', 0)
+        //this.enemy01.depth = 2;
         this.physics.add.collider(this.enemy01, platformLayer);
 
         this.enemy02 = new EnemyPatroller(this, 700, 1100, 'enemy', 0);
+        //this.enemy02.depth = 2;
         this.physics.add.collider(this.enemy02, platformLayer);
 
         // camera
@@ -66,22 +93,30 @@ class Level1 extends Phaser.Scene {
     }
 
     update() {
-
+        
         this.enemy02.update();
-
+        // image masks follow player
+        if (this.r1) {
+            this.r1.x = this.player.x;
+            this.r1.y = this.player.y;
+        }
+        if (this.r2) {
+            this.r2.x = this.player.x;
+            this.r2.y = this.player.y;
+        }
         // movement
         if((cursors.left.isDown || keyA.isDown) && this.player.body.onFloor) {
-            if (this.player.body.velocity.x < 0) {
-                this.player.body.setDragX(DRAG*2);
-            }
-            this.player.setAccelerationX(-MOVESPEED);
+            //if (this.player.body.velocity.x < 0) {
+            //    this.player.body.setDragX(DRAG*2);
+            //}
+            this.player.setAccelerationX(-ACCELERATION);
             this.player.setFlip(true, false);
             
         } else if((cursors.right.isDown || keyD.isDown) && this.player.body.onFloor) {
-            if (this.player.body.velocity.x > 0) {
-                this.player.body.setDragX(DRAG*2);
-            }
-            this.player.setAccelerationX(MOVESPEED);
+            //if (this.player.body.velocity.x > 0) {
+            //    this.player.body.setDragX(DRAG*2);
+            //}
+            this.player.setAccelerationX(ACCELERATION);
             this.player.resetFlip();
 
         } else if (this.player.body.onFloor) {

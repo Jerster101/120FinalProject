@@ -11,7 +11,7 @@ class EnemyJumper extends Phaser.GameObjects.Sprite {
         this.setOrigin(0, 1);  
         
         // add custom properties    
-        this.JUMP_VELOCITY = -600;              
+        this.JUMP_VELOCITY = -700;              
         this.jumpDelay = 2000;
         this.jumpStartTime = Phaser.Math.Between(500, 2500);    // randomize to offset jumps
 
