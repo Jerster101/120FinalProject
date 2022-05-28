@@ -83,7 +83,7 @@ class Level1 extends Phaser.Scene {
         //this.enemy01.depth = 2;
         this.physics.add.collider(this.enemy01, platformLayer);
 
-        this.enemy02 = new EnemyPatroller(this, 700, 1100, 'enemy', 0);
+        this.enemy02 = new EnemyPatroller(this, 700, 1100, 'enemy', 0, 1500); //the last number is the amount of time before patroller switches directions
         //this.enemy02.depth = 2;
         this.physics.add.collider(this.enemy02, platformLayer);
 
