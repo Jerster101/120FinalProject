@@ -31,11 +31,11 @@ class Pause extends Phaser.Scene {
 
     update() {
         if (keyQ.isDown) {
-            this.scene.stop('levelOneScene');
+            this.scene.stop('coreScene');
             this.scene.start('menuScene');
         }
         if (keyR.isDown) {
-            this.scene.resume('levelOneScene');
+            this.scene.resume('coreScene');
             this.scene.stop();
         }
         
