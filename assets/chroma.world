@@ -1,0 +1,26 @@
+{
+    "maps": [
+	{
+            "fileName": "core_map.tmx",
+            "x": 0,
+            "y": 0
+        },
+{
+            "fileName": "red_map.tmx",
+            "x": -1216,
+            "y": -1184
+        },
+        {
+            "fileName": "green_map.tmx",
+            "x": 1216,
+            "y": -1184
+        },
+{
+            "fileName": "blue_map.tmx",
+            "x": 0,
+            "y": 704
+        }
+    ],
+    "onlyShowAdjacentMaps": false,
+    "type": "world"
+}
