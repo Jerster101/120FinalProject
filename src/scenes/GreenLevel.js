@@ -65,7 +65,7 @@ class GreenLevel extends Phaser.Scene {
         const sceneryLayer = map.createLayer('scenery', tileset, 0, 0);
         this.vinePlatforms = map.createFromObjects("Passable Platforms", {
             name: "vines",
-            key: "tiles",
+            key: "tiles2",
             frame: 29
         });
         this.physics.world.enable(this.vinePlatforms, Phaser.Physics.Arcade.STATIC_BODY);
