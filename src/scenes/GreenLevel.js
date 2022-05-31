@@ -1,16 +1,16 @@
-class Level1 extends Phaser.Scene {
+class GreenLevel extends Phaser.Scene {
     constructor() {
-        super("levelOneScene");
+        super("greenScene");
     }
     
     preload() {
         this.load.path = 'assets/';
         this.load.image('enemy', 'Enemy.png');
         this.load.image('player', 'Player.png');
-        this.load.image('tiles', 'red_ground.png');
+        this.load.image('tiles', 'green_tileset.png');
         this.load.image('circle', 'red2.png');
         this.load.image('circle2', 'whiteborder.png');
-        this.load.tilemapTiledJSON('map', 'red_map.json');
+        this.load.tilemapTiledJSON('map', 'green_map.json');
         //load music
         this.load.audio('redMusic', 'level1Music.wav');
     }
@@ -43,8 +43,8 @@ class Level1 extends Phaser.Scene {
         //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
         
         // desaturates area around player, used for when crystal is obtained
-        this.r2 = this.add.image(200, 1200, 'circle2').setBlendMode(Phaser.BlendModes.SATURATION);
-        this.r2.depth = 1;
+        //this.r2 = this.add.image(200, 1200, 'circle2').setBlendMode(Phaser.BlendModes.SATURATION);
+        //this.r2.depth = 1;
         
         // variables and settings
         this.physics.world.gravity.y = GRAV;
@@ -52,16 +52,27 @@ class Level1 extends Phaser.Scene {
         // add a tilemap
         const map = this.add.tilemap('map');
         // add a tileset to the map
-        const tileset = map.addTilesetImage('red_ground','tiles');
+        const tileset = map.addTilesetImage('green_tileset','tiles');
         // create tilemap layers
-        const platformLayer = map.createLayer('platform', tileset, 0, 0);
+        const platformLayer = map.createLayer('platforms', tileset, 0, 0);
+        const greeneryLayer = map.createLayer('greenery', tileset, 0, 0);
+        const spikesLayer = map.createLayer('spikes', tileset, 0, 0);
+        const hiddenLayer = map.createLayer('hidden', tileset, 0, 0);
+        const branchesLayer = map.createLayer('branches', tileset, 0, 0);
+        const sceneryLayer = map.createLayer('scenery', tileset, 0, 0);
         // set map collisions
         platformLayer.setCollisionByProperty({
             collides: true,
         });
+        hiddenLayer.setCollisionByProperty({
+            collides: true,
+        });
+        spikesLayer.setCollisionByProperty({
+            collides: true,
+        });
         
         // set up player
-        this.player = this.physics.add.sprite(200, 1168, 'player');
+        this.player = this.physics.add.sprite(200, 1550, 'player');
         this.player.depth = 2;
         this.player.body.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
         playerHealth = 99;
@@ -79,22 +90,22 @@ class Level1 extends Phaser.Scene {
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         // add enemy
-        this.enemy01 = new EnemyJumper(this, 570, 1100, 'enemy', 0)
+        //this.enemy01 = new EnemyJumper(this, 570, 1100, 'enemy', 0)
         //this.enemy01.depth = 2;
-        this.physics.add.collider(this.enemy01, platformLayer);
+        //this.physics.add.collider(this.enemy01, platformLayer);
 
-        this.enemy02 = new EnemyPatroller(this, 700, 1100, 'enemy', 0, 1500); //the last number is the amount of time before patroller switches directions
+        //this.enemy02 = new EnemyPatroller(this, 700, 1100, 'enemy', 0);
         //this.enemy02.depth = 2;
-        this.physics.add.collider(this.enemy02, platformLayer);
+        //this.physics.add.collider(this.enemy02, platformLayer);
 
         // camera
-        this.cameras.main.setBounds(0,0,1216, 1280);
+        this.cameras.main.setBounds(0,0,1216, 2016);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
     }
 
     update() {
         
-        this.enemy02.update();
+        //this.enemy02.update();
         // image masks follow player
         if (this.r1) {
             this.r1.x = this.player.x;
@@ -136,7 +147,7 @@ class Level1 extends Phaser.Scene {
         }
 
         // check enemy collision
-        if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
+        /*if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
             if (!this.invincible) {
                 playerHealth -=33;
                 this.player.setVelocityX(500);
@@ -144,7 +155,7 @@ class Level1 extends Phaser.Scene {
                 this.player.setAlpha(0.5);
                 this.timedEvent = this.time.addEvent({ delay: 1500, callback: this.setVulnerable, callbackScope: this, loop: false});
             }
-        }
+        }*/
 
         // check for death scene
         if(playerHealth <= 0) {
