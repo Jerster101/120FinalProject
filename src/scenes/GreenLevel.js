@@ -7,7 +7,10 @@ class GreenLevel extends Phaser.Scene {
         this.load.path = 'assets/';
         this.load.image('enemy', 'Enemy.png');
         this.load.image('player', 'Player.png');
-        this.load.image('tiles', 'green_tileset.png');
+        this.load.spritesheet('tiles', 'green_tileset.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
         this.load.image('circle', 'red2.png');
         this.load.image('circle2', 'whiteborder.png');
         this.load.tilemapTiledJSON('map', 'green_map.json');
@@ -60,6 +63,13 @@ class GreenLevel extends Phaser.Scene {
         const hiddenLayer = map.createLayer('hidden', tileset, 0, 0);
         const branchesLayer = map.createLayer('branches', tileset, 0, 0);
         const sceneryLayer = map.createLayer('scenery', tileset, 0, 0);
+        this.vinePlatforms = map.createFromObjects("Passable Platforms", {
+            name: "vines",
+            key: "tiles",
+            frame: 29
+        });
+        this.physics.world.enable(this.vinePlatforms, Phaser.Physics.Arcade.STATIC_BODY);
+        this.passPlatforms = this.add.group(this.vinePlatforms)
         // set map collisions
         platformLayer.setCollisionByProperty({
             collides: true,
@@ -81,6 +91,18 @@ class GreenLevel extends Phaser.Scene {
         
         // add physics collider
         this.physics.add.collider(this.player, platformLayer);
+        //collider for the passable platforms and the main player
+        this.physics.add.collider(this.player, this.passPlatforms, null, checkOneWay, this);
+
+        //the function that allows us to stand on platforms as we wish, and fall through them when we want to as well
+        function checkOneWay(player, platform) {
+            if(player.y < platform.y && !cursors.down.isDown) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
 
         // set up key input
         cursors = this.input.keyboard.createCursorKeys();
