@@ -11,12 +11,12 @@ let currentScene = 0;
 const tileSize = 32;
 const SCALE = 1;
 const GRAV = 1300;
-const MOVESPEED = 250;
-const JUMPHEIGHT = 500;
-const ACCELERATION = 200;
+const MOVESPEED = 350;
+const JUMPHEIGHT = 450;
+const ACCELERATION = 250;
 const MAX_X_VEL = 300;
 const MAX_Y_VEL = 1000;
-const DRAG = 3000;
+const DRAG = 850;
 let playerHealth = 0;
 
 let config = {
