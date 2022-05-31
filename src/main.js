@@ -18,6 +18,7 @@ const MAX_X_VEL = 300;
 const MAX_Y_VEL = 1000;
 const DRAG = 3000;
 let playerHealth = 0;
+let spawnpoint = "start";
 
 let config = {
     type: Phaser.CANVAS,

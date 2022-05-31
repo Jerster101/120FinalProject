@@ -10,9 +10,14 @@ class Core extends Phaser.Scene {
         this.load.image('tiles', 'core_tileset.png');
         this.load.image('circle', 'red2.png');
         this.load.image('circle2', 'whiteborder.png');
-        this.load.image('bkg1', 'background1.jpg');
-        this.load.image('bkg2', 'strings2.png');
-        this.load.image('bkg3', 'strings1.png');
+        this.load.image('bkg', 'bkg_core.png');
+        this.load.image('no_crystal', 'no_crystal_core.png');
+        this.load.image('R_crystal', 'R_crystal_core.png');
+        this.load.image('RG_crystal', 'RG_crystal_core.png');
+        this.load.image('RGB_crystal', 'RGB_crystal_core.png');
+        this.load.image('rocks', 'rocks_core.png');
+        this.load.image('strings', 'strings_core.png');
+        this.load.image('trees', 'trees_core.png');
         this.load.tilemapTiledJSON('map', 'core_map.json');
         //load music
         this.load.audio('redMusic', 'level1Music.wav');
@@ -45,9 +50,11 @@ class Core extends Phaser.Scene {
         // erases area around player, could use opposed to desaturate
         //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
         
-        this.bkg1 = this.add.image(608, 352,'bkg1').setScrollFactor(0.7);
-        this.bkg2 = this.add.image(608, 352,'bkg2').setScrollFactor(0.85);
-        this.bkg3 = this.add.image(608, 352,'bkg3').setScrollFactor(1);
+        this.bkg_core = this.add.image(608, 352,'bkg').setScrollFactor(0.5);
+        this.rocks = this.add.image(608, 352,'rocks').setScrollFactor(0.6);
+        this.trees = this.add.image(608, 352,'trees').setScrollFactor(0.7);
+        this.strings = this.add.image(608, 352,'strings').setScrollFactor(0.8);
+        this.no_crystal = this.add.image(608, 352, 'no_crystal').setScrollFactor(1);
         // desaturates area around player, used for when crystal is obtained
         //this.r2 = this.add.image(200, 1200, 'circle2').setBlendMode(Phaser.BlendModes.SATURATION);
         //this.r2.depth = 1;
@@ -61,16 +68,27 @@ class Core extends Phaser.Scene {
         const tileset = map.addTilesetImage('core_tileset','tiles');
         // create tilemap layers
         const platformLayer = map.createLayer('platforms', tileset, 0, 0);
-        //background1Layer = map.createLayer('background', 'bkg1', 0, 0);
-        //strings2Layer = map.createLayer('strings_2', 'bkg2', 0, 0);
-        //strings1Layer = map.createLayer('strings_1', 'bkg3', 0, 0);
         // set map collisions
         platformLayer.setCollisionByProperty({
             collides: true,
         });
         
         // set up player
-        this.player = this.physics.add.sprite(200, 550, 'player');
+        const start_spawn = map.findObject("spawn", obj => obj.name === "start spawn");
+        const red_spawn = map.findObject("spawn", obj => obj.name === "red spawn");
+        const red_spawn2 = map.findObject("spawn", obj => obj.name === "red spawn 2");
+        const green_spawn = map.findObject("spawn", obj => obj.name === "green spawn");
+        const blue_spawn = map.findObject("spawn", obj => obj.name === "blue spawn");
+
+        if (spawnpoint == "start") {
+            console.log(spawnpoint);
+            spawnpoint = "";
+            this.player = this.physics.add.sprite(start_spawn.x, start_spawn.y, 'player');
+        } else if (spawnpoint == "green_spawn") {
+            console.log(spawnpoint);
+            spawnpoint = "";
+            this.player = this.physics.add.sprite(green_spawn.x, green_spawn.y, 'player');
+        };
         this.player.depth = 2;
         this.player.body.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
         playerHealth = 99;
@@ -87,6 +105,12 @@ class Core extends Phaser.Scene {
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
+
+        this.green_bound = map.findObject("boundary", obj => obj.name === "green boundary");
+        this.red_bound = map.findObject("boundary", obj => obj.name === "red boundary");
+        this.red_bound2 = map.findObject("boundary", obj => obj.name === "red boundary 2");
+        this.blue_bound = map.findObject("boundary", obj => obj.name === "blue boundary");
+        
         // add enemy
         //this.enemy01 = new EnemyJumper(this, 570, 1100, 'enemy', 0)
         //this.enemy01.depth = 2;
@@ -143,6 +167,35 @@ class Core extends Phaser.Scene {
             this.scene.launch("pauseScene");
             this.scene.pause();
         }
+
+        if(this.checkCollision(this.player, this.green_bound)) {
+            spawnpoint = "core_spawnG";
+            console.log(spawnpoint);
+            this.scene.switch("greenScene");
+        }
+        /*
+        if(this.checkCollision(this.player, this.blue_bound)) {
+            spawnpoint = "blue_bound";
+            console.log(spawnpoint);
+            this.scene.launch("blueScene");
+            this.scene.sleep();
+            this.scene.setVisible(false);
+        }
+        if(this.checkCollision(this.player, this.red_bound)) {
+            spawnpoint = "red_bound";
+            console.log(spawnpoint);
+            this.scene.launch("redScene");
+            this.scene.sleep();
+            this.scene.setVisible(false);
+        }
+        if(this.checkCollision(this.player, this.red_bound2)) {
+            spawnpoint = "red_bound2";
+            console.log(spawnpoint);
+            this.scene.launch("redScene");
+            this.scene.sleep();
+            this.scene.setVisible(false);
+        }
+        */
 
         // check enemy collision
         /*if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {

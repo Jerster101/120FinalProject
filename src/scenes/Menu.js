@@ -32,7 +32,7 @@ class Menu extends Phaser.Scene {
     update() {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
           // Start game
-          this.scene.start("greenScene");
+          this.scene.start("coreScene");
         }
     }
 }

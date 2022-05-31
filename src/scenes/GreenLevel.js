@@ -7,10 +7,10 @@ class GreenLevel extends Phaser.Scene {
         this.load.path = 'assets/';
         this.load.image('enemy', 'Enemy.png');
         this.load.image('player', 'Player.png');
-        this.load.image('tiles', 'green_tileset.png');
+        this.load.image('tiles2', 'green_tileset.png');
         this.load.image('circle', 'red2.png');
         this.load.image('circle2', 'whiteborder.png');
-        this.load.tilemapTiledJSON('map', 'green_map.json');
+        this.load.tilemapTiledJSON('map2', 'green_map.json');
         //load music
         this.load.audio('redMusic', 'level1Music.wav');
     }
@@ -37,8 +37,8 @@ class GreenLevel extends Phaser.Scene {
         
         // turns area around player red but reveals green near player
         // used for following level crystal gained but not yet added to center
-        this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.HUE);
-        this.r1.depth = 2;
+        //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.HUE);
+        //this.r1.depth = 2;
         // erases area around player, could use opposed to desaturate
         //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
         
@@ -50,9 +50,9 @@ class GreenLevel extends Phaser.Scene {
         this.physics.world.gravity.y = GRAV;
 
         // add a tilemap
-        const map = this.add.tilemap('map');
+        const map = this.add.tilemap('map2');
         // add a tileset to the map
-        const tileset = map.addTilesetImage('green_tileset','tiles');
+        const tileset = map.addTilesetImage('green_tileset','tiles2');
         // create tilemap layers
         const platformLayer = map.createLayer('platforms', tileset, 0, 0);
         const greeneryLayer = map.createLayer('greenery', tileset, 0, 0);
@@ -64,15 +64,15 @@ class GreenLevel extends Phaser.Scene {
         platformLayer.setCollisionByProperty({
             collides: true,
         });
-        hiddenLayer.setCollisionByProperty({
-            collides: true,
-        });
-        spikesLayer.setCollisionByProperty({
-            collides: true,
-        });
         
-        // set up player
-        this.player = this.physics.add.sprite(200, 1550, 'player');
+        // spawn player at point
+        const core_spawn = map.findObject("spawn", obj => obj.name === "core spawn");
+        if (spawnpoint == "core_spawnG") {
+            console.log(spawnpoint);
+            spawnpoint = "";
+            this.player = this.physics.add.sprite(core_spawn.x, core_spawn.y, 'player');
+        };
+        
         this.player.depth = 2;
         this.player.body.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
         playerHealth = 99;
@@ -89,6 +89,10 @@ class GreenLevel extends Phaser.Scene {
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
+        // set up boundaries
+        this.core_boundG = map.findObject("boundary", obj => obj.name === "core boundary");
+        this.blue_boundG = map.findObject("boundary", obj => obj.name === "blue boundary");
+        this.red_boundG = map.findObject("boundary", obj => obj.name === "red boundary");
         // add enemy
         //this.enemy01 = new EnemyJumper(this, 570, 1100, 'enemy', 0)
         //this.enemy01.depth = 2;
@@ -145,6 +149,29 @@ class GreenLevel extends Phaser.Scene {
             this.scene.launch("pauseScene");
             this.scene.pause();
         }
+
+        if(this.checkCollision(this.player, this.core_boundG)) {
+            spawnpoint = "green_spawn";
+            console.log(spawnpoint);
+            //this.scene.pause();
+            this.scene.switch("coreScene");
+            //this.scene.sleep();
+            //this.scene.setVisible(false);
+        }
+        /*if(this.checkCollision(this.player, this.blue_boundG)) {
+            spawnpoint = "blue_boundG";
+            console.log(spawnpoint);
+            this.scene.launch("blueScene");
+            this.scene.sleep();
+            this.scene.setVisible(false);
+        }
+        if(this.checkCollision(this.player, this.red_boundG)) {
+            spawnpoint = "red_boundG";
+            console.log(spawnpoint);
+            this.scene.launch("redScene");
+            this.scene.sleep();
+            this.scene.setVisible(false);
+        }*/
 
         // check enemy collision
         /*if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
