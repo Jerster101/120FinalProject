@@ -116,17 +116,21 @@ class GreenLevel extends Phaser.Scene {
             this.r2.y = this.player.y;
         }
         // movement
-        console.log(this.player.body.velocity.x);
+        
         if((cursors.left.isDown || keyA.isDown) && this.player.body.onFloor) {
             if (this.player.body.velocity.x > 0) {
+                console.log("behold me");
                 this.player.body.setDragX(DRAG);
+                this.player.setAccelerationX(0);
             } else {
                 this.player.setAccelerationX(-ACCELERATION);
                 this.player.setFlip(true, false);
             }
         } else if((cursors.right.isDown || keyD.isDown) && this.player.body.onFloor) {
             if (this.player.body.velocity.x < 0) {
+                console.log("I am");
                 this.player.body.setDragX(DRAG);
+                this.player.setAccelerationX(0);
             } else {
             this.player.setAccelerationX(ACCELERATION);
             this.player.resetFlip();
