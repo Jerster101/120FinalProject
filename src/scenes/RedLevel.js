@@ -15,7 +15,7 @@ class RedLevel extends Phaser.Scene {
         this.load.image('bkg3', 'strings1.png');
         this.load.tilemapTiledJSON('map', 'core_map.json');
         //load music
-        this.load.audio('redMusic', 'level1Music.wav');
+        this.load.audio('redMusic', 'music_sfx/level1Music.wav');
     }
 
     create() {

@@ -24,8 +24,8 @@ let config = {
     type: Phaser.CANVAS,
     width: 640,
     height: 360,
+    backgroundColor: "#03011b",
     autoCenter: true,
-    backgroundColor: '#BDFFAF',
     autoCenter: true,
     pixelArt: true,
     zoom: 2,
@@ -36,7 +36,7 @@ let config = {
             tileBias: 32,
         }
     },
-    scene: [Menu, Death, Pause, Core, RedLevel, GreenLevel, BlueLevel]
+    scene: [Menu, Credits, Death, Pause, Core, RedLevel, GreenLevel, BlueLevel]
 }
 
 let game = new Phaser.Game(config);
