@@ -39,9 +39,9 @@ class Core extends Phaser.Scene {
             loop: true,
         }
 
-        let redMusic = this.sound.add('redMusic');
+        this.redMusic = this.sound.add('redMusic');
 
-        redMusic.play(musicConfig);
+        this.redMusic.play(musicConfig);
         
         // turns area around player red but reveals green near player
         // used for following level crystal gained but not yet added to center
@@ -103,6 +103,7 @@ class Core extends Phaser.Scene {
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
 
@@ -166,9 +167,14 @@ class Core extends Phaser.Scene {
         if (keyESC.isDown) {
             this.scene.launch("pauseScene");
             this.scene.pause();
+            this.redMusic.pause()
+            if(keyR.isDown) {
+                this.redMusic.resume(musicConfig);
+            }
         }
 
         if(this.checkCollision(this.player, this.green_bound)) {
+            this.redMusic.stop();
             spawnpoint = "core_spawnG";
             console.log(spawnpoint);
             this.scene.switch("greenScene");
