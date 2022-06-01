@@ -5,17 +5,9 @@ class BlueLevel extends Phaser.Scene {
     
     preload() {
         this.load.path = 'assets/';
-        this.load.image('enemy', 'Enemy.png');
-        this.load.image('player', 'Player.png');
-        this.load.image('tiles', 'core_tileset.png');
-        this.load.image('circle', 'red2.png');
-        this.load.image('circle2', 'whiteborder.png');
-        this.load.image('bkg1', 'background1.jpg');
-        this.load.image('bkg2', 'strings2.png');
-        this.load.image('bkg3', 'strings1.png');
-        this.load.tilemapTiledJSON('map', 'core_map.json');
+        
         //load music
-        this.load.audio('redMusic', 'level1Music.wav');
+    
     }
 
     create() {

@@ -5,22 +5,21 @@ class Core extends Phaser.Scene {
     
     preload() {
         this.load.path = 'assets/';
-        this.load.image('enemy', 'Enemy.png');
-        this.load.image('player', 'Player.png');
-        this.load.image('tiles', 'core_tileset.png');
-        this.load.image('circle', 'red2.png');
-        this.load.image('circle2', 'whiteborder.png');
-        this.load.image('bkg', 'bkg_core.png');
-        this.load.image('no_crystal', 'no_crystal_core.png');
-        this.load.image('R_crystal', 'R_crystal_core.png');
-        this.load.image('RG_crystal', 'RG_crystal_core.png');
-        this.load.image('RGB_crystal', 'RGB_crystal_core.png');
-        this.load.image('rocks', 'rocks_core.png');
-        this.load.image('strings', 'strings_core.png');
-        this.load.image('trees', 'trees_core.png');
-        this.load.tilemapTiledJSON('map', 'core_map.json');
+        this.load.image('player', 'player/Player.png');
+        this.load.image('tiles', 'core/core_tileset.png');
+        this.load.image('circle', 'color_masks/red2.png');
+        this.load.image('circle2', 'color_masks/whiteborder.png');
+        this.load.image('bkg', 'core/rainbowcircle_bkg.png');
+        this.load.image('no_crystal', 'core/no_crystal_core.png');
+        this.load.image('R_crystal', 'core/R_crystal_core.png');
+        this.load.image('RG_crystal', 'core/RG_crystal_core.png');
+        this.load.image('RGB_crystal', 'core/RGB_crystal_core.png');
+        this.load.image('rocks', 'core/rocks_core.png');
+        this.load.image('strings', 'core/strings_core.png');
+        this.load.image('trees', 'core/trees_core.png');
+        this.load.tilemapTiledJSON('map', 'core/core_map.json');
         //load music
-        this.load.audio('redMusic', 'level1Music.wav');
+        this.load.audio('redMusic', 'music_sfx/level1Music.wav');
     }
 
     create() {
@@ -35,7 +34,7 @@ class Core extends Phaser.Scene {
 
         //music configuration and playing for level
         let musicConfig = {
-            volume: 0.7,
+            volume: 0.1,
             loop: true,
         }
 
@@ -50,7 +49,7 @@ class Core extends Phaser.Scene {
         // erases area around player, could use opposed to desaturate
         //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
         
-        this.bkg_core = this.add.image(608, 352,'bkg').setScrollFactor(0.5);
+        this.bkg_core = this.add.image(608, 352,'bkg').setScrollFactor(1);
         this.rocks = this.add.image(608, 352,'rocks').setScrollFactor(0.6);
         this.trees = this.add.image(608, 352,'trees').setScrollFactor(0.7);
         this.strings = this.add.image(608, 352,'strings').setScrollFactor(0.8);

@@ -5,17 +5,17 @@ class GreenLevel extends Phaser.Scene {
     
     preload() {
         this.load.path = 'assets/';
-        this.load.image('enemy', 'Enemy.png');
-        this.load.image('player', 'Player.png');
-        this.load.spritesheet('tiles2', 'green_tileset.png', {
+        this.load.image('enemy', 'enemies/Enemy.png');
+        this.load.image('player', 'player/Player.png');
+        this.load.spritesheet('tiles2', 'green_level/green_tileset.png', {
             frameWidth: 32,
             frameHeight: 32
         });
-        this.load.image('circle', 'red2.png');
-        this.load.image('circle2', 'whiteborder.png');
-        this.load.tilemapTiledJSON('map2', 'green_map.json');
+        this.load.image('circle', 'color_masks/red2.png');
+        this.load.image('circle2', 'color_masks/whiteborder.png');
+        this.load.tilemapTiledJSON('map2', 'green_level/green_map.json');
         //load music
-        this.load.audio('redMusic', 'level1Music.wav');
+        this.load.audio('redMusic', 'music_sfx/level1Music.wav');
     }
 
     create() {
