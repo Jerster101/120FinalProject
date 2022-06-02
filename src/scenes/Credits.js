@@ -19,9 +19,10 @@ class Credits extends Phaser.Scene {
         }
 
         // create menu text
-        this.creditText = this.add.text(game.config.width/2, game.config.height/1.1, 'RETURN TO MENU', menuConfig).setOrigin(0.5).setInteractive();
+        this.creditText = this.add.text(game.config.width/2, game.config.height/1.2, 'RETURN TO MENU', menuConfig).setOrigin(0.5).setInteractive();
         this.creditText.on('pointerover', () => this.creditText.setStyle({fontSize: '20px', fill: '#d1405a'}))
         this.creditText.on('pointerout', () => this.creditText.setStyle({fontSize: '15px', fill: '#2b397c'}))
+        .on('pointerdown', () => this.creditText.setStyle({fontSize: '15px', fill: '#d1405a'}))
         this.creditText.on('pointerup', () => this.scene.start("menuScene"))
         menuConfig.color = '#15d681',
         menuConfig.stroke = '#15d68100',

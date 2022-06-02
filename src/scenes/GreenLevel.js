@@ -13,6 +13,10 @@ class GreenLevel extends Phaser.Scene {
         });
         this.load.image('circle', 'color_masks/red2.png');
         this.load.image('circle2', 'color_masks/whiteborder.png');
+        this.load.image('green_bkg1', 'green_level/green_bkg1.png');
+        this.load.image('green_bkg2', 'green_level/green_bkg2.png');
+        this.load.image('green_bkg3', 'green_level/green_bkg3.png');
+        this.load.image('green_bkg4', 'green_level/green_bkg4.png');
         this.load.tilemapTiledJSON('map2', 'green_level/green_map.json');
         //load music
         this.load.audio('redMusic', 'music_sfx/level1Music.wav');
@@ -30,7 +34,7 @@ class GreenLevel extends Phaser.Scene {
 
         //music configuration and playing for level
         let musicConfig = {
-            volume: 0.7,
+            volume: 0.1,
             loop: true,
         }
 
@@ -51,6 +55,13 @@ class GreenLevel extends Phaser.Scene {
         
         // variables and settings
         this.physics.world.gravity.y = GRAV;
+
+        // add parallax background
+        this.green_bkg1 = this.add.image(608, 1008,'green_bkg1');
+        this.green_bkg2 = this.add.image(608, 1008,'green_bkg2').setScrollFactor(0.5);
+        this.green_bkg3 = this.add.image(608, 1008,'green_bkg3').setScrollFactor(0.7);
+        this.green_bkg4 = this.add.image(608, 1008,'green_bkg4').setScrollFactor(0.9);
+       
 
         // add a tilemap
         const map = this.add.tilemap('map2');

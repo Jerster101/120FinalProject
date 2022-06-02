@@ -19,6 +19,7 @@ class BlueLevel extends Phaser.Scene {
         });
         this.load.tilemapTiledJSON('blue_map', 'blue_level/blue_map.json');
         //load music
+        this.load.audio('blueMusic', 'music_sfx/CaveLevel.wav');
     
     }
 
@@ -34,13 +35,13 @@ class BlueLevel extends Phaser.Scene {
 
         //music configuration and playing for level
         let musicConfig = {
-            volume: 0.7,
+            volume: 0.1,
             loop: true,
         }
 
-        let redMusic = this.sound.add('redMusic');
+        this.blueMusic = this.sound.add('blueMusic');
 
-        redMusic.play(musicConfig);
+        this.blueMusic.play(musicConfig);
         
         // turns area around player red but reveals green near player
         // used for following level crystal gained but not yet added to center

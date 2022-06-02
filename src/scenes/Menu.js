@@ -42,12 +42,14 @@ class Menu extends Phaser.Scene {
         this.startText = this.add.text(game.config.width/2, game.config.height/1.4, 'START', menuConfig).setOrigin(0.5).setInteractive()
             .on('pointerover', () => this.startText.setStyle({fontSize: '45px', fill: '#d1405a'}))
             .on('pointerout', () => this.startText.setStyle({fontSize: '40px', fill: '#2b397c'}))
+            .on('pointerdown', () => this.startText.setStyle({fontSize: '40px', fill: '#d1405a'}))
             .on('pointerup', () => this.scene.start("coreScene"))
         menuConfig.fontSize = '15px';
         menuConfig.strokeThickness = 4;
         this.creditText = this.add.text(game.config.width/2, game.config.height/1.1, 'CREDITS', menuConfig).setOrigin(0.5).setInteractive();
         this.creditText.on('pointerover', () => this.creditText.setStyle({fontSize: '20px', fill: '#d1405a'}))
         this.creditText.on('pointerout', () => this.creditText.setStyle({fontSize: '15px', fill: '#2b397c'}))
+        .on('pointerdown', () => this.creditText.setStyle({fontSize: '15px', fill: '#d1405a'}))
         this.creditText.on('pointerup', () => this.scene.start("creditsScene"))
         //this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding +100, 'Press ESC to return to the menu', menuConfig).setOrigin(0.5);  
 
