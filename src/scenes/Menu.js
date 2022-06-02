@@ -44,12 +44,12 @@ class Menu extends Phaser.Scene {
             .on('pointerout', () => this.startText.setStyle({fontSize: '40px', fill: '#2b397c'}))
             .on('pointerdown', () => this.startText.setStyle({fontSize: '40px', fill: '#d1405a'}))
             .on('pointerup', () => this.scene.start("coreScene"))
-        menuConfig.fontSize = '15px';
+        menuConfig.fontSize = '30px';
         menuConfig.strokeThickness = 4;
-        this.creditText = this.add.text(game.config.width/2, game.config.height/1.1, 'CREDITS', menuConfig).setOrigin(0.5).setInteractive();
-        this.creditText.on('pointerover', () => this.creditText.setStyle({fontSize: '20px', fill: '#d1405a'}))
-        this.creditText.on('pointerout', () => this.creditText.setStyle({fontSize: '15px', fill: '#2b397c'}))
-        .on('pointerdown', () => this.creditText.setStyle({fontSize: '15px', fill: '#d1405a'}))
+        this.creditText = this.add.text(game.config.width/2, game.config.height/1.15, 'CREDITS', menuConfig).setOrigin(0.5).setInteractive();
+        this.creditText.on('pointerover', () => this.creditText.setStyle({fontSize: '35px', fill: '#d1405a'}))
+        this.creditText.on('pointerout', () => this.creditText.setStyle({fontSize: '30px', fill: '#2b397c'}))
+        .on('pointerdown', () => this.creditText.setStyle({fontSize: '30px', fill: '#d1405a'}))
         this.creditText.on('pointerup', () => this.scene.start("creditsScene"))
         //this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding +100, 'Press ESC to return to the menu', menuConfig).setOrigin(0.5);  
 
@@ -58,9 +58,5 @@ class Menu extends Phaser.Scene {
     }
 
     update() {  
-        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-          // Start game
-          this.scene.start("coreScene");
-        }
     }
 }

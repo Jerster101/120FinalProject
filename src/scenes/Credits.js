@@ -3,11 +3,14 @@ class Credits extends Phaser.Scene {
         super("creditsScene");
     }
     preload() {
+        // load background
         this.load.image("credits_bkg", "./assets/menu/credits_bkg.jpg");
     }
     create() {
+        // add background image
         var credits_bkg = this.add.sprite(game.config.width/2,game.config.height/2, "credits_bkg");
         credits_bkg.alpha = 0.8;
+
         // menu text configuration
         let menuConfig = {
           fontFamily: 'Square',
@@ -34,9 +37,5 @@ class Credits extends Phaser.Scene {
     }
 
     update() {  
-        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-          // go back to menu
-          this.scene.start("menuScene");
-        }
     }
 }

@@ -4,6 +4,7 @@ class BlueLevel extends Phaser.Scene {
     }
     
     preload() {
+        // load assets
         this.load.path = 'assets/';
         this.load.image('enemy', 'enemies/Enemy.png');
         this.load.image('player', 'player/Player.png');
@@ -50,6 +51,7 @@ class BlueLevel extends Phaser.Scene {
         // erases area around player, could use opposed to desaturate
         //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
         
+        // add parallax background
         this.blue_bkg1 = this.add.image(1216, 640,'blue_bkg1');
         this.blue_bkg2 = this.add.image(1216, 640,'blue_bkg2').setScrollFactor(0.3);
         this.blue_bkg3 = this.add.image(1216, 640,'blue_bkg3').setScrollFactor(0.5);
@@ -85,12 +87,14 @@ class BlueLevel extends Phaser.Scene {
             spawnpoint = "";
             this.player = this.physics.add.sprite(core_spawnB.x, core_spawnB.y, 'player');
         };
+
+        // set up player
         this.player.depth = 2;
         this.player.body.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
         playerHealth = 99;
         this.invincible = false;
-        //this.player.setCollideWorldBounds(true);
-        
+
+        // layer foreground over player & all backgrounds
         this.blue_bkg6 = this.add.image(1216, 640,'blue_bkg6').setDepth(2).setScrollFactor(1.1,1);
 
         // add physics collider
@@ -120,6 +124,7 @@ class BlueLevel extends Phaser.Scene {
     update() {
         
         //this.enemy02.update();
+        
         // image masks follow player
         if (this.r1) {
             this.r1.x = this.player.x;

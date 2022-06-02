@@ -1,5 +1,5 @@
 /*******************************************************************
- * GAME NAME
+ * CHROMA
 
  * Jeremy Dahlberg
  * Lyza Stevens
