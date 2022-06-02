@@ -5,7 +5,19 @@ class BlueLevel extends Phaser.Scene {
     
     preload() {
         this.load.path = 'assets/';
-        
+        this.load.image('enemy', 'enemies/Enemy.png');
+        this.load.image('player', 'player/Player.png');
+        this.load.image('blue_bkg1', 'blue_level/blue_bkg1.png');
+        this.load.image('blue_bkg2', 'blue_level/blue_bkg2.png');
+        this.load.image('blue_bkg3', 'blue_level/blue_bkg3.png');
+        this.load.image('blue_bkg4', 'blue_level/blue_bkg4.png');
+        this.load.image('blue_bkg5', 'blue_level/blue_bkg5.png');
+        this.load.image('blue_bkg6', 'blue_level/blue_bkg6.png');
+        this.load.spritesheet('blue_tiles', 'blue_level/blue_tileset.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
+        this.load.tilemapTiledJSON('blue_map', 'blue_level/blue_map.json');
         //load music
     
     }
@@ -37,9 +49,12 @@ class BlueLevel extends Phaser.Scene {
         // erases area around player, could use opposed to desaturate
         //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
         
-        this.bkg1 = this.add.image(608, 352,'bkg1').setScrollFactor(0.7);
-        this.bkg2 = this.add.image(608, 352,'bkg2').setScrollFactor(0.85);
-        this.bkg3 = this.add.image(608, 352,'bkg3').setScrollFactor(1);
+        this.blue_bkg1 = this.add.image(1216, 640,'blue_bkg1');
+        this.blue_bkg2 = this.add.image(1216, 640,'blue_bkg2').setScrollFactor(0.3);
+        this.blue_bkg3 = this.add.image(1216, 640,'blue_bkg3').setScrollFactor(0.5);
+        this.blue_bkg4 = this.add.image(1216, 640,'blue_bkg4').setScrollFactor(0.7);
+        this.blue_bkg5 = this.add.image(1216, 640,'blue_bkg5').setScrollFactor(0.8);
+       
         // desaturates area around player, used for when crystal is obtained
         //this.r2 = this.add.image(200, 1200, 'circle2').setBlendMode(Phaser.BlendModes.SATURATION);
         //this.r2.depth = 1;
@@ -48,10 +63,11 @@ class BlueLevel extends Phaser.Scene {
         this.physics.world.gravity.y = GRAV;
 
         // add a tilemap
-        const map = this.add.tilemap('map');
+        const map = this.add.tilemap('blue_map');
         // add a tileset to the map
-        const tileset = map.addTilesetImage('core_tileset','tiles');
+        const tileset = map.addTilesetImage('blue_tileset','blue_tiles');
         // create tilemap layers
+        const sceneryLayer = map.createLayer('scenery', tileset, 0, 0);
         const platformLayer = map.createLayer('platforms', tileset, 0, 0);
         //background1Layer = map.createLayer('background', 'bkg1', 0, 0);
         //strings2Layer = map.createLayer('strings_2', 'bkg2', 0, 0);
@@ -61,14 +77,21 @@ class BlueLevel extends Phaser.Scene {
             collides: true,
         });
         
-        // set up player
-        this.player = this.physics.add.sprite(200, 550, 'player');
+        // spawn player at point
+        const core_spawnB = map.findObject("spawn", obj => obj.name === "core spawn");
+        if (spawnpoint == "core_spawnB") {
+            console.log(spawnpoint);
+            spawnpoint = "";
+            this.player = this.physics.add.sprite(core_spawnB.x, core_spawnB.y, 'player');
+        };
         this.player.depth = 2;
         this.player.body.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
         playerHealth = 99;
         this.invincible = false;
         //this.player.setCollideWorldBounds(true);
         
+        this.blue_bkg6 = this.add.image(1216, 640,'blue_bkg6').setDepth(2).setScrollFactor(1.1,1);
+
         // add physics collider
         this.physics.add.collider(this.player, platformLayer);
 
@@ -89,7 +112,7 @@ class BlueLevel extends Phaser.Scene {
         //this.physics.add.collider(this.enemy02, platformLayer);
 
         // camera
-        this.cameras.main.setBounds(0,0,1216, 704);
+        this.cameras.main.setBounds(0,0,2432, 1280);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
     }
 

@@ -57,12 +57,12 @@ class GreenLevel extends Phaser.Scene {
         // add a tileset to the map
         const tileset = map.addTilesetImage('green_tileset','tiles2');
         // create tilemap layers
+        const sceneryLayer = map.createLayer('scenery', tileset, 0, 0);
+        const branchesLayer = map.createLayer('branches', tileset, 0, 0);
         const platformLayer = map.createLayer('platforms', tileset, 0, 0);
         const greeneryLayer = map.createLayer('greenery', tileset, 0, 0);
         const spikesLayer = map.createLayer('spikes', tileset, 0, 0);
         const hiddenLayer = map.createLayer('hidden', tileset, 0, 0);
-        const branchesLayer = map.createLayer('branches', tileset, 0, 0);
-        const sceneryLayer = map.createLayer('scenery', tileset, 0, 0);
         this.vinePlatforms = map.createFromObjects("Passable Platforms", {
             name: "vines",
             key: "tiles2",
@@ -76,11 +76,11 @@ class GreenLevel extends Phaser.Scene {
         });
         
         // spawn player at point
-        const core_spawn = map.findObject("spawn", obj => obj.name === "core spawn");
+        const core_spawnG = map.findObject("spawn", obj => obj.name === "core spawn");
         if (spawnpoint == "core_spawnG") {
             console.log(spawnpoint);
             spawnpoint = "";
-            this.player = this.physics.add.sprite(core_spawn.x, core_spawn.y, 'player');
+            this.player = this.physics.add.sprite(core_spawnG.x, core_spawnG.y, 'player');
         };
         
         this.player.depth = 2;

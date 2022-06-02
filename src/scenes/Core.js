@@ -72,13 +72,14 @@ class Core extends Phaser.Scene {
             collides: true,
         });
         
-        // set up player
+        // set up player spawn
         const start_spawn = map.findObject("spawn", obj => obj.name === "start spawn");
         const red_spawn = map.findObject("spawn", obj => obj.name === "red spawn");
         const red_spawn2 = map.findObject("spawn", obj => obj.name === "red spawn 2");
         const green_spawn = map.findObject("spawn", obj => obj.name === "green spawn");
         const blue_spawn = map.findObject("spawn", obj => obj.name === "blue spawn");
 
+        // player spawn based upon previous boundary
         if (spawnpoint == "start") {
             console.log(spawnpoint);
             spawnpoint = "";
@@ -94,6 +95,7 @@ class Core extends Phaser.Scene {
         this.invincible = false;
         //this.player.setCollideWorldBounds(true);
         
+
         // add physics collider
         this.physics.add.collider(this.player, platformLayer);
 
@@ -177,6 +179,13 @@ class Core extends Phaser.Scene {
             spawnpoint = "core_spawnG";
             console.log(spawnpoint);
             this.scene.switch("greenScene");
+        }
+
+        if(this.checkCollision(this.player, this.blue_bound)) {
+            this.redMusic.stop();
+            spawnpoint = "core_spawnB";
+            console.log(spawnpoint);
+            this.scene.switch("blueScene");
         }
         /*
         if(this.checkCollision(this.player, this.blue_bound)) {
