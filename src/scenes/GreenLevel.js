@@ -94,22 +94,26 @@ class GreenLevel extends Phaser.Scene {
         //collider for the passable platforms and the main player
         this.physics.add.collider(this.player, this.passPlatforms, null, checkOneWay, this);
 
+        // set up key input
+        cursors = this.input.keyboard.createCursorKeys();
+        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+
         //the function that allows us to stand on platforms as we wish, and fall through them when we want to as well
         function checkOneWay(player, platform) {
-            if(player.y < platform.y && !cursors.down.isDown) {
+            if(player.y < platform.y && (cursors.down.isDown || keyS.isDown)) {
+                return false;
+            }
+            else if(player.y < platform.y) {
                 return true;
             }
             else {
                 return false;
             }
         }
-
-        // set up key input
-        cursors = this.input.keyboard.createCursorKeys();
-        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         // set up boundaries
         this.core_boundG = map.findObject("boundary", obj => obj.name === "core boundary");
