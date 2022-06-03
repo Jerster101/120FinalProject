@@ -8,6 +8,7 @@
 ******************************************************************/
 let cursors;
 let currentScene = 0;
+let GameState = 0;
 const tileSize = 32;
 const SCALE = 1;
 const GRAV = 1300;

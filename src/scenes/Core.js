@@ -79,6 +79,20 @@ class Core extends Phaser.Scene {
         const green_spawn = map.findObject("spawn", obj => obj.name === "green spawn");
         const blue_spawn = map.findObject("spawn", obj => obj.name === "blue spawn");
 
+        //tutorial text
+        let menuConfig = {
+            fontFamily: 'Square',
+            fontSize: '15px',
+            color: '#2b397c',
+            stroke: '#15d681',
+            strokeThickness: 5,
+            align: 'center'
+          }
+
+        this.tutorial1 = this.add.text(start_spawn.x+60, start_spawn.y-70, 'Use A and D or\n← and → to move' , menuConfig).setOrigin(0.5);
+        this.tutorial2 = this.add.text(start_spawn.x+320, start_spawn.y-70, 'Use W, ↑, or SPACE\nto jump' , menuConfig).setOrigin(0.5);
+        this.tutorial3 = this.add.text(start_spawn.x+320, start_spawn.y-300, 'jump again in the air\nfor a double jump' , menuConfig).setOrigin(0.5);
+
         // player spawn based upon previous boundary
         if (spawnpoint == "start") {
             console.log(spawnpoint);
@@ -215,6 +229,13 @@ class Core extends Phaser.Scene {
         if(playerHealth <= 0) {
             this.scene.launch("deathScene");
             this.scene.pause();
+        }
+
+        //check gamestate
+        if (GameState > 0) {
+            this.tutorial1.visible = false;
+            this.tutorial2.visible = false;
+            this.tutorial3.visible = false;
         }
     }
 

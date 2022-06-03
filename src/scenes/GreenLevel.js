@@ -95,6 +95,18 @@ class GreenLevel extends Phaser.Scene {
             this.player = this.physics.add.sprite(core_spawnG.x, core_spawnG.y, 'player');
         };
         
+        // tutorial text
+        let menuConfig = {
+            fontFamily: 'Square',
+            fontSize: '15px',
+            color: '#2b397c',
+            stroke: '#15d681',
+            strokeThickness: 5,
+            align: 'center'
+          }
+
+        this.tutorial = this.add.text(core_spawnG.x+100, core_spawnG.y-60, 'Press S or ↓ to fall\nthrough grassy platforms' , menuConfig).setOrigin(0.5);
+
         this.player.depth = 1;
         this.player.body.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
         playerHealth = 99;
@@ -229,6 +241,10 @@ class GreenLevel extends Phaser.Scene {
         if(playerHealth <= 0) {
             this.scene.launch("deathScene");
             this.scene.pause();
+        }
+
+        if (GameState > 2) {
+            this.tutorial.visible = false;
         }
     }
 
