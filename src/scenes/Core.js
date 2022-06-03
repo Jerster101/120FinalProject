@@ -19,7 +19,7 @@ class Core extends Phaser.Scene {
         this.load.image('trees', 'core/trees_core.png');
         this.load.tilemapTiledJSON('map', 'core/core_map.json');
         //load music
-        this.load.audio('redMusic', 'music_sfx/level1Music.wav');
+        this.load.audio('coreMusic', 'music_sfx/level1Music.wav');
     }
 
     create() {
@@ -38,9 +38,9 @@ class Core extends Phaser.Scene {
             loop: true,
         }
 
-        this.redMusic = this.sound.add('redMusic');
+        this.coreMusic = this.sound.add('coreMusic');
 
-        this.redMusic.play(musicConfig);
+        this.coreMusic.play(musicConfig);
         
         // turns area around player red but reveals green near player
         // used for following level crystal gained but not yet added to center
@@ -181,7 +181,7 @@ class Core extends Phaser.Scene {
             this.scene.switch("greenScene");
         }
         if(this.checkCollision(this.player, this.blue_bound)) {
-            this.redMusic.stop();
+            this.coreMusic.stop();
             spawnpoint = "core_spawnB";
             console.log(spawnpoint);
             this.scene.switch("blueScene");

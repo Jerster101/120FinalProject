@@ -19,7 +19,7 @@ class GreenLevel extends Phaser.Scene {
         this.load.image('green_bkg4', 'green_level/green_bkg4.png');
         this.load.tilemapTiledJSON('map2', 'green_level/green_map.json');
         //load music
-        this.load.audio('redMusic', 'music_sfx/level1Music.wav');
+        this.load.audio('greenMusic', 'music_sfx/ForestLevel.wav');
     }
 
     create() {
@@ -38,9 +38,9 @@ class GreenLevel extends Phaser.Scene {
             loop: true,
         }
 
-        let redMusic = this.sound.add('redMusic');
+        let greenMusic = this.sound.add('greenMusic');
 
-        redMusic.play(musicConfig);
+        greenMusic.play(musicConfig);
         
         // turns area around player red but reveals green near player
         // used for following level crystal gained but not yet added to center

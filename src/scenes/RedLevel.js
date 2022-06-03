@@ -53,9 +53,9 @@ class RedLevel extends Phaser.Scene {
         // add scrolling clouds & parallax environment
         this.bkg1 = this.add.image(1216, 944,'red_bkg1').setScrollFactor(1);
         this.bkg2 = this.add.image(1216, 944,'red_bkg2').setScrollFactor(0.4);
-        this.bkg3 = this.physics.add.sprite(1216, 944, 'red_bkg3');
+        this.bkg3 = this.physics.add.sprite(1216, 944, 'red_bkg3').setAlpha(0.7);
         this.bkg3.body.setAllowGravity(false).setVelocityX(25);
-        this.bkg4 = this.physics.add.sprite(1216, 944, 'red_bkg4');
+        this.bkg4 = this.physics.add.sprite(1216, 944, 'red_bkg4').setAlpha(0.6);
         this.bkg4.body.setAllowGravity(false).setVelocityX(45);
         this.bkg5 = this.add.image(1216, 944,'red_bkg5').setScrollFactor(0.6);
         this.bkg6 = this.add.image(1216, 944,'red_bkg6').setScrollFactor(0.8);
