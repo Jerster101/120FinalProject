@@ -2,9 +2,7 @@ class Death extends Phaser.Scene {
     constructor() {
         super("deathScene");
     }
-    preload() {
-        this.load.audio('temp_menu_sfx', './assets/temp_menu_sfx.wav');
-    }
+
     create() {
         // ensure this scene displays above others
         this.scene.bringToTop();

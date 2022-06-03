@@ -2,14 +2,7 @@ class Menu extends Phaser.Scene {
     constructor() {
         super("menuScene");
     }
-    preload() {
-        this.load.image("menu_bkg", "./assets/core/RGB_crystal_core.png");
-        this.load.image("menu_purple", "./assets/menu/rainbow_behindcore.jpg");
-        this.load.spritesheet("title", "./assets/menu/title_spritesheet.png", {
-            frameWidth: 483,
-            frameHeight: 107
-        });
-    }
+
     create() {
         // set currentScene var for pause use
         currentScene = 'menuScene';
@@ -56,9 +49,6 @@ class Menu extends Phaser.Scene {
         this.creditText.on('pointerout', () => this.creditText.setStyle({fontSize: '30px', fill: '#2b397c'}))
         .on('pointerdown', () => this.creditText.setStyle({fontSize: '30px', fill: '#d1405a'}))
         this.creditText.on('pointerup', () => this.scene.start("creditsScene"))
-    }
-
-    update() {  
     }
 }
 

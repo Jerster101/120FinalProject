@@ -2,25 +2,6 @@ class GreenLevel extends Phaser.Scene {
     constructor() {
         super("greenScene");
     }
-    
-    preload() {
-        this.load.path = 'assets/';
-        this.load.image('enemy', 'enemies/Enemy.png');
-        this.load.image('player', 'player/Player.png');
-        this.load.spritesheet('tiles2', 'green_level/green_tileset.png', {
-            frameWidth: 32,
-            frameHeight: 32
-        });
-        this.load.image('circle', 'color_masks/red2.png');
-        this.load.image('circle2', 'color_masks/whiteborder.png');
-        this.load.image('green_bkg1', 'green_level/green_bkg1.png');
-        this.load.image('green_bkg2', 'green_level/green_bkg2.png');
-        this.load.image('green_bkg3', 'green_level/green_bkg3.png');
-        this.load.image('green_bkg4', 'green_level/green_bkg4.png');
-        this.load.tilemapTiledJSON('map2', 'green_level/green_map.json');
-        //load music
-        this.load.audio('greenMusic', 'music_sfx/ForestLevel.wav');
-    }
 
     create() {
         // 
@@ -84,7 +65,7 @@ class GreenLevel extends Phaser.Scene {
         if (spawnpoint == "core_spawnG") {
             console.log(spawnpoint);
             spawnpoint = "";
-            this.player = this.physics.add.sprite(core_spawnG.x, core_spawnG.y, 'player');
+            this.player = new Player(this, core_spawnG.x, core_spawnG.y, 'idle', 0);
         };
         
         // tutorial text
@@ -98,12 +79,6 @@ class GreenLevel extends Phaser.Scene {
           }
 
         this.tutorial = this.add.text(core_spawnG.x+100, core_spawnG.y-60, 'Press S or ↓ to fall\nthrough grassy platforms' , menuConfig).setOrigin(0.5);
-
-        this.player.depth = 1;
-        this.player.body.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
-        playerHealth = 99;
-        this.invincible = false;
-        //this.player.setCollideWorldBounds(true);
         
         // add physics collider
         this.physics.add.collider(this.player, platformLayer);
@@ -135,6 +110,7 @@ class GreenLevel extends Phaser.Scene {
         this.core_boundG = map.findObject("boundary", obj => obj.name === "core boundary");
         this.blue_boundG = map.findObject("boundary", obj => obj.name === "blue boundary");
         this.red_boundG = map.findObject("boundary", obj => obj.name === "red boundary");
+       
         // add enemy
         //this.enemy01 = new EnemyJumper(this, 570, 1100, 'enemy', 0)
         //this.enemy01.depth = 2;
@@ -151,6 +127,7 @@ class GreenLevel extends Phaser.Scene {
 
     update() {
         
+        this.player.update();
         //this.enemy02.update();
         // image masks follow player
         if (this.r1) {
@@ -160,33 +137,6 @@ class GreenLevel extends Phaser.Scene {
         if (this.r2) {
             this.r2.x = this.player.x;
             this.r2.y = this.player.y;
-        }
-        // movement
-        if((cursors.left.isDown || keyA.isDown) && this.player.body.onFloor) {
-            if (this.player.body.velocity.x > 0) {
-                this.player.body.setDragX(DRAG);
-                this.player.setAccelerationX(0);
-            } else {
-                this.player.setAccelerationX(-ACCELERATION);
-                this.player.setFlip(true, false);
-            }
-        } else if((cursors.right.isDown || keyD.isDown) && this.player.body.onFloor) {
-            if (this.player.body.velocity.x < 0) {
-                this.player.body.setDragX(DRAG);
-                this.player.setAccelerationX(0);
-            } else {
-            this.player.setAccelerationX(ACCELERATION);
-            this.player.resetFlip();
-            }
-
-        } else if (this.player.body.onFloor) {
-            this.player.body.setDragX(DRAG);
-            this.player.setAccelerationX(0);
-        }
-
-        // jumping
-        if (Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(cursors.space) || Phaser.Input.Keyboard.JustDown(keyW) && this.player.body.onFloor) {
-            this.player.setVelocityY(-JUMPHEIGHT);
         }
 
          // pause scene 

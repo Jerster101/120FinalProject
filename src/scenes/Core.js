@@ -2,46 +2,24 @@ class Core extends Phaser.Scene {
     constructor() {
         super("coreScene");
     }
-    
-    preload() {
-        this.load.path = 'assets/';
-        this.load.image('player', 'player/Player.png');
-        this.load.image('tiles', 'core/core_tileset.png');
-        this.load.image('circle', 'color_masks/red2.png');
-        this.load.image('circle2', 'color_masks/whiteborder.png');
-        this.load.image('bkg', 'core/rainbowcircle_bkg.png');
-        this.load.image('no_crystal', 'core/no_crystal_core.png');
-        this.load.image('R_crystal', 'core/R_crystal_core.png');
-        this.load.image('RG_crystal', 'core/RG_crystal_core.png');
-        this.load.image('RGB_crystal', 'core/RGB_crystal_core.png');
-        this.load.image('rocks', 'core/rocks_core.png');
-        this.load.image('strings', 'core/strings_core.png');
-        this.load.image('trees', 'core/trees_core.png');
-        this.load.tilemapTiledJSON('map', 'core/core_map.json');
-        //load music
-        this.load.audio('coreMusic', 'music_sfx/level1Music.wav');
-    }
 
     create() {
-        const gui = new dat.GUI();
-        gui.addFolder("Main Camera");
-        gui.add(this.cameras.main, 'scrollX');
-        gui.add(this.cameras.main, 'scrollY');
-        gui.add(this.cameras.main, 'zoom');
-
-        this.CAMWIDTH = 640;
-        this.CAMHEIGHT = 360;
-
         currentScene = 'coreScene';
+        
         //music configuration and playing for level
         let musicConfig = {
             volume: 0.1,
             loop: true,
         }
-
         this.coreMusic = this.sound.add('coreMusic');
-
         this.coreMusic.play(musicConfig);
+        
+        // add parallax background
+        this.bkg_core = this.add.image(608, 352,'bkg').setScrollFactor(1);
+        this.rocks = this.add.image(608, 352,'rocks').setScrollFactor(0.6);
+        this.trees = this.add.image(608, 352,'trees').setScrollFactor(0.7);
+        this.strings = this.add.image(608, 352,'strings').setScrollFactor(0.8);
+        this.no_crystal = this.add.image(608, 352, 'no_crystal').setScrollFactor(1);
         
         // turns area around player red but reveals green near player
         // used for following level crystal gained but not yet added to center
@@ -49,12 +27,6 @@ class Core extends Phaser.Scene {
         //this.r1.depth = 2;
         // erases area around player, could use opposed to desaturate
         //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
-        
-        this.bkg_core = this.add.image(608, 352,'bkg').setScrollFactor(1);
-        this.rocks = this.add.image(608, 352,'rocks').setScrollFactor(0.6);
-        this.trees = this.add.image(608, 352,'trees').setScrollFactor(0.7);
-        this.strings = this.add.image(608, 352,'strings').setScrollFactor(0.8);
-        this.no_crystal = this.add.image(608, 352, 'no_crystal').setScrollFactor(1);
         // desaturates area around player, used for when crystal is obtained
         //this.r2 = this.add.image(200, 1200, 'circle2').setBlendMode(Phaser.BlendModes.SATURATION);
         //this.r2.depth = 1;
@@ -98,19 +70,13 @@ class Core extends Phaser.Scene {
         if (spawnpoint == "start") {
             console.log(spawnpoint);
             spawnpoint = "";
-            this.player = this.physics.add.sprite(start_spawn.x, start_spawn.y, 'player');
+            this.player = new Player(this, start_spawn.x, start_spawn.y, 'idle', 0);
         } else if (spawnpoint == "green_spawn") {
             console.log(spawnpoint);
             spawnpoint = "";
-            this.player = this.physics.add.sprite(green_spawn.x, green_spawn.y, 'player');
+            this.player = new Player(this, green_spawn.x, green_spawn.y, 'idle', 0);
         };
-        this.player.depth = 2;
-        this.player.body.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
-        playerHealth = 99;
-        this.invincible = false;
-        //this.player.setCollideWorldBounds(true);
         
-
         // add physics collider
         this.physics.add.collider(this.player, platformLayer);
 
@@ -144,7 +110,7 @@ class Core extends Phaser.Scene {
 
     update() {
         
-        //this.enemy02.update();
+        this.player.update();
         // image masks follow player
         if (this.r1) {
             this.r1.x = this.player.x;
@@ -153,33 +119,6 @@ class Core extends Phaser.Scene {
         if (this.r2) {
             this.r2.x = this.player.x;
             this.r2.y = this.player.y;
-        }
-        // movement
-        if((cursors.left.isDown || keyA.isDown) && this.player.body.onFloor) {
-            if (this.player.body.velocity.x > 0) {
-                this.player.body.setDragX(DRAG);
-                this.player.setAccelerationX(0);
-            } else {
-                this.player.setAccelerationX(-ACCELERATION);
-                this.player.setFlip(true, false);
-            }
-        } else if((cursors.right.isDown || keyD.isDown) && this.player.body.onFloor) {
-            if (this.player.body.velocity.x < 0) {
-                this.player.body.setDragX(DRAG);
-                this.player.setAccelerationX(0);
-            } else {
-            this.player.setAccelerationX(ACCELERATION);
-            this.player.resetFlip();
-            }
-
-        } else if (this.player.body.onFloor) {
-            this.player.body.setDragX(DRAG);
-            this.player.setAccelerationX(0);
-        }
-
-        // jumping
-        if (Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(cursors.space) || Phaser.Input.Keyboard.JustDown(keyW) && this.player.body.onFloor) {
-            this.player.setVelocityY(-JUMPHEIGHT);
         }
 
         // pause scene 

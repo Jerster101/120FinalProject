@@ -37,7 +37,7 @@ let config = {
             tileBias: 32,
         }
     },
-    scene: [Menu, Credits, Death, Pause, Core, RedLevel, GreenLevel, BlueLevel]
+    scene: [Load, Menu, Credits, Death, Pause, Core, RedLevel, GreenLevel, BlueLevel]
 }
 
 let game = new Phaser.Game(config);

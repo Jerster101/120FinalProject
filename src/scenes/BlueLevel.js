@@ -2,55 +2,17 @@ class BlueLevel extends Phaser.Scene {
     constructor() {
         super("blueScene");
     }
-    
-    preload() {
-        // load assets
-        this.load.path = 'assets/';
-        this.load.image('enemy', 'enemies/Enemy.png');
-        this.load.image('player', 'player/Player.png');
-        this.load.image('blue_bkg1', 'blue_level/blue_bkg1.png');
-        this.load.image('blue_bkg2', 'blue_level/blue_bkg2.png');
-        this.load.image('blue_bkg3', 'blue_level/blue_bkg3.png');
-        this.load.image('blue_bkg4', 'blue_level/blue_bkg4.png');
-        this.load.image('blue_bkg5', 'blue_level/blue_bkg5.png');
-        this.load.image('blue_bkg6', 'blue_level/blue_bkg6.png');
-        this.load.spritesheet('blue_tiles', 'blue_level/blue_tileset.png', {
-            frameWidth: 32,
-            frameHeight: 32
-        });
-        this.load.tilemapTiledJSON('blue_map', 'blue_level/blue_map.json');
-        //load music
-        this.load.audio('blueMusic', 'music_sfx/CaveLevel.wav');
-    
-    }
 
     create() {
-        const gui = new dat.GUI();
-        gui.addFolder("Main Camera");
-        gui.add(this.cameras.main, 'scrollX');
-        gui.add(this.cameras.main, 'scrollY');
-        gui.add(this.cameras.main, 'zoom');
-
-        this.CAMWIDTH = 640;
-        this.CAMHEIGHT = 360;
-
         currentScene = 'blueScene';
+        
         //music configuration and playing for level
         let musicConfig = {
             volume: 0.1,
             loop: true,
         }
-
         this.blueMusic = this.sound.add('blueMusic');
-
         this.blueMusic.play(musicConfig);
-        
-        // turns area around player red but reveals green near player
-        // used for following level crystal gained but not yet added to center
-        //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.HUE);
-        //this.r1.depth = 2;
-        // erases area around player, could use opposed to desaturate
-        //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
         
         // add parallax background
         this.blue_bkg1 = this.add.image(1216, 640,'blue_bkg1');
@@ -58,7 +20,13 @@ class BlueLevel extends Phaser.Scene {
         this.blue_bkg3 = this.add.image(1216, 640,'blue_bkg3').setScrollFactor(0.5);
         this.blue_bkg4 = this.add.image(1216, 640,'blue_bkg4').setScrollFactor(0.7);
         this.blue_bkg5 = this.add.image(1216, 640,'blue_bkg5').setScrollFactor(0.8);
-       
+        
+        // turns area around player red but reveals green near player
+        // used for following level crystal gained but not yet added to center
+        //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.HUE);
+        //this.r1.depth = 2;
+        // erases area around player, could use opposed to desaturate
+        //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
         // desaturates area around player, used for when crystal is obtained
         //this.r2 = this.add.image(200, 1200, 'circle2').setBlendMode(Phaser.BlendModes.SATURATION);
         //this.r2.depth = 1;
@@ -73,9 +41,6 @@ class BlueLevel extends Phaser.Scene {
         // create tilemap layers
         const sceneryLayer = map.createLayer('scenery', tileset, 0, 0);
         const platformLayer = map.createLayer('platforms', tileset, 0, 0);
-        //background1Layer = map.createLayer('background', 'bkg1', 0, 0);
-        //strings2Layer = map.createLayer('strings_2', 'bkg2', 0, 0);
-        //strings1Layer = map.createLayer('strings_1', 'bkg3', 0, 0);
         // set map collisions
         platformLayer.setCollisionByProperty({
             collides: true,
@@ -86,14 +51,8 @@ class BlueLevel extends Phaser.Scene {
         if (spawnpoint == "core_spawnB") {
             console.log(spawnpoint);
             spawnpoint = "";
-            this.player = this.physics.add.sprite(core_spawnB.x, core_spawnB.y, 'player');
+            this.player = new Player(this, core_spawnB.x, core_spawnB.y, 'idle', 0);
         };
-
-        // set up player
-        this.player.depth = 2;
-        this.player.body.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
-        playerHealth = 99;
-        this.invincible = false;
 
         // layer foreground over player & all backgrounds
         this.blue_bkg6 = this.add.image(1216, 640,'blue_bkg6').setDepth(2).setScrollFactor(1.1,1);
@@ -123,7 +82,8 @@ class BlueLevel extends Phaser.Scene {
     }
 
     update() {
-        
+
+        this.player.update();
         //this.enemy02.update();
         
         // image masks follow player
@@ -134,33 +94,6 @@ class BlueLevel extends Phaser.Scene {
         if (this.r2) {
             this.r2.x = this.player.x;
             this.r2.y = this.player.y;
-        }
-        // movement
-        if((cursors.left.isDown || keyA.isDown) && this.player.body.onFloor) {
-            if (this.player.body.velocity.x > 0) {
-                this.player.body.setDragX(DRAG);
-                this.player.setAccelerationX(0);
-            } else {
-                this.player.setAccelerationX(-ACCELERATION);
-                this.player.setFlip(true, false);
-            }
-        } else if((cursors.right.isDown || keyD.isDown) && this.player.body.onFloor) {
-            if (this.player.body.velocity.x < 0) {
-                this.player.body.setDragX(DRAG);
-                this.player.setAccelerationX(0);
-            } else {
-            this.player.setAccelerationX(ACCELERATION);
-            this.player.resetFlip();
-            }
-
-        } else if (this.player.body.onFloor) {
-            this.player.body.setDragX(DRAG);
-            this.player.setAccelerationX(0);
-        }
-
-        // jumping
-        if (Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(cursors.space) || Phaser.Input.Keyboard.JustDown(keyW) && this.player.body.onFloor) {
-            this.player.setVelocityY(-JUMPHEIGHT);
         }
 
          // pause scene 

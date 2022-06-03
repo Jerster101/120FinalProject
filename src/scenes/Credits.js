@@ -2,10 +2,7 @@ class Credits extends Phaser.Scene {
     constructor() {
         super("creditsScene");
     }
-    preload() {
-        // load background
-        this.load.image("credits_bkg", "./assets/menu/credits_bkg.jpg");
-    }
+
     create() {
         // add background image
         var credits_bkg = this.add.sprite(game.config.width/2,game.config.height/2, "credits_bkg");
@@ -31,8 +28,5 @@ class Credits extends Phaser.Scene {
         menuConfig.stroke = '#15d68100',
         menuConfig.fontSize = '20px',
         this.add.text(game.config.width/2, game.config.height/2, 'Lyza Stevens - art, UI, and Level design\n\n\nJeremy Dahlberg - enemy AI and level design\n\n\nEamon Sherris-Watt - special platforms,\n music, and sound effects', menuConfig).setOrigin(0.5);  
-    }
-
-    update() {  
     }
 }
