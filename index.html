@@ -5,22 +5,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, intial-scale=1.0">
-    <title>Game</title>
+    <title>CHROMA</title>
+    <link rel="icon" href="assets/menu/favicon.png" sizes="16x16"/>
+    <link rel="preload" as="font" href="assets/Square.ttf" type="font/ttf" />
     <style>
         body {
-            background-color: rgb(5, 3, 44);
+            background-color: #03011b;
         } 
     </style>
+    <style media='screen' type='text/css'>
+        @font-face {
+          font-family: Square;
+          src: url('assets/Square.ttf');
+          font-weight:400;
+          font-weight:normal;
+        }
+  </style>
 </head>
 
 <body>
+    <div style="font-family:Square; position:absolute; left:-1000px; visibility:hidden;">.</div>
     <script src="./lib/phaser.js"></script>
     <script src="https://labs.phaser.io/js/datgui.js"></script>
-    <script src="./src/prefabs/Enemy.js"></script>
+    <script src="./src/prefabs/Load.js"></script>
+    <script src="./src/prefabs/EnemyJumper.js"></script>
+    <script src="./src/prefabs/EnemyPatroller.js"></script>
     <script src="./src/scenes/Death.js"></script>
     <script src="./src/scenes/Pause.js"></script>
-    <script src="./src/scenes/Level1.js"></script>
+    <script src="./src/scenes/Core.js"></script>
+    <script src="./src/scenes/RedLevel.js"></script>
+    <script src="./src/scenes/GreenLevel.js"></script>
+    <script src="./src/scenes/BlueLevel.js"></script>
     <script src="./src/scenes/Menu.js"></script>
+    <script src="./src/scenes/Credits.js"></script>
     <script src="./src/main.js"></script>
     
 

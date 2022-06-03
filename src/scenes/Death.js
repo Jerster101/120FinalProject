@@ -6,10 +6,12 @@ class Death extends Phaser.Scene {
         this.load.audio('temp_menu_sfx', './assets/temp_menu_sfx.wav');
     }
     create() {
+        // ensure this scene displays above others
+        this.scene.bringToTop();
 
         let menuConfig = {
             fontFamily: 'Courier',
-            fontSize: '35px',
+            fontSize: '20px',
             fontStyle: 'italic',
             backgroundColor: '#000000',
             color: '#ffffff',
@@ -31,14 +33,11 @@ class Death extends Phaser.Scene {
 
     update() {
         if (keyQ.isDown) {
-            this.scene.stop('levelOneScene');
-            this.sound.play('temp_menu_sfx');
+            this.scene.stop('coreScene');
             this.scene.start('menuScene');
         }
         if (keyR.isDown) {
-            this.sound.play('temp_menu_sfx');
-            this.scene.start('levelOneScene');
-
+            this.scene.start('coreScene');
         }
         
     }

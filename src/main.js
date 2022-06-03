@@ -1,5 +1,5 @@
 /*******************************************************************
- * GAME NAME
+ * CHROMA
 
  * Jeremy Dahlberg
  * Lyza Stevens
@@ -8,19 +8,24 @@
 ******************************************************************/
 let cursors;
 let currentScene = 0;
-const tileSize = 35;
-const SCALE = 1.2;
-const GRAV = 1000;
-const DRAG = 950;
-const MOVESPEED = 300;
-const JUMPHEIGHT = 500;
+const tileSize = 32;
+const SCALE = 1;
+const GRAV = 1300;
+const MOVESPEED = 250;
+const JUMPHEIGHT = 510;
+const ACCELERATION = 200;
+const MAX_X_VEL = 300;
+const MAX_Y_VEL = 1000;
+const DRAG = 3000;
+let playerHealth = 0;
+let spawnpoint = "start";
 
 let config = {
-    type: Phaser.WebGL,
+    type: Phaser.CANVAS,
     width: 640,
     height: 360,
+    backgroundColor: "#03011b",
     autoCenter: true,
-    backgroundColor: '#D56F59',
     autoCenter: true,
     pixelArt: true,
     zoom: 2,
@@ -31,7 +36,7 @@ let config = {
             tileBias: 32,
         }
     },
-    scene: [Menu, Death, Pause, Level1]
+    scene: [Menu, Credits, Death, Pause, Core, RedLevel, GreenLevel, BlueLevel]
 }
 
 let game = new Phaser.Game(config);
@@ -42,4 +47,4 @@ let borderUISize = game.config.height / 20;
 let borderPadding = borderUISize / 3;
 
 // reserve keyboard variables
-let keyA, keyD, keySPACE, keyW, keyESC, keyR, keyQ;
+let keyA, keyD, keySPACE, keyW, keyS, keyESC, keyR, keyQ;
