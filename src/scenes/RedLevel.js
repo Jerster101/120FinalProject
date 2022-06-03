@@ -110,6 +110,11 @@ class RedLevel extends Phaser.Scene {
             console.log(spawnpoint);
             this.scene.switch("coreScene");
         }
+
+        //cloud wrapping
+        this.physics.world.wrap(this.bkg3, this.bkg3.width);
+        this.physics.world.wrap(this.bkg4, this.bkg4.width);
+
         // check enemy collision
         /*if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
             if (!this.invincible) {

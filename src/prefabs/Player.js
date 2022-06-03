@@ -45,6 +45,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // jumping
         if (Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(cursors.space) || Phaser.Input.Keyboard.JustDown(keyW) && this.body.onFloor) {
             this.setVelocityY(-JUMPHEIGHT);
+            this.anims.play('player_jump_up', true);
+
         }
     }
 }

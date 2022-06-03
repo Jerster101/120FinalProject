@@ -18,7 +18,6 @@ class Load extends Phaser.Scene {
         this.load.tilemapTiledJSON('blue_map', 'blue_level/blue_map.json');
 
         // core level
-        this.load.image('player', 'player/Player.png');
         this.load.image('tiles', 'core/core_tileset.png');
         this.load.image('circle', 'color_masks/red2.png');
         this.load.image('circle2', 'color_masks/whiteborder.png');
@@ -35,7 +34,6 @@ class Load extends Phaser.Scene {
 
         // green level
         this.load.image('enemy', 'enemies/Enemy.png');
-        this.load.image('player', 'player/Player.png');
         this.load.spritesheet('tiles2', 'green_level/green_tileset.png', {frameWidth: 32, frameHeight: 32});
         this.load.image('circle', 'color_masks/red2.png');
         this.load.image('circle2', 'color_masks/whiteborder.png');
@@ -48,7 +46,6 @@ class Load extends Phaser.Scene {
 
         // red level
         this.load.image('enemy', 'enemies/Enemy.png');
-        this.load.image('player', 'player/Player.png');
         this.load.image('red_bkg1', 'red_level/red_bkg1.png');
         this.load.image('red_bkg2', 'red_level/red_bkg2.png');
         this.load.image('red_bkg3', 'red_level/red_bkg3.png');
@@ -81,6 +78,9 @@ class Load extends Phaser.Scene {
         // player
         this.load.spritesheet('run', 'player/player_run.png', {frameWidth: 26, frameHeight: 32, startFrame: 0, endFrame: 7});
         this.load.spritesheet('idle', 'player/player_idle.png', {frameWidth: 26, frameHeight: 32, startFrame: 0, endFrame: 4});
+        this.load.spritesheet('fall', 'player/player_fall.png', {frameWidth: 26, frameHeight: 32, startFrame: 0, endFrame: 3});
+        this.load.spritesheet('jump_up', 'player/temp_player_jump_up.png', {frameWidth: 26, frameHeight: 32, startFrame: 0, endFrame: 0});
+        this.load.spritesheet('jump_down', 'player/temp_player_jump_down.png', {frameWidth: 26, frameHeight: 32, startFrame: 0, endFrame: 0});
     }
 
     create() {
@@ -95,6 +95,21 @@ class Load extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('run', {start: 0, end: 7, first: 0}),
             frameRate: 12,
             repeat: -1
+        })
+        this.anims.create({
+            key: 'player_fall',
+            frames: this.anims.generateFrameNumbers('fall', {start: 0, end: 3, first: 0}),
+            frameRate: 8
+        })
+        this.anims.create({
+            key: 'player_jump_up',
+            frames: this.anims.generateFrameNumbers('fall', {start: 0, end: 0, first: 0}),
+            frameRate: 8
+        })
+        this.anims.create({
+            key: 'player_jump_down',
+            frames: this.anims.generateFrameNumbers('fall', {start: 0, end: 0, first: 0}),
+            frameRate: 8
         })
         this.anims.create({
             key: 'player_idle',

@@ -96,6 +96,7 @@ class GreenLevel extends Phaser.Scene {
         //the function that allows us to stand on platforms as we wish, and fall through them when we want to as well
         function checkOneWay(player, platform) {
             if(player.y < platform.y && (cursors.down.isDown || keyS.isDown)) {
+                player.anims.play('player_fall', false);
                 return false;
             }
             else if(player.y < platform.y) {
