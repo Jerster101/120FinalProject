@@ -180,36 +180,22 @@ class Core extends Phaser.Scene {
             console.log(spawnpoint);
             this.scene.switch("greenScene");
         }
-
         if(this.checkCollision(this.player, this.blue_bound)) {
             this.redMusic.stop();
             spawnpoint = "core_spawnB";
             console.log(spawnpoint);
             this.scene.switch("blueScene");
         }
-        /*
-        if(this.checkCollision(this.player, this.blue_bound)) {
-            spawnpoint = "blue_bound";
-            console.log(spawnpoint);
-            this.scene.launch("blueScene");
-            this.scene.sleep();
-            this.scene.setVisible(false);
-        }
         if(this.checkCollision(this.player, this.red_bound)) {
-            spawnpoint = "red_bound";
+            spawnpoint = "core_spawnR";
             console.log(spawnpoint);
-            this.scene.launch("redScene");
-            this.scene.sleep();
-            this.scene.setVisible(false);
+            this.scene.switch("redScene");
         }
         if(this.checkCollision(this.player, this.red_bound2)) {
-            spawnpoint = "red_bound2";
+            spawnpoint = "core_spawnR2";
             console.log(spawnpoint);
-            this.scene.launch("redScene");
-            this.scene.sleep();
-            this.scene.setVisible(false);
+            this.scene.switch("redScene");
         }
-        */
 
         // check enemy collision
         /*if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {

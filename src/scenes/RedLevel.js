@@ -4,18 +4,23 @@ class RedLevel extends Phaser.Scene {
     }
     
     preload() {
+        // load assets
         this.load.path = 'assets/';
-        this.load.image('enemy', 'Enemy.png');
-        this.load.image('player', 'Player.png');
-        this.load.image('tiles', 'core_tileset.png');
-        this.load.image('circle', 'red2.png');
-        this.load.image('circle2', 'whiteborder.png');
-        this.load.image('bkg1', 'background1.jpg');
-        this.load.image('bkg2', 'strings2.png');
-        this.load.image('bkg3', 'strings1.png');
-        this.load.tilemapTiledJSON('map', 'core_map.json');
+        this.load.image('enemy', 'enemies/Enemy.png');
+        this.load.image('player', 'player/Player.png');
+        this.load.image('red_bkg1', 'red_level/red_bkg1.png');
+        this.load.image('red_bkg2', 'red_level/red_bkg2.png');
+        this.load.image('red_bkg3', 'red_level/red_bkg3.png');
+        this.load.image('red_bkg4', 'red_level/red_bkg4.png');
+        this.load.image('red_bkg5', 'red_level/red_bkg5.png');
+        this.load.image('red_bkg6', 'red_level/red_bkg6.png');
+        this.load.spritesheet('red_tiles', 'red_level/red_tileset.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
+        this.load.tilemapTiledJSON('red_map', 'red_level/red_map.json');
         //load music
-        this.load.audio('redMusic', 'music_sfx/level1Music.wav');
+        this.load.audio('redMusic', 'music_sfx/LavaLevel.wav');
     }
 
     create() {
@@ -45,9 +50,17 @@ class RedLevel extends Phaser.Scene {
         // erases area around player, could use opposed to desaturate
         //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
         
-        this.bkg1 = this.add.image(608, 352,'bkg1').setScrollFactor(0.7);
-        this.bkg2 = this.add.image(608, 352,'bkg2').setScrollFactor(0.85);
-        this.bkg3 = this.add.image(608, 352,'bkg3').setScrollFactor(1);
+        // add scrolling clouds & parallax environment
+        this.bkg1 = this.add.image(1216, 944,'red_bkg1').setScrollFactor(1);
+        this.bkg2 = this.add.image(1216, 944,'red_bkg2').setScrollFactor(0.4);
+        this.bkg3 = this.physics.add.sprite(1216, 944, 'red_bkg3');
+        this.bkg3.body.setAllowGravity(false).setVelocityX(25);
+        this.bkg4 = this.physics.add.sprite(1216, 944, 'red_bkg4');
+        this.bkg4.body.setAllowGravity(false).setVelocityX(45);
+        this.bkg5 = this.add.image(1216, 944,'red_bkg5').setScrollFactor(0.6);
+        this.bkg6 = this.add.image(1216, 944,'red_bkg6').setScrollFactor(0.8);
+
+
         // desaturates area around player, used for when crystal is obtained
         //this.r2 = this.add.image(200, 1200, 'circle2').setBlendMode(Phaser.BlendModes.SATURATION);
         //this.r2.depth = 1;
@@ -56,9 +69,9 @@ class RedLevel extends Phaser.Scene {
         this.physics.world.gravity.y = GRAV;
 
         // add a tilemap
-        const map = this.add.tilemap('map');
+        const map = this.add.tilemap('red_map');
         // add a tileset to the map
-        const tileset = map.addTilesetImage('core_tileset','tiles');
+        const tileset = map.addTilesetImage('red_tileset','red_tiles');
         // create tilemap layers
         const platformLayer = map.createLayer('platforms', tileset, 0, 0);
         //background1Layer = map.createLayer('background', 'bkg1', 0, 0);
@@ -69,8 +82,14 @@ class RedLevel extends Phaser.Scene {
             collides: true,
         });
         
-        // set up player
-        this.player = this.physics.add.sprite(200, 550, 'player');
+        // spawn player at point
+        const core_spawnR = map.findObject("spawn", obj => obj.name === "core spawn");
+        if (spawnpoint == "core_spawnR") {
+            console.log(spawnpoint);
+            spawnpoint = "";
+            this.player = this.physics.add.sprite(core_spawnR.x, core_spawnR.y, 'player');
+        };
+
         this.player.depth = 2;
         this.player.body.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
         playerHealth = 99;
@@ -87,6 +106,11 @@ class RedLevel extends Phaser.Scene {
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
+
+        this.green_boundR = map.findObject("boundary", obj => obj.name === "green boundary");
+        this.core_boundR = map.findObject("boundary", obj => obj.name === "core boundary");
+        this.core_bound2R = map.findObject("boundary", obj => obj.name === "core boundary 2");
+    
         // add enemy
         //this.enemy01 = new EnemyJumper(this, 570, 1100, 'enemy', 0)
         //this.enemy01.depth = 2;
@@ -97,7 +121,7 @@ class RedLevel extends Phaser.Scene {
         //this.physics.add.collider(this.enemy02, platformLayer);
 
         // camera
-        this.cameras.main.setBounds(0,0,1216, 704);
+        this.cameras.main.setBounds(0,0,2432, 1888);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
     }
 
@@ -144,6 +168,11 @@ class RedLevel extends Phaser.Scene {
             this.scene.pause();
         }
 
+        if(this.checkCollision(this.player, this.core_boundR)) {
+            spawnpoint = "red_spawn";
+            console.log(spawnpoint);
+            this.scene.switch("coreScene");
+        }
         // check enemy collision
         /*if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
             if (!this.invincible) {

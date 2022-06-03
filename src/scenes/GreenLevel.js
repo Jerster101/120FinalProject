@@ -81,6 +81,7 @@ class GreenLevel extends Phaser.Scene {
         });
         this.physics.world.enable(this.vinePlatforms, Phaser.Physics.Arcade.STATIC_BODY);
         this.passPlatforms = this.add.group(this.vinePlatforms)
+        this.vinePlatforms.depth = 3;
         // set map collisions
         platformLayer.setCollisionByProperty({
             collides: true,
@@ -94,7 +95,7 @@ class GreenLevel extends Phaser.Scene {
             this.player = this.physics.add.sprite(core_spawnG.x, core_spawnG.y, 'player');
         };
         
-        this.player.depth = 2;
+        this.player.depth = 1;
         this.player.body.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
         playerHealth = 99;
         this.invincible = false;
