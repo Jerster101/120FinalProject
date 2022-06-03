@@ -13,10 +13,10 @@ const SCALE = 1;
 const GRAV = 1300;
 const MOVESPEED = 250;
 const JUMPHEIGHT = 510;
-const ACCELERATION = 200;
+const ACCELERATION = 450;
 const MAX_X_VEL = 300;
 const MAX_Y_VEL = 1000;
-const DRAG = 3000;
+const DRAG = 2000;
 let playerHealth = 0;
 let spawnpoint = "start";
 

@@ -141,18 +141,21 @@ class Core extends Phaser.Scene {
         }
         // movement
         if((cursors.left.isDown || keyA.isDown) && this.player.body.onFloor) {
-            //if (this.player.body.velocity.x < 0) {
-            //    this.player.body.setDragX(DRAG*2);
-            //}
-            this.player.setAccelerationX(-ACCELERATION);
-            this.player.setFlip(true, false);
-            
+            if (this.player.body.velocity.x > 0) {
+                this.player.body.setDragX(DRAG);
+                this.player.setAccelerationX(0);
+            } else {
+                this.player.setAccelerationX(-ACCELERATION);
+                this.player.setFlip(true, false);
+            }
         } else if((cursors.right.isDown || keyD.isDown) && this.player.body.onFloor) {
-            //if (this.player.body.velocity.x > 0) {
-            //    this.player.body.setDragX(DRAG*2);
-            //}
+            if (this.player.body.velocity.x < 0) {
+                this.player.body.setDragX(DRAG);
+                this.player.setAccelerationX(0);
+            } else {
             this.player.setAccelerationX(ACCELERATION);
             this.player.resetFlip();
+            }
 
         } else if (this.player.body.onFloor) {
             this.player.body.setDragX(DRAG);
