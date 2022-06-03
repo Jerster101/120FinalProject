@@ -5,6 +5,7 @@ class BlueLevel extends Phaser.Scene {
 
     create() {
         currentScene = 'blueScene';
+        CurrentRoom = 4;
         
         //music configuration and playing for level
         let musicConfig = {
@@ -48,11 +49,20 @@ class BlueLevel extends Phaser.Scene {
         
         // spawn player at point
         const core_spawnB = map.findObject("spawn", obj => obj.name === "core spawn");
+        const green_spawnB = map.findObject("spawn", obj => obj.name === "green spawn");
         if (spawnpoint == "core_spawnB") {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, core_spawnB.x, core_spawnB.y, 'idle', 0);
-        };
+        } else if (spawnpoint == "green_spawn") {
+            console.log(spawnpoint);
+            spawnpoint = "";
+            this.player = new Player(this, green_spawnB.x, green_spawnB.y, 'idle', 0);
+        }
+
+        // set up boundaries
+        this.core_boundG = map.findObject("boundary", obj => obj.name === "core boundary");
+        this.green_boundG = map.findObject("boundary", obj => obj.name === "green boundary");
 
         // layer foreground over player & all backgrounds
         this.blue_bkg6 = this.add.image(1216, 640,'blue_bkg6').setDepth(2).setScrollFactor(1.1,1);
@@ -117,6 +127,18 @@ class BlueLevel extends Phaser.Scene {
         if(playerHealth <= 0) {
             this.scene.launch("deathScene");
             this.scene.pause();
+        }
+
+        // movement between scenes
+        if(this.checkCollision(this.player, this.core_boundG)) {
+            spawnpoint = "blue_spawn";
+            console.log(spawnpoint);
+            this.scene.start("coreScene");
+        }
+        if(this.checkCollision(this.player, this.green_boundG)) {
+            spawnpoint = "blue_spawn";
+            console.log(spawnpoint);
+            this.scene.start("greenScene");
         }
     }
 

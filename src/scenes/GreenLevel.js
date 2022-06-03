@@ -6,6 +6,7 @@ class GreenLevel extends Phaser.Scene {
     create() {
         // 
         currentScene = 'greenScene';
+        CurrentRoom = 3;
 
         //music configuration and playing for level
         let musicConfig = {
@@ -62,11 +63,21 @@ class GreenLevel extends Phaser.Scene {
         
         // spawn player at point
         const core_spawnG = map.findObject("spawn", obj => obj.name === "core spawn");
+        const red_spawnG = map.findObject("spawn", obj => obj.name === "red spawn");
+        const blue_spawnG = map.findObject("spawn", obj => obj.name === "blue spawn");
         if (spawnpoint == "core_spawnG") {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, core_spawnG.x, core_spawnG.y, 'idle', 0);
-        };
+        } else if (spawnpoint == "red_spawn") {
+            console.log(spawnpoint);
+            spawnpoint = "";
+            this.player = new Player(this, red_spawnG.x, red_spawnG.y, 'idle', 0);
+        } else if (spawnpoint == "blue_spawn") {
+            console.log(spawnpoint);
+            spawnpoint = "";
+            this.player = new Player(this, blue_spawnG.x, blue_spawnG.y, 'idle', 0);
+        }
         
         // tutorial text
         let menuConfig = {
@@ -149,25 +160,18 @@ class GreenLevel extends Phaser.Scene {
         if(this.checkCollision(this.player, this.core_boundG)) {
             spawnpoint = "green_spawn";
             console.log(spawnpoint);
-            //this.scene.pause();
-            this.scene.switch("coreScene");
-            //this.scene.sleep();
-            //this.scene.setVisible(false);
+            this.scene.start("coreScene");
         }
-        /*if(this.checkCollision(this.player, this.blue_boundG)) {
-            spawnpoint = "blue_boundG";
+        if(this.checkCollision(this.player, this.blue_boundG)) {
+            spawnpoint = "green_spawn";
             console.log(spawnpoint);
-            this.scene.launch("blueScene");
-            this.scene.sleep();
-            this.scene.setVisible(false);
+            this.scene.start("blueScene");
         }
         if(this.checkCollision(this.player, this.red_boundG)) {
-            spawnpoint = "red_boundG";
+            spawnpoint = "green_spawn";
             console.log(spawnpoint);
-            this.scene.launch("redScene");
-            this.scene.sleep();
-            this.scene.setVisible(false);
-        }*/
+            this.scene.start("redScene");
+        }
 
         // check enemy collision
         /*if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {

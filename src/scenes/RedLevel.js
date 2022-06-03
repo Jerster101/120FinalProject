@@ -50,11 +50,24 @@ class RedLevel extends Phaser.Scene {
         
         // spawn player at point
         const core_spawnR = map.findObject("spawn", obj => obj.name === "core spawn");
+        const core_spawn2R = map.findObject("spawn", obj => obj.name === "core spawn 2");
+        const green_spawn = map.findObject("spawn", obj => obj.name === "green spawn");
+
+        CurrentRoom = 2;
+
         if (spawnpoint == "core_spawnR") {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, core_spawnR.x, core_spawnR.y, 'idle', 0);
-        };
+        } else if (spawnpoint == "core_spawnR2") {
+            console.log(spawnpoint);
+            spawnpoint = "";
+            this.player = new Player(this, core_spawn2R.x, core_spawn2R.y, 'idle', 0);
+        } else if (spawnpoint == "green_spawn") {
+            console.log(spawnpoint);
+            spawnpoint = "";
+            this.player = new Player(this, green_spawn.x, green_spawn.y, 'idle', 0);
+        }
         
         // add physics collider
         this.physics.add.collider(this.player, platformLayer);
@@ -108,7 +121,19 @@ class RedLevel extends Phaser.Scene {
         if(this.checkCollision(this.player, this.core_boundR)) {
             spawnpoint = "red_spawn";
             console.log(spawnpoint);
-            this.scene.switch("coreScene");
+            CurrentRoom = 1
+            this.scene.start("coreScene");
+        }
+        if(this.checkCollision(this.player, this.core_bound2R)) {
+            spawnpoint = "red_spawn";
+            console.log(spawnpoint);
+            this.scene.start("coreScene");
+        }
+        if(this.checkCollision(this.player, this.green_boundR)) {
+            spawnpoint = "red_spawn";
+            console.log(spawnpoint);
+            CurrentRoom = 5;
+            this.scene.start("greenScene");
         }
 
         //cloud wrapping
