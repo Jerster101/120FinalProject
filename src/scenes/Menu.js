@@ -11,6 +11,10 @@ class Menu extends Phaser.Scene {
         });
     }
     create() {
+        // set currentScene var for pause use
+        currentScene = 'menuScene';
+
+        // config title anims
         var titleConfig = {
             key: "float",
             frames: this.anims.generateFrameNumbers("title", {
@@ -21,6 +25,7 @@ class Menu extends Phaser.Scene {
             frameRate: 6,
             repeat: -1
         };
+        // add background images & title anim
         var menu_purple = this.add.sprite(game.config.width/2,game.config.height/2, "menu_purple");
         menu_purple.alpha = 0.5;
         var menu_bkg = this.add.sprite(game.config.width/2,game.config.height/2, "menu_bkg");
@@ -38,7 +43,7 @@ class Menu extends Phaser.Scene {
           align: 'center'
         }
 
-        // create menu text
+        // create interactive menu text
         this.startText = this.add.text(game.config.width/2, game.config.height/1.4, 'START', menuConfig).setOrigin(0.5).setInteractive()
             .on('pointerover', () => this.startText.setStyle({fontSize: '45px', fill: '#d1405a'}))
             .on('pointerout', () => this.startText.setStyle({fontSize: '40px', fill: '#2b397c'}))
@@ -51,12 +56,10 @@ class Menu extends Phaser.Scene {
         this.creditText.on('pointerout', () => this.creditText.setStyle({fontSize: '30px', fill: '#2b397c'}))
         .on('pointerdown', () => this.creditText.setStyle({fontSize: '30px', fill: '#d1405a'}))
         this.creditText.on('pointerup', () => this.scene.start("creditsScene"))
-        //this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding +100, 'Press ESC to return to the menu', menuConfig).setOrigin(0.5);  
-
-        // define keys
-        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
     update() {  
     }
 }
+
+

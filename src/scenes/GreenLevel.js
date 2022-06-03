@@ -19,28 +19,20 @@ class GreenLevel extends Phaser.Scene {
         this.load.image('green_bkg4', 'green_level/green_bkg4.png');
         this.load.tilemapTiledJSON('map2', 'green_level/green_map.json');
         //load music
-        this.load.audio('redMusic', 'music_sfx/level1Music.wav');
+        this.load.audio('greenMusic', 'music_sfx/ForestLevel.wav');
     }
 
     create() {
-        const gui = new dat.GUI();
-        gui.addFolder("Main Camera");
-        gui.add(this.cameras.main, 'scrollX');
-        gui.add(this.cameras.main, 'scrollY');
-        gui.add(this.cameras.main, 'zoom');
-
-        this.CAMWIDTH = 640;
-        this.CAMHEIGHT = 360;
+        // 
+        currentScene = 'greenScene';
 
         //music configuration and playing for level
         let musicConfig = {
             volume: 0.1,
             loop: true,
         }
-
-        let redMusic = this.sound.add('redMusic');
-
-        redMusic.play(musicConfig);
+        let greenMusic = this.sound.add('greenMusic');
+        greenMusic.play(musicConfig);
         
         // turns area around player red but reveals green near player
         // used for following level crystal gained but not yet added to center
@@ -197,8 +189,8 @@ class GreenLevel extends Phaser.Scene {
             this.player.setVelocityY(-JUMPHEIGHT);
         }
 
-        //menu
-        if (keyESC.isDown) {
+         // pause scene 
+         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.scene.launch("pauseScene");
             this.scene.pause();
         }

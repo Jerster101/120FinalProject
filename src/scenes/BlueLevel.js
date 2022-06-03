@@ -34,6 +34,7 @@ class BlueLevel extends Phaser.Scene {
         this.CAMWIDTH = 640;
         this.CAMHEIGHT = 360;
 
+        currentScene = 'blueScene';
         //music configuration and playing for level
         let musicConfig = {
             volume: 0.1,
@@ -162,8 +163,8 @@ class BlueLevel extends Phaser.Scene {
             this.player.setVelocityY(-JUMPHEIGHT);
         }
 
-        //menu
-        if (keyESC.isDown) {
+         // pause scene 
+         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.scene.launch("pauseScene");
             this.scene.pause();
         }
@@ -202,3 +203,5 @@ class BlueLevel extends Phaser.Scene {
         this.player.setAlpha(1);
     }
 }
+
+

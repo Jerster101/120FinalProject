@@ -3,43 +3,58 @@ class Pause extends Phaser.Scene {
         super("pauseScene");
     }
     preload() {
+        // load background image & audio
+        this.load.image("credits_bkg", "./assets/menu/credits_bkg.jpg");
         this.load.audio('temp_menu_sfx', './assets/temp_menu_sfx.wav');
     }
     create() {
         // ensure this scene displays above others
         this.scene.bringToTop();
 
+        var credits_bkg = this.add.sprite(game.config.width/2,game.config.height/2, "credits_bkg");
+        credits_bkg.alpha = 0.5;
+
         let menuConfig = {
-            fontFamily: 'Courier',
-            fontSize: '20px',
-            fontStyle: 'italic',
-            backgroundColor: '#000000',
-            color: '#ffffff',
-            align: 'center',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 0
+            fontFamily: 'Square',
+            fontSize: '30px',
+            color: '#2b397c',
+            stroke: '#15d681',
+            strokeThickness: 4,
+            align: 'center'
           }
         
         //add text
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'Game is paused\nPress R to resume or Q to return to the menu', menuConfig).setOrigin(0.5);
+        //menuConfig.fontSize = '30px';
+        //this.add.text(game.config.width/2, game.config.height/3, 'Paused', menuConfig).setOrigin(0.5);
         
+        // create menu text
+        this.resumeText = this.add.text(game.config.width/2, game.config.height/2.2, 'RESUME', menuConfig).setOrigin(0.5).setInteractive()
+            .on('pointerover', () => this.resumeText.setStyle({fontSize: '35px', fill: '#d1405a'}))
+            .on('pointerout', () => this.resumeText.setStyle({fontSize: '30px', fill: '#2b397c'}))
+            .on('pointerdown', () => this.resumeText.setStyle({fontSize: '30px', fill: '#d1405a'}))
+            .on('pointerup', () => {this.scene.stop(), this.scene.resume(currentScene)});
+        //menuConfig.fontSize = '30px';
+        //menuConfig.strokeThickness = 4;
+        this.menuText = this.add.text(game.config.width/2, game.config.height/1.7, 'MAIN MENU', menuConfig).setOrigin(0.5).setInteractive()
+            .on('pointerover', () => this.menuText.setStyle({fontSize: '35px', fill: '#d1405a'}))
+            .on('pointerout', () => this.menuText.setStyle({fontSize: '30px', fill: '#2b397c'}))
+            .on('pointerdown', () => this.menuText.setStyle({fontSize: '30px', fill: '#d1405a'}))
+            .on('pointerup', () => {this.scene.stop(currentScene), this.scene.start('menuScene')});
+
+        menuConfig.fontSize = '15px';
+        this.add.text(game.config.width/2, game.config.height/3, 'Paused', menuConfig).setOrigin(0.5);
+
         // define keys
-        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-        keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     }
 
     update() {
-        if (keyQ.isDown) {
-            this.scene.stop('coreScene');
-            this.scene.start('menuScene');
-        }
-        if (keyR.isDown) {
-            this.scene.resume('coreScene');
+        // return to game if ESC is pressed again
+        if (Phaser.Input.Keyboard.JustDown(keyESC)) {
+            this.scene.resume(currentScene);
             this.scene.stop();
         }
         
     }
 }
+

@@ -19,7 +19,7 @@ class Core extends Phaser.Scene {
         this.load.image('trees', 'core/trees_core.png');
         this.load.tilemapTiledJSON('map', 'core/core_map.json');
         //load music
-        this.load.audio('redMusic', 'music_sfx/level1Music.wav');
+        this.load.audio('coreMusic', 'music_sfx/level1Music.wav');
     }
 
     create() {
@@ -32,15 +32,16 @@ class Core extends Phaser.Scene {
         this.CAMWIDTH = 640;
         this.CAMHEIGHT = 360;
 
+        currentScene = 'coreScene';
         //music configuration and playing for level
         let musicConfig = {
             volume: 0.1,
             loop: true,
         }
 
-        this.redMusic = this.sound.add('redMusic');
+        this.coreMusic = this.sound.add('coreMusic');
 
-        this.redMusic.play(musicConfig);
+        this.coreMusic.play(musicConfig);
         
         // turns area around player red but reveals green near player
         // used for following level crystal gained but not yet added to center
@@ -181,34 +182,36 @@ class Core extends Phaser.Scene {
             this.player.setVelocityY(-JUMPHEIGHT);
         }
 
-        //menu
-        if (keyESC.isDown) {
+        // pause scene 
+        if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.scene.launch("pauseScene");
             this.scene.pause();
-            this.redMusic.pause()
-            if(keyR.isDown) {
-                this.redMusic.resume(musicConfig);
+            this.coreMusic.pause();
+            if(Phaser.Input.Keyboard.JustDown(keyESC)) {
+                this.coreMusic.resume(musicConfig);
             }
         }
 
         if(this.checkCollision(this.player, this.green_bound)) {
-            this.redMusic.stop();
+            this.coreMusic.stop();
             spawnpoint = "core_spawnG";
             console.log(spawnpoint);
             this.scene.switch("greenScene");
         }
         if(this.checkCollision(this.player, this.blue_bound)) {
-            this.redMusic.stop();
+            this.coreMusic.stop();
             spawnpoint = "core_spawnB";
             console.log(spawnpoint);
             this.scene.switch("blueScene");
         }
         if(this.checkCollision(this.player, this.red_bound)) {
+            this.coreMusic.stop();
             spawnpoint = "core_spawnR";
             console.log(spawnpoint);
             this.scene.switch("redScene");
         }
         if(this.checkCollision(this.player, this.red_bound2)) {
+            this.coreMusic.stop();
             spawnpoint = "core_spawnR2";
             console.log(spawnpoint);
             this.scene.switch("redScene");

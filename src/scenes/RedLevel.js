@@ -33,9 +33,10 @@ class RedLevel extends Phaser.Scene {
         this.CAMWIDTH = 640;
         this.CAMHEIGHT = 360;
 
+        currentScene = 'redScene';
         //music configuration and playing for level
         let musicConfig = {
-            volume: 0.7,
+            volume: 0.1,
             loop: true,
         }
 
@@ -166,8 +167,8 @@ class RedLevel extends Phaser.Scene {
             this.player.setVelocityY(-JUMPHEIGHT);
         }
 
-        //menu
-        if (keyESC.isDown) {
+         // pause scene 
+         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.scene.launch("pauseScene");
             this.scene.pause();
         }
@@ -211,3 +212,4 @@ class RedLevel extends Phaser.Scene {
         this.player.setAlpha(1);
     }
 }
+
