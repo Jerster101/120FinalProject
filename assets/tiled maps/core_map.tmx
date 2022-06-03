@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="left-up" width="38" height="22" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="10">
  <editorsettings>
-  <export target="../../Documents/GitHub/120FinalProject/assets/core_map.json" format="json"/>
+  <export target="../core/core_map.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="core_tileset" tilewidth="32" tileheight="32" tilecount="65" columns="5">
-  <image source="core_tileset.png" width="160" height="416"/>
+  <image source="../../../../../Desktop/tile sets/core_tileset.png" width="160" height="416"/>
   <tile id="0">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -349,12 +349,12 @@
   <object id="4" name="start spawn" x="177" y="576">
    <point/>
   </object>
-  <object id="5" name="green spawn" x="1105" y="416">
+  <object id="5" name="green spawn" x="1135" y="415">
    <point/>
   </object>
  </objectgroup>
  <objectgroup id="7" name="boundary">
-  <object id="6" name="green boundary" x="1151" y="288" width="64" height="128"/>
+  <object id="6" name="green boundary" x="1184" y="288" width="31" height="128"/>
   <object id="7" name="red boundary 2" x="0" y="288" width="64" height="128"/>
   <object id="8" name="red boundary" x="544" y="1" width="127" height="95"/>
   <object id="9" name="blue boundary" x="544" y="608" width="127" height="95"/>
