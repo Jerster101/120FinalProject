@@ -24,7 +24,7 @@ class Death extends Phaser.Scene {
         }
         
         // add text
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'You have died.\nPress R to try again or Q to return to the menu', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2, 'You have died.\nPress R to try again or Q to return to the menu', menuConfig).setOrigin(0.5);
         
         // define keys
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);

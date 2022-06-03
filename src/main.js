@@ -7,8 +7,10 @@
 
 ******************************************************************/
 let cursors;
-let currentScene = 0;
+let currentScene;
 let GameState = 0;
+let playerHealth = 0;
+let spawnpoint = "start";
 const tileSize = 32;
 const SCALE = 1;
 const GRAV = 1300;
@@ -18,8 +20,6 @@ const ACCELERATION = 450;
 const MAX_X_VEL = 300;
 const MAX_Y_VEL = 1000;
 const DRAG = 2000;
-let playerHealth = 0;
-let spawnpoint = "start";
 
 let config = {
     type: Phaser.CANVAS,
@@ -41,11 +41,6 @@ let config = {
 }
 
 let game = new Phaser.Game(config);
-
-
-// set UI sizes
-let borderUISize = game.config.height / 20;
-let borderPadding = borderUISize / 3;
 
 // reserve keyboard variables
 let keyA, keyD, keySPACE, keyW, keyS, keyESC, keyR, keyQ;
