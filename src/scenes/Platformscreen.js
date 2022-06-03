@@ -103,7 +103,7 @@ class Platformscreen extends Phaser.Scene {
                     }
                 });
             }
-        }
+        }    
         //function to destroy the platforms specifically, not sure if this needs to be seperate, we can decide later
         function destroyPlatform(platform) {
             //alreadyShook = false;
@@ -114,9 +114,17 @@ class Platformscreen extends Phaser.Scene {
                 ease: 'Linear',
                 duration: 100,
                 onComplete: function() {
+                    setTimeout(timedRespawn.call(platform), 5000);
                     destroyGameObject(platform);
                 }
             });
+        }
+        function timedRespawn(platform) {
+            let replacementTile = game.physics.add.sprite(platform.x, platform.y, 'platformer_atlas', 'ground_sand').setScale(SCALE);
+            replacementTile.body.immovable = true;
+            replacementTile.body.allowGravity = false;
+            //shakyTile.body.setVisible(false);
+            this.shaking_ground.add(replacementTile);
         }
         //function to destroy game objects, this one probably should be kept seperate
         function destroyGameObject(gameObject) {
