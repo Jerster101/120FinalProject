@@ -55,6 +55,7 @@ class GreenLevel extends Phaser.Scene {
             key: "tiles2",
             frame: 29
         });
+        //THIS CODE IS REALLY IMPORTANT BECAUSE IT ENSURES THAT THE OBJECTS WILL BE TREATED LIKE PLATFORMS, DO NOT FORGET IT
         this.physics.world.enable(this.vinePlatforms, Phaser.Physics.Arcade.STATIC_BODY);
         this.passPlatforms = this.add.group(this.vinePlatforms)
         this.vinePlatforms.depth = 3;
