@@ -7,11 +7,11 @@ class RedLevel extends Phaser.Scene {
         currentScene = 'redScene';
         //music configuration and playing for level
         let musicConfig = {
-            volume: 0.1,
+            volume: 0.6,
             loop: true,
         }
-        let redMusic = this.sound.add('redMusic');
-        redMusic.play(musicConfig);
+        this.redMusic = this.sound.add('redMusic');
+        this.redMusic.play(musicConfig);
         
         // add scrolling clouds & parallax environment
         this.bkg1 = this.add.image(1216, 944,'red_bkg1').setScrollFactor(1);
@@ -124,17 +124,20 @@ class RedLevel extends Phaser.Scene {
             spawnpoint = "red_spawn";
             console.log(spawnpoint);
             CurrentRoom = 1
+            this.redMusic.stop();
             this.scene.start("coreScene");
         }
         if(this.checkCollision(this.player, this.core_bound2R)) {
             spawnpoint = "red_spawn";
             console.log(spawnpoint);
+            this.redMusic.stop();
             this.scene.start("coreScene");
         }
         if(this.checkCollision(this.player, this.green_boundR)) {
             spawnpoint = "red_spawn";
             console.log(spawnpoint);
             CurrentRoom = 5;
+            this.redMusic.stop();
             this.scene.start("greenScene");
         }
 
@@ -157,6 +160,7 @@ class RedLevel extends Phaser.Scene {
         if(playerHealth <= 0) {
             this.scene.launch("deathScene");
             this.scene.pause();
+            this.redMusic.stop();
         }
     }
 
