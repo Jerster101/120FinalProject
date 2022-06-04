@@ -10,11 +10,11 @@ class GreenLevel extends Phaser.Scene {
 
         //music configuration and playing for level
         let musicConfig = {
-            volume: 0.1,
+            volume: 0.8,
             loop: true,
         }
-        let greenMusic = this.sound.add('greenMusic');
-        greenMusic.play(musicConfig);
+        this.greenMusic = this.sound.add('greenMusic');
+        this.greenMusic.play(musicConfig);
         
         // turns area around player red but reveals green near player
         // used for following level crystal gained but not yet added to center
@@ -162,16 +162,19 @@ class GreenLevel extends Phaser.Scene {
         if(this.checkCollision(this.player, this.core_boundG)) {
             spawnpoint = "green_spawn";
             console.log(spawnpoint);
+            this.greenMusic.stop();
             this.scene.start("coreScene");
         }
         if(this.checkCollision(this.player, this.blue_boundG)) {
             spawnpoint = "green_spawn";
             console.log(spawnpoint);
+            this.greenMusic.stop();
             this.scene.start("blueScene");
         }
         if(this.checkCollision(this.player, this.red_boundG)) {
             spawnpoint = "green_spawn";
             console.log(spawnpoint);
+            this.greenMusic.stop();
             this.scene.start("redScene");
         }
 
@@ -190,6 +193,7 @@ class GreenLevel extends Phaser.Scene {
         if(playerHealth <= 0) {
             this.scene.launch("deathScene");
             this.scene.pause();
+            this.greenMusic.stop();
         }
 
         if (GameState > 2) {
