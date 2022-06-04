@@ -1,4 +1,11 @@
 { "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "format":"json"
+        }
+    },
  "height":40,
  "infinite":false,
  "layers":[
@@ -36,45 +43,21 @@
          "name":"bouncy",
          "objects":[
                 {
-                 "gid":97,
+                 "gid":47,
                  "height":32,
-                 "id":44,
+                 "id":52,
                  "name":"bouncy",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":2208,
+                 "x":160,
                  "y":864
                 }, 
                 {
-                 "gid":97,
+                 "gid":47,
                  "height":32,
-                 "id":45,
-                 "name":"bouncy",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":2144,
-                 "y":864
-                }, 
-                {
-                 "gid":97,
-                 "height":32,
-                 "id":47,
-                 "name":"bouncy",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":352,
-                 "y":1152
-                }, 
-                {
-                 "gid":97,
-                 "height":32,
-                 "id":48,
+                 "id":56,
                  "name":"bouncy",
                  "rotation":0,
                  "type":"",
@@ -84,16 +67,40 @@
                  "y":608
                 }, 
                 {
-                 "gid":97,
+                 "gid":47,
                  "height":32,
-                 "id":51,
+                 "id":57,
                  "name":"bouncy",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":160,
+                 "x":2144,
                  "y":864
+                }, 
+                {
+                 "gid":47,
+                 "height":32,
+                 "id":58,
+                 "name":"bouncy",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":2208,
+                 "y":864
+                }, 
+                {
+                 "gid":47,
+                 "height":32,
+                 "id":55,
+                 "name":"bouncy",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":352,
+                 "y":1152
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -668,7 +675,7 @@
          "y":0
         }],
  "nextlayerid":10,
- "nextobjectid":54,
+ "nextobjectid":59,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.8.5",
@@ -1106,7 +1113,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -1127,19 +1134,6 @@
                          "value":false
                         }]
                 }],
-         "tilewidth":32
-        }, 
-        {
-         "columns":7,
-         "firstgid":51,
-         "image":"blue_tileset.png",
-         "imageheight":256,
-         "imagewidth":224,
-         "margin":0,
-         "name":"blue_tilesett",
-         "spacing":0,
-         "tilecount":56,
-         "tileheight":32,
          "tilewidth":32
         }],
  "tilewidth":32,
