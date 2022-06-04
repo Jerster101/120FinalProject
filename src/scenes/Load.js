@@ -78,9 +78,10 @@ class Load extends Phaser.Scene {
         // pause
         this.load.image("credits_bkg", "menu/credits_bkg.jpg");
 
-        // health UI
+        // health 
         this.load.image("heart", "player/heart.png");
         this.load.image("heart_outline", "player/heart_outline.png");
+        this.load.spritesheet('shard', 'player/health_shard_anim.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 6});
 
         //enemies
         this.load.spritesheet('jumper', 'enemies/jumper_anim.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 18});
@@ -138,6 +139,12 @@ class Load extends Phaser.Scene {
             key: 'patroller_anim',
             frames: this.anims.generateFrameNumbers('patroller', {start: 0, end: 12, first: 0}),
             frameRate: 10,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'shard_float',
+            frames: this.anims.generateFrameNumbers('shard', {start: 0, end: 6, first: 0}),
+            frameRate: 7,
             repeat: -1
         })
     }

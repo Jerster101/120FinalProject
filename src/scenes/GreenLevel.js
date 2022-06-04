@@ -147,6 +147,10 @@ class GreenLevel extends Phaser.Scene {
         this.enemy02.depth = 2;
         this.physics.add.collider(this.enemy02, platformLayer);
 
+
+        this.shard = this.add.sprite(176, 1350, 'shard');
+        this.shard.anims.play("shard_float", true);
+
         // camera
         this.cameras.main.setBounds(0,0,1216, 2016);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
