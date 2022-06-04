@@ -48,6 +48,8 @@ class BlueLevel extends Phaser.Scene {
             key: "blue_tiles",
             frame: 46
         });
+        this.physics.world.enable(this.mushrooms, Phaser.Physics.Arcade.STATIC_BODY);
+        this.bouncePlatforms = this.add.group(this.mushrooms);
 
         const blueCrystal = map.findObject("crystal", obj => obj.name === "crystal");
         this.add.image(blueCrystal.x, blueCrystal.y, 'blue_crystal').setOrigin(0.5, 0);
@@ -79,7 +81,7 @@ class BlueLevel extends Phaser.Scene {
         // add physics collider
         this.physics.add.collider(this.player, platformLayer);
 
-        this.physics.add.collider(this.player, this.mushrooms, bouncePlayer, null, this);
+        this.physics.add.collider(this.player, this.bouncePlatforms, bouncePlayer, null, this);
 
         // set up key input
         cursors = this.input.keyboard.createCursorKeys();
