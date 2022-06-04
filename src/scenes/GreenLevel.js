@@ -125,7 +125,7 @@ class GreenLevel extends Phaser.Scene {
         this.blue_boundG = map.findObject("boundary", obj => obj.name === "blue boundary");
         this.red_boundG = map.findObject("boundary", obj => obj.name === "red boundary");
        
-        // add enemy jumpers in object layer
+        // add enemy jumpers from object layer
         this.enemy01 = map.createFromObjects("enemy", {
             name: "jumper",
             key: "jumper",
@@ -136,9 +136,16 @@ class GreenLevel extends Phaser.Scene {
         this.enemy01.depth = 2;
         this.physics.add.collider(this.enemy01, platformLayer);
 
-        //this.enemy02 = new EnemyPatroller(this, 700, 1100, 'enemy', 0);
-        //this.enemy02.depth = 2;
-        //this.physics.add.collider(this.enemy02, platformLayer);
+        // add enemy patrollers from object layer
+        this.enemy02 = map.createFromObjects("enemy", {
+            name: "patroller",
+            key: "patroller",
+            classType: EnemyPatroller,
+            frame: 0
+        });
+        this.physics.world.enable(this.enemy02, Phaser.Physics.Arcade.STATIC_BODY);
+        this.enemy02.depth = 2;
+        this.physics.add.collider(this.enemy02, platformLayer);
 
         // camera
         this.cameras.main.setBounds(0,0,1216, 2016);
@@ -186,7 +193,7 @@ class GreenLevel extends Phaser.Scene {
         }
 
         // check enemy collision
-        if(this.checkCollision(this.player, this.enemy01)) {
+        if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
             if (!this.invincible) {
                 playerHealth -=33;
                 this.player.setVelocityX(500);
