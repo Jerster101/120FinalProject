@@ -19,6 +19,9 @@ class EnemyJumper extends Phaser.GameObjects.Sprite {
         this.initJumpTimer(scene);
     }
 
+    
+
+
     initJumpTimer(scene) {
         // attach timer event to scene context
         scene.jumpTimer = scene.time.addEvent({
@@ -28,6 +31,7 @@ class EnemyJumper extends Phaser.GameObjects.Sprite {
             callbackScope: this,    // keep callback scoped to Jumper object
             callback: () => {
                 this.body.setVelocityY(this.JUMP_VELOCITY);
+                this.anims.play('jumper_anim', true);
             }
         });
     }

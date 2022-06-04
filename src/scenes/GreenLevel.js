@@ -126,9 +126,9 @@ class GreenLevel extends Phaser.Scene {
         this.red_boundG = map.findObject("boundary", obj => obj.name === "red boundary");
        
         // add enemy
-        //this.enemy01 = new EnemyJumper(this, 570, 1100, 'enemy', 0)
-        //this.enemy01.depth = 2;
-        //this.physics.add.collider(this.enemy01, platformLayer);
+        this.enemy01 = new EnemyJumper(this, 512, 1424, 'jumper', 0)
+        this.enemy01.depth = 2;
+        this.physics.add.collider(this.enemy01, platformLayer);
 
         //this.enemy02 = new EnemyPatroller(this, 700, 1100, 'enemy', 0);
         //this.enemy02.depth = 2;
@@ -142,7 +142,7 @@ class GreenLevel extends Phaser.Scene {
     update() {
         
         this.player.update();
-        //this.enemy02.update();
+        this.enemy01.update();
         // image masks follow player
         if (this.r1) {
             this.r1.x = this.player.x;
@@ -179,7 +179,7 @@ class GreenLevel extends Phaser.Scene {
         }
 
         // check enemy collision
-        /*if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
+        if(this.checkCollision(this.player, this.enemy01)) {
             if (!this.invincible) {
                 playerHealth -=33;
                 this.player.setVelocityX(500);
@@ -187,7 +187,7 @@ class GreenLevel extends Phaser.Scene {
                 this.player.setAlpha(0.5);
                 this.timedEvent = this.time.addEvent({ delay: 1500, callback: this.setVulnerable, callbackScope: this, loop: false});
             }
-        }*/
+        }
 
         // check for death scene
         if(playerHealth <= 0) {
