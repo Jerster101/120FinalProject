@@ -82,6 +82,9 @@ class Load extends Phaser.Scene {
         this.load.image("heart", "player/heart.png");
         this.load.image("heart_outline", "player/heart_outline.png");
 
+        //enemies
+        this.load.spritesheet('jumper', 'enemies/jumper_anim.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 18});
+
         // player
         this.load.spritesheet('run', 'player/player_run.png', {frameWidth: 26, frameHeight: 32, startFrame: 0, endFrame: 7});
         this.load.spritesheet('idle', 'player/player_idle.png', {frameWidth: 26, frameHeight: 32, startFrame: 0, endFrame: 4});
@@ -124,6 +127,12 @@ class Load extends Phaser.Scene {
             frameRate: 8,
             repeat: -1,
             repeatDelay: 3000
+        })
+        this.anims.create({
+            key: 'jumper_anim',
+            frames: this.anims.generateFrameNumbers('jumper', {start: 0, end: 18, first: 0}),
+            frameRate: 14
+            //repeatDelay: 1000
         })
     }
 }
