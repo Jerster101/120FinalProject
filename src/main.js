@@ -47,3 +47,7 @@ let game = new Phaser.Game(config);
 
 // reserve keyboard variables
 let keyA, keyD, keySPACE, keyW, keyS, keyESC, keyR, keyQ;
+
+function destroyGameObject(gameObject) {
+    gameObject.destroy();
+}
