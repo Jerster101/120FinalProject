@@ -42,6 +42,8 @@ class BlueLevel extends Phaser.Scene {
         // create tilemap layers
         const sceneryLayer = map.createLayer('scenery', tileset, 0, 0);
         const platformLayer = map.createLayer('platforms', tileset, 0, 0);
+        const blueCrystal = map.findObject("crystal", obj => obj.name === "crystal");
+        this.add.image(blueCrystal.x, blueCrystal.y, 'blue_crystal').setOrigin(0.5, 0);
         // set map collisions
         platformLayer.setCollisionByProperty({
             collides: true,

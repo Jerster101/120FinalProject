@@ -43,6 +43,8 @@ class RedLevel extends Phaser.Scene {
         // create tilemap layers
         const sceneryLayer = map.createLayer('decorations', tileset, 0, 0);
         const platformLayer = map.createLayer('platforms', tileset, 0, 0);
+        const redCrystal = map.findObject("crystal", obj => obj.name === "crystal");
+        this.add.image(redCrystal.x, redCrystal.y, 'red_crystal').setOrigin(0.5, 0.3);
         // set map collisions
         platformLayer.setCollisionByProperty({
             collides: true,
