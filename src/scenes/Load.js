@@ -78,6 +78,10 @@ class Load extends Phaser.Scene {
         // pause
         this.load.image("credits_bkg", "menu/credits_bkg.jpg");
 
+        // health UI
+        this.load.image("heart", "player/heart.png");
+        this.load.image("heart_outline", "player/heart_outline.png");
+
         // player
         this.load.spritesheet('run', 'player/player_run.png', {frameWidth: 26, frameHeight: 32, startFrame: 0, endFrame: 7});
         this.load.spritesheet('idle', 'player/player_idle.png', {frameWidth: 26, frameHeight: 32, startFrame: 0, endFrame: 4});

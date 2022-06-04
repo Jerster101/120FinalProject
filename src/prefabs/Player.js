@@ -12,7 +12,21 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         playerHealth = 99;
         this.invincible = false;
     }
+    create() {
+        // create three hearts
+        var heart1 = this.add.sprite(game.config.width/2, game.config.height/2, 'heart').BringToTop();
+        var heart2 = this.add.sprite(this, this, 'heart');
+        var heart3 = this.add.sprite(400, 40, 'heart');
+        hearts = [heart1, heart2, heart3];
+        hearts.fixedtoCamera = true;
 
+        // create three outlined hearts
+        var heartOutline1 = this.add.sprite(0, 0, 'heart_outline');
+        var heartOutline2 = this.add.sprite(400, 40, 'heart_outline');
+        var heartOutline3 = this.add.sprite(400, 40, 'heart_outline');
+        heartOutlines = [heartOutline1, heartOutline2, heartOutline3];
+
+    }
     update() {
         // movement
         if(cursors.left.isDown || keyA.isDown) {
@@ -48,5 +62,16 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.anims.play('player_jump_up', true);
 
         }
+
+        // check for death scene
+        if(playerHealth <= 0) {
+            this.scene.launch("deathScene");
+            this.scene.pause("currentScene");
+        }
+    }
+
+    setVulnerable() {
+        this.invincible = false;
+        this.setAlpha(1);
     }
 }
