@@ -9,7 +9,7 @@ class BlueLevel extends Phaser.Scene {
         
         //music configuration and playing for level
         let musicConfig = {
-            volume: 0.1,
+            volume: 0.8,
             loop: true,
         }
         this.blueMusic = this.sound.add('blueMusic');
@@ -48,7 +48,7 @@ class BlueLevel extends Phaser.Scene {
             key: "blue_tiles",
             frame: 46
         });
-        
+
         const blueCrystal = map.findObject("crystal", obj => obj.name === "crystal");
         this.add.image(blueCrystal.x, blueCrystal.y, 'blue_crystal').setOrigin(0.5, 0);
         // set map collisions
@@ -159,17 +159,20 @@ class BlueLevel extends Phaser.Scene {
         if(playerHealth <= 0) {
             this.scene.launch("deathScene");
             this.scene.pause();
+            this.blueMusic.stop();
         }
 
         // movement between scenes
         if(this.checkCollision(this.player, this.core_boundG)) {
             spawnpoint = "blue_spawn";
             console.log(spawnpoint);
+            this.blueMusic.stop();
             this.scene.start("coreScene");
         }
         if(this.checkCollision(this.player, this.green_boundG)) {
             spawnpoint = "blue_spawn";
             console.log(spawnpoint);
+            this.blueMusic.stop();
             this.scene.start("greenScene");
         }
     }
