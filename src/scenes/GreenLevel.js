@@ -125,8 +125,14 @@ class GreenLevel extends Phaser.Scene {
         this.blue_boundG = map.findObject("boundary", obj => obj.name === "blue boundary");
         this.red_boundG = map.findObject("boundary", obj => obj.name === "red boundary");
        
-        // add enemy
-        this.enemy01 = new EnemyJumper(this, 512, 1424, 'jumper', 0)
+        // add enemy jumpers in object layer
+        this.enemy01 = map.createFromObjects("enemy", {
+            name: "jumper",
+            key: "jumper",
+            classType: EnemyJumper,
+            frame: 0
+        });
+        this.physics.world.enable(this.enemy01, Phaser.Physics.Arcade.STATIC_BODY);
         this.enemy01.depth = 2;
         this.physics.add.collider(this.enemy01, platformLayer);
 
@@ -142,7 +148,8 @@ class GreenLevel extends Phaser.Scene {
     update() {
         
         this.player.update();
-        this.enemy01.update();
+        // this.enemy01.update();
+        
         // image masks follow player
         if (this.r1) {
             this.r1.x = this.player.x;
