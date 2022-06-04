@@ -9,6 +9,7 @@
 let cursors;
 let currentScene;
 let GameState = 0;
+let CurrentRoom = 0;
 let playerHealth = 0;
 let spawnpoint = "start";
 const tileSize = 32;

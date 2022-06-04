@@ -52,30 +52,57 @@ class Core extends Phaser.Scene {
         const green_spawn = map.findObject("spawn", obj => obj.name === "green spawn");
         const blue_spawn = map.findObject("spawn", obj => obj.name === "blue spawn");
 
-        //tutorial text
-        let menuConfig = {
-            fontFamily: 'Square',
-            fontSize: '15px',
-            color: '#2b397c',
-            stroke: '#15d681',
-            strokeThickness: 5,
-            align: 'center'
-          }
 
-        this.tutorial1 = this.add.text(start_spawn.x+60, start_spawn.y-70, 'Use A and D or\n← and → to move' , menuConfig).setOrigin(0.5);
-        this.tutorial2 = this.add.text(start_spawn.x+320, start_spawn.y-70, 'Use W, ↑, or SPACE\nto jump' , menuConfig).setOrigin(0.5);
-        this.tutorial3 = this.add.text(start_spawn.x+320, start_spawn.y-300, 'jump again in the air\nfor a double jump' , menuConfig).setOrigin(0.5);
+        if (CurrentRoom == 0) {
+            //tutorial text
+            let menuConfig = {
+                fontFamily: 'Square',
+                fontSize: '15px',
+                color: '#2b397c',
+                stroke: '#15d681',
+                strokeThickness: 5,
+                align: 'center'
+            }
+
+            this.tutorial1 = this.add.text(start_spawn.x+60, start_spawn.y-70, 'Use A and D or\n← and → to move' , menuConfig).setOrigin(0.5);
+            this.tutorial2 = this.add.text(start_spawn.x+320, start_spawn.y-70, 'Use W, ↑, or SPACE\nto jump' , menuConfig).setOrigin(0.5);
+            this.tutorial3 = this.add.text(start_spawn.x+320, start_spawn.y-300, 'jump again in the air\nfor a double jump' , menuConfig).setOrigin(0.5);
+        
+            spawnpoint = "start";
+        } else if (CurrentRoom == 1) {
+            spawnpoint = "red_spawn";
+        } else if (CurrentRoom == 2) {
+            spawnpoint = "red_spawn2";
+        } else if (CurrentRoom == 3) {
+            spawnpoint = "green_spawn";
+        } else if (CurrentRoom == 4) {
+            spawnpoint = "blue_spawn";
+        }
+        CurrentRoom = 0;
+
 
         // player spawn based upon previous boundary
         if (spawnpoint == "start") {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, start_spawn.x, start_spawn.y, 'idle', 0);
+        } else if (spawnpoint == "red_spawn") {
+            console.log(spawnpoint);
+            spawnpoint = "";
+            this.player = new Player(this, red_spawn.x, red_spawn.y, 'idle', 0);
+        } else if (spawnpoint == "red_spawn2") {
+            console.log(spawnpoint);
+            spawnpoint = "";
+            this.player = new Player(this, red_spawn2.x, red_spawn2.y, 'idle', 0);
         } else if (spawnpoint == "green_spawn") {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, green_spawn.x, green_spawn.y, 'idle', 0);
-        };
+        } else if (spawnpoint == "blue_spawn") {
+            console.log(spawnpoint);
+            spawnpoint = "";
+            this.player = new Player(this, blue_spawn.x, blue_spawn.y, 'idle', 0);
+        }
         
         // add physics collider
         this.physics.add.collider(this.player, platformLayer);
@@ -135,25 +162,25 @@ class Core extends Phaser.Scene {
             this.coreMusic.stop();
             spawnpoint = "core_spawnG";
             console.log(spawnpoint);
-            this.scene.switch("greenScene");
+            this.scene.start("greenScene");
         }
         if(this.checkCollision(this.player, this.blue_bound)) {
             this.coreMusic.stop();
             spawnpoint = "core_spawnB";
             console.log(spawnpoint);
-            this.scene.switch("blueScene");
+            this.scene.start("blueScene");
         }
         if(this.checkCollision(this.player, this.red_bound)) {
             this.coreMusic.stop();
             spawnpoint = "core_spawnR";
             console.log(spawnpoint);
-            this.scene.switch("redScene");
+            this.scene.start("redScene");
         }
         if(this.checkCollision(this.player, this.red_bound2)) {
             this.coreMusic.stop();
             spawnpoint = "core_spawnR2";
             console.log(spawnpoint);
-            this.scene.switch("redScene");
+            this.scene.start("redScene");
         }
 
         // check enemy collision

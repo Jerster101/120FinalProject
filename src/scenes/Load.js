@@ -14,6 +14,7 @@ class Load extends Phaser.Scene {
         this.load.image('blue_bkg4', 'blue_level/blue_bkg4.png');
         this.load.image('blue_bkg5', 'blue_level/blue_bkg5.png');
         this.load.image('blue_bkg6', 'blue_level/blue_bkg6.png');
+        this.load.image('blue_crystal', 'blue_level/blue_crystal.png');
         this.load.spritesheet('blue_tiles', 'blue_level/blue_tileset.png', {frameWidth: 32, frameHeight: 32});
         this.load.tilemapTiledJSON('blue_map', 'blue_level/blue_map.json');
 
@@ -41,6 +42,7 @@ class Load extends Phaser.Scene {
         this.load.image('green_bkg2', 'green_level/green_bkg2.png');
         this.load.image('green_bkg3', 'green_level/green_bkg3.png');
         this.load.image('green_bkg4', 'green_level/green_bkg4.png');
+        this.load.image('green_crystal', 'green_level/green_crystal.png');
         this.load.tilemapTiledJSON('map2', 'green_level/green_map.json');
 
 
@@ -52,6 +54,7 @@ class Load extends Phaser.Scene {
         this.load.image('red_bkg4', 'red_level/red_bkg4.png');
         this.load.image('red_bkg5', 'red_level/red_bkg5.png');
         this.load.image('red_bkg6', 'red_level/red_bkg6.png');
+        this.load.image('red_crystal', 'red_level/red_crystal.png');
         this.load.spritesheet('red_tiles', 'red_level/red_tileset.png', {frameWidth: 32, frameHeight: 32});
         this.load.tilemapTiledJSON('red_map', 'red_level/red_map.json');
         
