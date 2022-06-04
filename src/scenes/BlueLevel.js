@@ -41,6 +41,12 @@ class BlueLevel extends Phaser.Scene {
         // create tilemap layers
         const sceneryLayer = map.createLayer('scenery', tileset, 0, 0);
         const platformLayer = map.createLayer('platforms', tileset, 0, 0);
+        //make the mushrooms bounceable objects
+        this.mushrooms = map.createFromObjects("bouncy", {
+            name: "bouncy",
+            key: "blue_tiles",
+            frame: 46
+        });
         // set map collisions
         platformLayer.setCollisionByProperty({
             collides: true,
@@ -60,12 +66,35 @@ class BlueLevel extends Phaser.Scene {
         // add physics collider
         this.physics.add.collider(this.player, platformLayer);
 
+        this.physics.add.collider(this.player, this.mushrooms, bouncePlayer, null, this);
+
         // set up key input
         cursors = this.input.keyboard.createCursorKeys();
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+
+        //the player can bounce on the mushrooms, and by holding down the jump button, can bounce higher
+        function bouncePlayer(player, tile) {
+            //this.sound.play('temporaryBounce');
+            if(cursors.up.isDown) {
+                player.setVelocityY(-2000);
+            }
+            else {
+                player.setVelocityY(-700);
+            }
+            this.tweens.add({
+                targets: tile,
+                yoyo: true,
+                y: {
+                    from: tile.y,
+                    to: tile.y + 2 * 1
+                },
+                ease: 'Linear',
+                duration: 50,
+            });
+        }
 
         // add enemy
         //this.enemy01 = new EnemyJumper(this, 570, 1100, 'enemy', 0)
