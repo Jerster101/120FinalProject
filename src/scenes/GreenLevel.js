@@ -126,14 +126,31 @@ class GreenLevel extends Phaser.Scene {
         this.blue_boundG = map.findObject("boundary", obj => obj.name === "blue boundary");
         this.red_boundG = map.findObject("boundary", obj => obj.name === "red boundary");
        
-        // add enemy
-        this.enemy01 = new EnemyJumper(this, 512, 1424, 'jumper', 0)
+        // add enemy jumpers from object layer
+        this.enemy01 = map.createFromObjects("enemy", {
+            name: "jumper",
+            key: "jumper",
+            classType: EnemyJumper,
+            frame: 0
+        });
+        this.physics.world.enable(this.enemy01, Phaser.Physics.Arcade.STATIC_BODY);
         this.enemy01.depth = 2;
         this.physics.add.collider(this.enemy01, platformLayer);
 
-        //this.enemy02 = new EnemyPatroller(this, 700, 1100, 'enemy', 0);
-        //this.enemy02.depth = 2;
-        //this.physics.add.collider(this.enemy02, platformLayer);
+        // add enemy patrollers from object layer
+        this.enemy02 = map.createFromObjects("enemy", {
+            name: "patroller",
+            key: "patroller",
+            classType: EnemyPatroller,
+            frame: 0
+        });
+        this.physics.world.enable(this.enemy02, Phaser.Physics.Arcade.STATIC_BODY);
+        this.enemy02.depth = 2;
+        this.physics.add.collider(this.enemy02, platformLayer);
+
+
+        this.shard = this.add.sprite(176, 1350, 'shard');
+        this.shard.anims.play("shard_float", true);
 
         // camera
         this.cameras.main.setBounds(0,0,1216, 2016);
@@ -143,7 +160,8 @@ class GreenLevel extends Phaser.Scene {
     update() {
         
         this.player.update();
-        this.enemy01.update();
+        // this.enemy01.update();
+        
         // image masks follow player
         if (this.r1) {
             this.r1.x = this.player.x;
@@ -180,7 +198,7 @@ class GreenLevel extends Phaser.Scene {
         }
 
         // check enemy collision
-        if(this.checkCollision(this.player, this.enemy01)) {
+        if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
             if (!this.invincible) {
                 playerHealth -=33;
                 this.player.setVelocityX(500);

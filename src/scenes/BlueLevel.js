@@ -111,14 +111,27 @@ class BlueLevel extends Phaser.Scene {
             });
         }
 
-        // add enemy
-        //this.enemy01 = new EnemyJumper(this, 570, 1100, 'enemy', 0)
-        //this.enemy01.depth = 2;
-        //this.physics.add.collider(this.enemy01, platformLayer);
+        // add enemy jumpers from object layer
+        this.enemy01 = map.createFromObjects("enemy", {
+            name: "jumper",
+            key: "jumper",
+            classType: EnemyJumper,
+            frame: 0
+        });
+        this.physics.world.enable(this.enemy01, Phaser.Physics.Arcade.STATIC_BODY);
+        this.enemy01.depth = 2;
+        this.physics.add.collider(this.enemy01, platformLayer);
 
-        //this.enemy02 = new EnemyPatroller(this, 700, 1100, 'enemy', 0);
-        //this.enemy02.depth = 2;
-        //this.physics.add.collider(this.enemy02, platformLayer);
+        // add enemy patrollers from object layer
+        this.enemy02 = map.createFromObjects("enemy", {
+            name: "patroller",
+            key: "patroller",
+            classType: EnemyPatroller,
+            frame: 0
+        });
+        this.physics.world.enable(this.enemy02, Phaser.Physics.Arcade.STATIC_BODY);
+        this.enemy02.depth = 2;
+        this.physics.add.collider(this.enemy02, platformLayer);
 
         // camera
         this.cameras.main.setBounds(0,0,2432, 1280);
@@ -147,7 +160,7 @@ class BlueLevel extends Phaser.Scene {
         }
 
         // check enemy collision
-        /*if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
+        if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
             if (!this.invincible) {
                 playerHealth -=33;
                 this.player.setVelocityX(500);
@@ -155,7 +168,7 @@ class BlueLevel extends Phaser.Scene {
                 this.player.setAlpha(0.5);
                 this.timedEvent = this.time.addEvent({ delay: 1500, callback: this.setVulnerable, callbackScope: this, loop: false});
             }
-        }*/
+        }
 
         // check for death scene
         if(playerHealth <= 0) {

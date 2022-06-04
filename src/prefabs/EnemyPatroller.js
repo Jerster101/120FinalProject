@@ -9,6 +9,7 @@ class EnemyPatroller extends Phaser.GameObjects.Sprite {
         // set properties
         //this.body.setImmovable();
         //this.setOrigin(0, 1);
+        this.anims.play('patroller_anim');
 
         // custom properties
         this.movingRight = true;
