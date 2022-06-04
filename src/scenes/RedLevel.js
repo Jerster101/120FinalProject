@@ -46,6 +46,31 @@ class RedLevel extends Phaser.Scene {
         const redCrystal = map.findObject("crystal", obj => obj.name === "crystal");
         this.crystalR = this.add.image(redCrystal.x, redCrystal.y, 'red_crystal').setOrigin(0.5, 0.3);
 
+        //since we have 3 different designs for the collapsible platforms, we compile them all into one group while processing each induvidually
+        this.collapse1 = map.createFromObjects("collapsible", {
+            name: "collapse1",
+            key: "red_tiles",
+            frame: 9
+        });
+        this.collapse2 = map.createFromObjects("collapsible", {
+            name: "collapse2",
+            key: "red_tiles",
+            frame: 15
+        });
+        this.collapse3 = map.createFromObjects("collapsible", {
+            name: "collapse3",
+            key: "red_tiles",
+            frame: 21
+        });
+
+        //redundant, but probably necessary
+        this.physics.world.enable(this.collapse1, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.collapse2, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.collapse3, Phaser.Physics.Arcade.STATIC_BODY);
+        this.shakyGround1 = this.add.group(this.collapse1);
+        this.shakyGround2 = this.add.group(this.collapse2);
+        this.shakyGround3 = this.add.group(this.collapse3);
+
         // set map collisions
         platformLayer.setCollisionByProperty({
             collides: true,
@@ -74,6 +99,58 @@ class RedLevel extends Phaser.Scene {
         
         // add physics collider
         this.physics.add.collider(this.player, platformLayer);
+        //physics colliders for the collapsing platforms
+        this.physics.add.collider(this.player, this.shakyGround1, shakePlatform, checkOneWay, this);
+        this.physics.add.collider(this.player, this.shakyGround2, shakePlatform, checkOneWay, this);
+        this.physics.add.collider(this.player, this.shakyGround3, shakePlatform, checkOneWay, this);
+
+        function shakePlatform(player, platform) {
+            /*stupidly long series of functions that allow the platforms to collapse,
+            as well as, hopefully soon, having them respawn a few moments later*/
+            if(player.body.blocked.down) {      //if the player is standing on the platform
+                this.cameras.main.shake(200, 0.001);        //then shake the camera
+                //this is a global variable we have to use so that Phaser doesn't get confused
+                var ourScene = this;
+                var tween = this.tweens.add({
+                    targets: platform,
+                    yoyo: true,
+                    repeat: 10,
+                    x: {    //if the player is not on the block, then shake the block 
+                        from: platform.x,
+                        to: platform.x + 2 *1
+                    },
+                    ease: 'Linear',
+                    duration: 50,
+                    onComplete: function() {
+                        destroyPlatform.call(ourScene, platform);
+                    }
+                });
+            }
+        }    
+        //function to destroy the platforms specifically, not sure if this needs to be seperate, we can decide later
+        function destroyPlatform(platform) {
+            var tween = this.tweens.add({
+                targets: platform,
+                alpha: 0,
+                y: "+=25",
+                ease: 'Linear',
+                duration: 100,
+                onComplete: function() {
+                    //setTimeout(timedRespawn.call(platform), 5000);
+                    destroyGameObject(platform);
+                }
+            });
+        }
+        //this function here is used to allow us to pass though the collapsing platforms from below, we may want to get rid of this.
+        function checkOneWay(player, platform) {
+            if(player.y < platform.y) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
 
         // set up key input
         cursors = this.input.keyboard.createCursorKeys();
