@@ -21,16 +21,6 @@ class Core extends Phaser.Scene {
         this.strings = this.add.image(608, 352,'strings').setScrollFactor(0.8);
         this.no_crystal = this.add.image(608, 352, 'no_crystal').setScrollFactor(1);
         
-        // turns area around player red but reveals green near player
-        // used for following level crystal gained but not yet added to center
-        //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.HUE);
-        //this.r1.depth = 2;
-        // erases area around player, could use opposed to desaturate
-        //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
-        // desaturates area around player, used for when crystal is obtained
-        //this.r2 = this.add.image(200, 1200, 'circle2').setBlendMode(Phaser.BlendModes.SATURATION);
-        //this.r2.depth = 1;
-        
         // variables and settings
         this.physics.world.gravity.y = GRAV;
 
@@ -116,15 +106,6 @@ class Core extends Phaser.Scene {
         this.red_bound = map.findObject("boundary", obj => obj.name === "red boundary");
         this.red_bound2 = map.findObject("boundary", obj => obj.name === "red boundary 2");
         this.blue_bound = map.findObject("boundary", obj => obj.name === "blue boundary");
-        
-        // add enemy
-        //this.enemy01 = new EnemyJumper(this, 570, 1100, 'enemy', 0)
-        //this.enemy01.depth = 2;
-        //this.physics.add.collider(this.enemy01, platformLayer);
-
-        //this.enemy02 = new EnemyPatroller(this, 700, 1100, 'enemy', 0);
-        //this.enemy02.depth = 2;
-        //this.physics.add.collider(this.enemy02, platformLayer);
 
         // camera
         this.cameras.main.setBounds(0,0,1216, 704);
@@ -135,15 +116,6 @@ class Core extends Phaser.Scene {
     update() {
         
         this.player.update();
-        // image masks follow player
-        if (this.r1) {
-            this.r1.x = this.player.x;
-            this.r1.y = this.player.y;
-        }
-        if (this.r2) {
-            this.r2.x = this.player.x;
-            this.r2.y = this.player.y;
-        }
 
         // pause scene 
         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
@@ -183,17 +155,6 @@ class Core extends Phaser.Scene {
             this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("redScene");
         }
-
-        // check enemy collision
-        /*if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
-            if (!this.invincible) {
-                playerHealth -=33;
-                this.player.setVelocityX(500);
-                this.invincible = true;
-                this.player.setAlpha(0.5);
-                this.timedEvent = this.time.addEvent({ delay: 1500, callback: this.setVulnerable, callbackScope: this, loop: false});
-            }
-        }*/
 
         // check for death scene
         if(playerHealth <= 0) {

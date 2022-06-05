@@ -11,6 +11,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.body.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
         playerHealth = 99;
         this.invincible = false;
+        this.anims.play('player_idle', true);
+
     }
     create() {
         // create three hearts
@@ -25,6 +27,16 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         var heartOutline2 = this.add.sprite(400, 40, 'heart_outline');
         var heartOutline3 = this.add.sprite(400, 40, 'heart_outline');
         heartOutlines = [heartOutline1, heartOutline2, heartOutline3];
+
+        // turns area around player red but reveals green near player
+        // used for following level crystal gained but not yet added to center
+        this.r1 = this.add.image(this.x, this.y, 'circle');
+        this.r1.depth = 8;
+        // erases area around player, could use opposed to desaturate
+        //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
+        // desaturates area around player, used for when crystal is obtained
+        //this.r2 = this.add.image(200, 1200, 'circle2').setBlendMode(Phaser.BlendModes.SATURATION);
+        //this.r2.depth = 1;
 
     }
     update() {
@@ -67,6 +79,16 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         if(playerHealth <= 0) {
             this.scene.launch("deathScene");
             this.scene.pause("currentScene");
+        }
+
+        // image masks follow player
+        if (this.r1) {
+            this.r1.x = this.player.x;
+            this.r1.y = this.player.y;
+        }
+        if (this.r2) {
+            this.r2.x = this.player.x;
+            this.r2.y = this.player.y;
         }
     }
 

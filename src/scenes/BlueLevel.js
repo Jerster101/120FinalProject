@@ -6,7 +6,7 @@ class BlueLevel extends Phaser.Scene {
     create() {
         currentScene = 'blueScene';
         CurrentRoom = 4;
-        
+
         //music configuration and playing for level
         let musicConfig = {
             volume: 0.8,
@@ -21,16 +21,6 @@ class BlueLevel extends Phaser.Scene {
         this.blue_bkg3 = this.add.image(1216, 640,'blue_bkg3').setScrollFactor(0.5);
         this.blue_bkg4 = this.add.image(1216, 640,'blue_bkg4').setScrollFactor(0.7);
         this.blue_bkg5 = this.add.image(1216, 640,'blue_bkg5').setScrollFactor(0.8);
-        
-        // turns area around player red but reveals green near player
-        // used for following level crystal gained but not yet added to center
-        //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.HUE);
-        //this.r1.depth = 2;
-        // erases area around player, could use opposed to desaturate
-        //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
-        // desaturates area around player, used for when crystal is obtained
-        //this.r2 = this.add.image(200, 1200, 'circle2').setBlendMode(Phaser.BlendModes.SATURATION);
-        //this.r2.depth = 1;
         
         // variables and settings
         this.physics.world.gravity.y = GRAV;
@@ -181,17 +171,6 @@ class BlueLevel extends Phaser.Scene {
     update() {
 
         this.player.update();
-        //this.enemy02.update();
-        
-        // image masks follow player
-        if (this.r1) {
-            this.r1.x = this.player.x;
-            this.r1.y = this.player.y;
-        }
-        if (this.r2) {
-            this.r2.x = this.player.x;
-            this.r2.y = this.player.y;
-        }
 
          // pause scene 
          if (Phaser.Input.Keyboard.JustDown(keyESC)) {

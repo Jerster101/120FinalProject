@@ -20,8 +20,6 @@ class Load extends Phaser.Scene {
 
         // core level
         this.load.image('tiles', 'core/core_tileset.png');
-        this.load.image('circle', 'color_masks/red2.png');
-        this.load.image('circle2', 'color_masks/whiteborder.png');
         this.load.image('bkg', 'core/rainbowcircle_bkg.png');
         this.load.image('no_crystal', 'core/no_crystal_core.png');
         this.load.image('R_crystal', 'core/R_crystal_core.png');
@@ -36,8 +34,6 @@ class Load extends Phaser.Scene {
         // green level
         this.load.image('enemy', 'enemies/Enemy.png');
         this.load.spritesheet('tiles2', 'green_level/green_tileset.png', {frameWidth: 32, frameHeight: 32});
-        this.load.image('circle', 'color_masks/red2.png');
-        this.load.image('circle2', 'color_masks/whiteborder.png');
         this.load.image('green_bkg1', 'green_level/green_bkg1.png');
         this.load.image('green_bkg2', 'green_level/green_bkg2.png');
         this.load.image('green_bkg3', 'green_level/green_bkg3.png');
@@ -80,6 +76,10 @@ class Load extends Phaser.Scene {
         this.load.image("tut_jump", "tut_jump.png");
         this.load.image("tut_fall", "tut_fall.png");
         this.load.image("tut_double_jump", "tut_double_jump.png");
+
+        // color masks
+        this.load.image('circle', 'color_masks/red2.png');
+        this.load.image('circle2', 'color_masks/whiteborder.png');
         
         // pause
         this.load.image("credits_bkg", "menu/credits_bkg.jpg");
