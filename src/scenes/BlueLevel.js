@@ -111,27 +111,62 @@ class BlueLevel extends Phaser.Scene {
             });
         }
 
-        // add enemy jumpers from object layer
-        this.enemy01 = map.createFromObjects("enemy", {
-            name: "jumper",
-            key: "jumper",
-            classType: EnemyJumper,
-            frame: 0
-        });
-        this.physics.world.enable(this.enemy01, Phaser.Physics.Arcade.STATIC_BODY);
-        this.enemy01.depth = 2;
-        this.physics.add.collider(this.enemy01, platformLayer);
+       // add enemy jumpers from object layer
+       this.enemy01 = map.createFromObjects("enemy", {
+        name: "jumper",
+        key: "jumper",
+        classType: EnemyJumper,
+        frame: 0
+    });
+    this.physics.world.enable(this.enemy01, Phaser.Physics.Arcade.STATIC_BODY);
+    this.enemy01.depth = 2;
+    this.physics.add.collider(this.enemy01, platformLayer);
+    this.enemy01Group = this.add.group(this.enemy01);
+    this.enemy01Group.setOrigin(0.5);
 
-        // add enemy patrollers from object layer
-        this.enemy02 = map.createFromObjects("enemy", {
-            name: "patroller",
-            key: "patroller",
-            classType: EnemyPatroller,
+    // add enemy patrollers from object layer
+    this.enemy02 = map.createFromObjects("enemy", {
+        name: "patroller",
+        key: "patroller",
+        classType: EnemyPatroller,
+        frame: 0
+    });
+    this.physics.world.enable(this.enemy02, Phaser.Physics.Arcade.STATIC_BODY);
+    this.enemy02.depth = 2;
+    this.physics.add.collider(this.enemy02, platformLayer);
+    this.enemy02Group = this.add.group(this.enemy02);
+    this.enemy02Group.setOrigin(0.5);
+
+        // add health shard
+        this.shard = map.createFromObjects("shard", {
+            name: "shard",
+            key: "shard",
             frame: 0
         });
-        this.physics.world.enable(this.enemy02, Phaser.Physics.Arcade.STATIC_BODY);
-        this.enemy02.depth = 2;
-        this.physics.add.collider(this.enemy02, platformLayer);
+        this.physics.world.enable(this.shard, Phaser.Physics.Arcade.STATIC_BODY);
+        this.shard.map((shard) => {
+            shard.body.setCircle(12).setOffset(4,4);
+        })
+        this.shardGroup = this.add.group(this.shard);
+        for (var i = 0; i < this.shard.length; i++) {
+            this.shard[i].anims.play("shard_float");
+        }
+        this.shardVfxManager = this.add.particles('shard', 0);
+        this.shardVfxEffect = this.shardVfxManager.createEmitter({
+            follow: this.player,
+            quantity: 20,
+            scale: {start: 0.5, end: 0.0},
+            speed: {min: 50, max: 100},
+            lifespan: 800,
+            on: false
+        });
+        this.physics.add.overlap(this.player, this.shardGroup, (obj1, obj2) => {
+            //this.sound.play('temporaryCoin');
+            this.shardVfxEffect.explode();
+            playerHealth += 33;
+            obj2.destroy();
+        });
+        this.physics.add.collider(this.shard, platformLayer);
 
         // camera
         this.cameras.main.setBounds(0,0,2432, 1280);
