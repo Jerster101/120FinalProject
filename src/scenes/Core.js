@@ -54,19 +54,10 @@ class Core extends Phaser.Scene {
 
 
         if (CurrentRoom == 0) {
-            //tutorial text
-            let menuConfig = {
-                fontFamily: 'Square',
-                fontSize: '15px',
-                color: '#2b397c',
-                stroke: '#15d681',
-                strokeThickness: 5,
-                align: 'center'
-            }
-
-            this.tutorial1 = this.add.text(start_spawn.x+60, start_spawn.y-70, 'Use A and D or\n← and → to move' , menuConfig).setOrigin(0.5);
-            this.tutorial2 = this.add.text(start_spawn.x+320, start_spawn.y-70, 'Use W, ↑, or SPACE\nto jump' , menuConfig).setOrigin(0.5);
-            this.tutorial3 = this.add.text(start_spawn.x+320, start_spawn.y-300, 'jump again in the air\nfor a double jump' , menuConfig).setOrigin(0.5);
+            //tutorial graphics
+            this.tutorial1 = this.add.sprite(start_spawn.x+30, start_spawn.y+50,"tut_move").setOrigin(0.5).setAlpha(0.6);
+            this.tutorial2 = this.add.sprite(start_spawn.x+205, start_spawn.y+35, "tut_jump").setOrigin(0.5).setAlpha(0.6);
+            this.tutorial3 = this.add.sprite(start_spawn.x+205, start_spawn.y+75, "tut_double_jump").setOrigin(0.5).setAlpha(0.6);
         
             spawnpoint = "start";
         } else if (CurrentRoom == 1) {
@@ -132,6 +123,7 @@ class Core extends Phaser.Scene {
 
         // camera
         this.cameras.main.setBounds(0,0,1216, 704);
+        this.cameras.main.setRoundPixels(true);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
     }
 

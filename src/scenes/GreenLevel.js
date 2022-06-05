@@ -92,7 +92,7 @@ class GreenLevel extends Phaser.Scene {
             align: 'center'
           }
 
-        this.tutorial = this.add.text(core_spawnG.x+100, core_spawnG.y-60, 'Press S or ↓ to fall\nthrough grassy platforms' , menuConfig).setOrigin(0.5);
+        this.tutorial = this.add.sprite(core_spawnG.x-35, core_spawnG.y+90, "tut_fall").setOrigin(0.5).setAlpha(0.6);
         
         // add physics collider
         this.physics.add.collider(this.player, platformLayer);
@@ -191,9 +191,6 @@ class GreenLevel extends Phaser.Scene {
     update() {
         
         this.player.update();
-        for (var i = 0; i < this.enemy02.length; i++) {
-            this.enemy02[i].update();
-        }
         
         // image masks follow player
         if (this.r1) {
