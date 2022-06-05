@@ -77,22 +77,27 @@ class Core extends Phaser.Scene {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, start_spawn.x, start_spawn.y, 'idle', 0);
+            this.cameras.main.fadeIn(1500, 0, 0, 0)
         } else if (spawnpoint == "red_spawn") {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, red_spawn.x, red_spawn.y, 'idle', 0);
+            this.cameras.main.fadeIn(500, 0, 0, 0)
         } else if (spawnpoint == "red_spawn2") {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, red_spawn2.x, red_spawn2.y, 'idle', 0);
+            this.cameras.main.fadeIn(500, 0, 0, 0)
         } else if (spawnpoint == "green_spawn") {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, green_spawn.x, green_spawn.y, 'idle', 0);
+            this.cameras.main.fadeIn(500, 0, 0, 0)
         } else if (spawnpoint == "blue_spawn") {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, blue_spawn.x, blue_spawn.y, 'idle', 0);
+            this.cameras.main.fadeIn(500, 0, 0, 0)
         }
         
         // add physics collider
@@ -154,24 +159,28 @@ class Core extends Phaser.Scene {
             this.coreMusic.stop();
             spawnpoint = "core_spawnG";
             console.log(spawnpoint);
+            this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("greenScene");
         }
         if(this.checkCollision(this.player, this.blue_bound)) {
             this.coreMusic.stop();
             spawnpoint = "core_spawnB";
             console.log(spawnpoint);
+            this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("blueScene");
         }
         if(this.checkCollision(this.player, this.red_bound)) {
             this.coreMusic.stop();
             spawnpoint = "core_spawnR";
             console.log(spawnpoint);
+            this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("redScene");
         }
         if(this.checkCollision(this.player, this.red_bound2)) {
             this.coreMusic.stop();
             spawnpoint = "core_spawnR2";
             console.log(spawnpoint);
+            this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("redScene");
         }
 

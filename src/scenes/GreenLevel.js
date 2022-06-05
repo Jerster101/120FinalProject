@@ -72,14 +72,17 @@ class GreenLevel extends Phaser.Scene {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, core_spawnG.x, core_spawnG.y, 'idle', 0);
+            this.cameras.main.fadeIn(500, 0, 0, 0)
         } else if (spawnpoint == "red_spawn") {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, red_spawnG.x, red_spawnG.y, 'idle', 0);
+            this.cameras.main.fadeIn(500, 0, 0, 0)
         } else if (spawnpoint == "blue_spawn") {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, blue_spawnG.x, blue_spawnG.y, 'idle', 0);
+            this.cameras.main.fadeIn(500, 0, 0, 0)
         }
         
         // tutorial text
@@ -212,18 +215,21 @@ class GreenLevel extends Phaser.Scene {
             spawnpoint = "green_spawn";
             console.log(spawnpoint);
             this.greenMusic.stop();
+            this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("coreScene");
         }
         if(this.checkCollision(this.player, this.blue_boundG)) {
             spawnpoint = "green_spawn";
             console.log(spawnpoint);
             this.greenMusic.stop();
+            this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("blueScene");
         }
         if(this.checkCollision(this.player, this.red_boundG)) {
             spawnpoint = "green_spawn";
             console.log(spawnpoint);
             this.greenMusic.stop();
+            this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("redScene");
         }
 

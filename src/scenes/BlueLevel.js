@@ -65,10 +65,12 @@ class BlueLevel extends Phaser.Scene {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, core_spawnB.x, core_spawnB.y, 'idle', 0);
+            this.cameras.main.fadeIn(500, 0, 0, 0)
         } else if (spawnpoint == "green_spawn") {
             console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, green_spawnB.x, green_spawnB.y, 'idle', 0);
+            this.cameras.main.fadeIn(500, 0, 0, 0)
         }
 
         // set up boundaries
@@ -217,12 +219,14 @@ class BlueLevel extends Phaser.Scene {
             spawnpoint = "blue_spawn";
             console.log(spawnpoint);
             this.blueMusic.stop();
+            this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("coreScene");
         }
         if(this.checkCollision(this.player, this.green_boundG)) {
             spawnpoint = "blue_spawn";
             console.log(spawnpoint);
             this.blueMusic.stop();
+            this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("greenScene");
         }
     }
