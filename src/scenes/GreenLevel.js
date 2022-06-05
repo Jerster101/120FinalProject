@@ -48,8 +48,10 @@ class GreenLevel extends Phaser.Scene {
         const greeneryLayer = map.createLayer('greenery', tileset, 0, 0);
         const spikesLayer = map.createLayer('spikes', tileset, 0, 0);
         const hiddenLayer = map.createLayer('hidden', tileset, 0, 0);
+        // add animated crystal 
         const greenCrystal = map.findObject("crystal", obj => obj.name === "crystal");
-        this.add.image(greenCrystal.x, greenCrystal.y, 'green_crystal').setOrigin(0.5, 0.3);
+        this.greenCrystal = this.add.sprite(greenCrystal.x, greenCrystal.y, 'green_crystal').setOrigin(0.5, 0);
+        this.greenCrystal.anims.play("green_float", true);
         this.vinePlatforms = map.createFromObjects("Passable Platforms", {
             name: "vines",
             key: "tiles2",

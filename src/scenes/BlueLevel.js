@@ -51,8 +51,11 @@ class BlueLevel extends Phaser.Scene {
         this.physics.world.enable(this.mushrooms, Phaser.Physics.Arcade.STATIC_BODY);
         this.bouncePlatforms = this.add.group(this.mushrooms);
 
+        // add animated crystal 
         const blueCrystal = map.findObject("crystal", obj => obj.name === "crystal");
-        this.add.image(blueCrystal.x, blueCrystal.y, 'blue_crystal').setOrigin(0.5, 0);
+        this.blueCrystal = this.add.sprite(blueCrystal.x, blueCrystal.y, 'blue_crystal').setOrigin(0.5, 0);
+        this.blueCrystal.anims.play("blue_float", true);
+        
         // set map collisions
         platformLayer.setCollisionByProperty({
             collides: true,

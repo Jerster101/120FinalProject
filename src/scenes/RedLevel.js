@@ -43,8 +43,10 @@ class RedLevel extends Phaser.Scene {
         // create tilemap layers
         const sceneryLayer = map.createLayer('decorations', tileset, 0, 0);
         const platformLayer = map.createLayer('platforms', tileset, 0, 0);
+        // add animated crystal 
         const redCrystal = map.findObject("crystal", obj => obj.name === "crystal");
-        this.crystalR = this.add.image(redCrystal.x, redCrystal.y, 'red_crystal').setOrigin(0.5, 0.3);
+        this.redCrystal = this.add.sprite(redCrystal.x, redCrystal.y, 'red_crystal').setOrigin(0.5, 0);
+        this.redCrystal.anims.play("red_float", true);
 
         //since we have 3 different designs for the collapsible platforms, we compile them all into one group while processing each induvidually
         this.collapse1 = map.createFromObjects("collapsible", {
