@@ -12,6 +12,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         playerHealth = 99;
         this.invincible = false;
         this.anims.play('player_idle', true);
+        this.jumps = 2;
 
     }
     create() {
@@ -69,10 +70,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         // jumping
-        if (Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(cursors.space) || Phaser.Input.Keyboard.JustDown(keyW) && this.body.onFloor) {
+        if ((Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(cursors.space) || Phaser.Input.Keyboard.JustDown(keyW)) && this.jumps > 0) {
             this.setVelocityY(-JUMPHEIGHT);
             this.anims.play('player_jump_up', true);
+            this.jumps -= 1;
 
+        }
+
+        if (this.body.onFloor() == true){
+            this.jumps = 2;
         }
 
         // check for death scene
