@@ -411,12 +411,6 @@
   <object id="24" name="jumper" x="592" y="592">
    <ellipse/>
   </object>
-  <object id="25" name="jumper" x="688" y="559">
-   <ellipse/>
-  </object>
-  <object id="26" name="jumper" x="848" y="560">
-   <ellipse/>
-  </object>
   <object id="27" name="jumper" x="752" y="303">
    <ellipse/>
   </object>
