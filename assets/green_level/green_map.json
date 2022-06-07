@@ -946,30 +946,6 @@
                 {
                  "ellipse":true,
                  "height":0,
-                 "id":25,
-                 "name":"jumper",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":688,
-                 "y":559
-                }, 
-                {
-                 "ellipse":true,
-                 "height":0,
-                 "id":26,
-                 "name":"jumper",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":848,
-                 "y":560
-                }, 
-                {
-                 "ellipse":true,
-                 "height":0,
                  "id":27,
                  "name":"jumper",
                  "rotation":0,
