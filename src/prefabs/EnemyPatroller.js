@@ -13,21 +13,32 @@ class EnemyPatroller extends Phaser.GameObjects.Sprite {
 
         // custom properties
         this.movingRight = true;
-        this.MOVESPEED = 100;
+        this.MOVESPEED = 50;
+        this.patrolDelay = 2000;
+        //this.patrolStartTime = Phaser.Math.Between(500, 2500);    // randomize to offset jumps
+
+        this.initPatrolTimer(scene);
     }
 
-    update() {
-        if (this.movingRight) {
-            this.body.setVelocityX(this.MOVESPEED);
-        } else {
-            this.body.setVelocityX(-this.MOVESPEED);
-        }
+    initPatrolTimer(scene) {
+        // attach timer event to scene context
+        scene.patrolTimer = scene.time.addEvent({
+            delay: this.patrolDelay,
+            loop: true,
+            startAt: 0,
+            callbackScope: this,    // keep callback scoped to Jumper object
+            callback: () => {
+                if (this.movingRight) {
+                    this.body.setVelocityX(-this.MOVESPEED);
+                    this.movingRight = false;
+                } else {
 
-        if (this.body.velocity.x == 0) {
-            if (this.movingRight) {
-                this.movingRight = false;
-            } else this.movingRight = true;
-        }
-
+                    this.body.setVelocityX(this.MOVESPEED);
+                    this.movingRight = true;
+                
+                }
+                this.anims.play('patroller_anim', true);
+            }
+        });
     }
 }

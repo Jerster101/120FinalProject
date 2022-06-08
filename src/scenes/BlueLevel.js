@@ -182,6 +182,31 @@ class BlueLevel extends Phaser.Scene {
 
         this.player.update();
 
+        //enemy collision
+        this.enemy01Group.getChildren().forEach(function(enemy) {
+            if (this.checkCollision(this.player, enemy)) {
+                if (!this.player.invincible) {
+                    playerHealth -=33;
+                    this.player.setVelocityX(500);
+                    this.player.invincible = true;
+                    this.player.setAlpha(0.5);
+                    this.timedEvent = this.time.addEvent({ delay: 1500, callback: this.setVulnerable, callbackScope: this, loop: false});
+                }
+            }
+        }, this);
+
+        this.enemy02Group.getChildren().forEach(function(enemy) {
+            if (this.checkCollision(this.player, enemy)) {
+                if (!this.player.invincible) {
+                    playerHealth -=33;
+                    this.player.setVelocityX(500);
+                    this.player.invincible = true;
+                    this.player.setAlpha(0.5);
+                    this.timedEvent = this.time.addEvent({ delay: 1500, callback: this.setVulnerable, callbackScope: this, loop: false});
+                }
+            }
+        }, this);
+
          // pause scene 
          if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.scene.launch("pauseScene");
@@ -235,7 +260,7 @@ class BlueLevel extends Phaser.Scene {
     }
 
     setVulnerable() {
-        this.invincible = false;
+        this.player.invincible = false;
         this.player.setAlpha(1);
     }
 }

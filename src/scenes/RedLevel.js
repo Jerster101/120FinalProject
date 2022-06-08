@@ -269,8 +269,33 @@ class RedLevel extends Phaser.Scene {
 
         this.player.update();
 
-         // pause scene 
-         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
+        //enemy collision
+        this.enemy01Group.getChildren().forEach(function(enemy) {
+            if (this.checkCollision(this.player, enemy)) {
+                if (!this.player.invincible) {
+                    playerHealth -=33;
+                    this.player.setVelocityX(500);
+                    this.player.invincible = true;
+                    this.player.setAlpha(0.5);
+                    this.timedEvent = this.time.addEvent({ delay: 1500, callback: this.setVulnerable, callbackScope: this, loop: false});
+                }
+            }
+        }, this);
+
+        this.enemy02Group.getChildren().forEach(function(enemy) {
+            if (this.checkCollision(this.player, enemy)) {
+                if (!this.player.invincible) {
+                    playerHealth -=33;
+                    this.player.setVelocityX(500);
+                    this.player.invincible = true;
+                    this.player.setAlpha(0.5);
+                    this.timedEvent = this.time.addEvent({ delay: 1500, callback: this.setVulnerable, callbackScope: this, loop: false});
+                }
+            }
+        }, this);
+
+        // pause scene 
+        if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.scene.launch("pauseScene");
             this.scene.pause();
         }
@@ -303,17 +328,6 @@ class RedLevel extends Phaser.Scene {
         this.physics.world.wrap(this.bkg3, this.bkg3.width);
         this.physics.world.wrap(this.bkg4, this.bkg4.width);
 
-        // check enemy collision
-        if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
-            if (!this.invincible) {
-                playerHealth -=33;
-                this.player.setVelocityX(500);
-                this.invincible = true;
-                this.player.setAlpha(0.5);
-                this.timedEvent = this.time.addEvent({ delay: 1500, callback: this.setVulnerable, callbackScope: this, loop: false});
-            }
-        }
-
         // check for death scene
         if(playerHealth <= 0) {
             this.scene.launch("deathScene");
@@ -334,7 +348,7 @@ class RedLevel extends Phaser.Scene {
     }
 
     setVulnerable() {
-        this.invincible = false;
+        this.player.invincible = false;
         this.player.setAlpha(1);
     }
 

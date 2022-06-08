@@ -31,10 +31,12 @@ class Death extends Phaser.Scene {
 
     update() {
         if (keyQ.isDown) {
-            this.scene.stop('coreScene');
+            this.scene.stop(currentScene);
             this.scene.start('menuScene');
         }
         if (keyR.isDown) {
+            CurrentRoom = 0;
+            this.scene.stop(currentScene);
             this.scene.start('coreScene');
         }
         
