@@ -21,6 +21,7 @@ class RedLevel extends Phaser.Scene {
         this.shard_sfx = this.sound.add('shard_sfx');
         this.collapse_sfx = this.sound.add('collapse_sfx', {volume:0.1, loop: false});
         this.damage_sfx = this.sound.add('damage_sfx');
+        this.crystal_sfx = this.sound.add('crystal_sfx');
         
         // add scrolling clouds & parallax environment
         this.bkg1 = this.add.image(1216, 944,'red_bkg1').setScrollFactor(1);
@@ -44,10 +45,6 @@ class RedLevel extends Phaser.Scene {
         // create tilemap layers
         const sceneryLayer = map.createLayer('decorations', tileset, 0, 0);
         const platformLayer = map.createLayer('platforms', tileset, 0, 0);
-        // add animated crystal 
-        const redCrystal = map.findObject("crystal", obj => obj.name === "crystal");
-        this.redCrystal = this.add.sprite(redCrystal.x, redCrystal.y, 'red_crystal').setOrigin(0.5, 0);
-        this.redCrystal.anims.play("red_float", true);
 
         //since we have 3 different designs for the collapsible platforms, we compile them all into one group while processing each induvidually
         this.collapse1 = map.createFromObjects("collapsible", {
@@ -179,6 +176,27 @@ class RedLevel extends Phaser.Scene {
             obj2.destroy();
         });
         this.physics.add.collider(this.shard, platformLayer);
+
+        // add red chroma crystal  
+        const redCrystal = map.findObject("crystal", obj => obj.name === "crystal");
+        this.redCrystal = this.add.sprite(redCrystal.x, redCrystal.y, 'red_crystal').setOrigin(0.5, 0);
+        this.redCrystal.anims.play("red_float", true);
+        this.physics.world.enable(this.redCrystal, Phaser.Physics.Arcade.STATIC_BODY);
+        this.redCrystalVfxManager = this.add.particles('red_crystal', 0);
+        this.redCrystalVfxEffect = this.redCrystalVfxManager.createEmitter({
+            follow: this.player,
+            quantity: 20,
+            scale: {start: 0.5, end: 0.0},
+            speed: {min: 100, max: 200},
+            lifespan: 800,
+            on: false
+        });
+        this.physics.add.overlap(this.player, this.redCrystal, (obj1, obj2) => {
+            this.sound.play('crystal_sfx', sfxConfig);
+            this.redCrystalVfxEffect.explode();
+            obj2.destroy();
+        });
+        this.physics.add.collider(this.redCrystal, platformLayer);
         
         
         // camera

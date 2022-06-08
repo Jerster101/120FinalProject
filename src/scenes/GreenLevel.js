@@ -23,6 +23,7 @@ class GreenLevel extends Phaser.Scene {
         }
         this.shard_sfx = this.sound.add('shard_sfx');
         this.damage_sfx = this.sound.add('damage_sfx');
+        this.crystal_sfx = this.sound.add('crystal_sfx');
         
         // variables and settings
         this.physics.world.gravity.y = GRAV;
@@ -45,10 +46,6 @@ class GreenLevel extends Phaser.Scene {
         const greeneryLayer = map.createLayer('greenery', tileset, 0, 0);
         const spikesLayer = map.createLayer('spikes', tileset, 0, 0);
         const hiddenLayer = map.createLayer('hidden', tileset, 0, 0);
-        // add animated crystal 
-        const greenCrystal = map.findObject("crystal", obj => obj.name === "crystal");
-        this.greenCrystal = this.add.sprite(greenCrystal.x, greenCrystal.y, 'green_crystal').setOrigin(0.5, 0);
-        this.greenCrystal.anims.play("green_float", true);
         this.vinePlatforms = map.createFromObjects("Passable Platforms", {
             name: "vines",
             key: "tiles2",
@@ -214,6 +211,27 @@ class GreenLevel extends Phaser.Scene {
             obj2.destroy();
         });
         this.physics.add.collider(this.shard, platformLayer);
+
+        // add green chroma crystal 
+        const greenCrystal = map.findObject("crystal", obj => obj.name === "crystal");
+        this.greenCrystal = this.add.sprite(greenCrystal.x, greenCrystal.y, 'green_crystal').setOrigin(0.5, 0);
+        this.greenCrystal.anims.play("green_float", true);
+        this.physics.world.enable(this.greenCrystal, Phaser.Physics.Arcade.STATIC_BODY);
+        this.greenCrystalVfxManager = this.add.particles('green_crystal', 0);
+        this.greenCrystalVfxEffect = this.greenCrystalVfxManager.createEmitter({
+            follow: this.player,
+            quantity: 20,
+            scale: {start: 0.5, end: 0.0},
+            speed: {min: 100, max: 200},
+            lifespan: 800,
+            on: false
+        });
+        this.physics.add.overlap(this.player, this.greenCrystal, (obj1, obj2) => {
+            this.sound.play('crystal_sfx', sfxConfig);
+            this.greenCrystalVfxEffect.explode();
+            obj2.destroy();
+        });
+        this.physics.add.collider(this.greenCrystal, platformLayer);
 
         // camera
         this.cameras.main.setBounds(0,0,1216, 2016);

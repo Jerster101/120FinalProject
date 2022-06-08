@@ -23,6 +23,7 @@ class BlueLevel extends Phaser.Scene {
         this.shard_sfx = this.sound.add('shard_sfx');
         this.bounce_sfx = this.sound.add('bounce_sfx');
         this.damage_sfx = this.sound.add('damage_sfx');
+        this.crystal_sfx = this.sound.add('crystal_sfx');
 
         // add parallax background
         this.blue_bkg1 = this.add.image(1216, 640,'blue_bkg1');
@@ -49,11 +50,6 @@ class BlueLevel extends Phaser.Scene {
         });
         this.physics.world.enable(this.mushrooms, Phaser.Physics.Arcade.STATIC_BODY);
         this.bouncePlatforms = this.add.group(this.mushrooms);
-
-        // add animated crystal 
-        const blueCrystal = map.findObject("crystal", obj => obj.name === "crystal");
-        this.blueCrystal = this.add.sprite(blueCrystal.x, blueCrystal.y, 'blue_crystal').setOrigin(0.5, 0);
-        this.blueCrystal.anims.play("blue_float", true);
         
         // set map collisions
         platformLayer.setCollisionByProperty({
@@ -175,6 +171,27 @@ class BlueLevel extends Phaser.Scene {
             obj2.destroy();
         });
         this.physics.add.collider(this.shard, platformLayer);
+
+        // add blue chroma crystal 
+        const blueCrystal = map.findObject("crystal", obj => obj.name === "crystal");
+        this.blueCrystal = this.add.sprite(blueCrystal.x, blueCrystal.y, 'blue_crystal').setOrigin(0.5, 0);
+        this.blueCrystal.anims.play("blue_float", true);
+        this.physics.world.enable(this.blueCrystal, Phaser.Physics.Arcade.STATIC_BODY);
+        this.blueCrystalVfxManager = this.add.particles('blue_crystal', 0);
+        this.blueCrystalVfxEffect = this.blueCrystalVfxManager.createEmitter({
+            follow: this.player,
+            quantity: 20,
+            scale: {start: 0.5, end: 0.0},
+            speed: {min: 100, max: 200},
+            lifespan: 800,
+            on: false
+        });
+        this.physics.add.overlap(this.player, this.blueCrystal, (obj1, obj2) => {
+            this.sound.play('crystal_sfx', sfxConfig);
+            this.blueCrystalVfxEffect.explode();
+            obj2.destroy();
+        });
+        this.physics.add.collider(this.blueCrystal, platformLayer);
 
         // camera
         this.cameras.main.setBounds(0,0,2432, 1280);
