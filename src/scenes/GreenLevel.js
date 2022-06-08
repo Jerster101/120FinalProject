@@ -55,8 +55,30 @@ class GreenLevel extends Phaser.Scene {
         });
         //THIS CODE IS REALLY IMPORTANT BECAUSE IT ENSURES THAT THE OBJECTS WILL BE TREATED LIKE PLATFORMS, DO NOT FORGET IT
         this.physics.world.enable(this.vinePlatforms, Phaser.Physics.Arcade.STATIC_BODY);
-        this.passPlatforms = this.add.group(this.vinePlatforms);
+        this.passPlatforms1 = this.add.group(this.vinePlatforms);
         this.vinePlatforms.depth = 3;
+        //some more passable platforms
+        this.leaves1 = map.createFromObjects("Passable Platforms", {
+            name: "leaves1",
+            key: "tiles2",
+            frame: 35
+        });
+        this.leaves2 = map.createFromObjects("Passable Platforms", {
+            name: "leaves2",
+            key: "tiles2",
+            frame: 36
+        });
+        this.leaves3 = map.createFromObjects("Passable Platforms", {
+            name: "leaves3",
+            key: "tiles2",
+            frame: 37
+        });
+        this.physics.world.enable(this.leaves1, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.leaves2, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.leaves3, Phaser.Physics.Arcade.STATIC_BODY);
+        this.passPlatforms2 = this.add.group(this.leaves1);
+        this.passPlatforms3 = this.add.group(this.leaves2);
+        this.passPlatforms4 = this.add.group(this.leaves3);
         // set map collisions
         platformLayer.setCollisionByProperty({
             collides: true,
@@ -97,8 +119,11 @@ class GreenLevel extends Phaser.Scene {
         
         // add physics collider
         this.physics.add.collider(this.player, platformLayer);
-        //collider for the passable platforms and the main player
-        this.physics.add.collider(this.player, this.passPlatforms, null, checkOneWay, this);
+        //colliders for the passable platforms and the main player
+        this.physics.add.collider(this.player, this.passPlatforms1, null, checkOneWay, this);
+        this.physics.add.collider(this.player, this.passPlatforms2, null, checkOneWay, this);
+        this.physics.add.collider(this.player, this.passPlatforms3, null, checkOneWay, this);
+        this.physics.add.collider(this.player, this.passPlatforms4, null, checkOneWay, this);
 
         // set up key input
         cursors = this.input.keyboard.createCursorKeys();
