@@ -298,8 +298,15 @@ class RedLevel extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.scene.launch("pauseScene");
             this.scene.pause();
-            this.redMusic.stop();
         }
+        //I FOUND A WAY TO HAVE THE MUSIC RESUME WITH THE LEVEL, YAY!!!
+        this.events.on('pause', function() {
+            this.redMusic.pause();
+        }, this);
+
+        this.events.on('resume', function() {
+            this.redMusic.resume();
+        }, this);
 
         if(this.checkCollision(this.player, this.core_boundR)) {
             spawnpoint = "red_spawn";
