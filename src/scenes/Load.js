@@ -61,7 +61,13 @@ class Load extends Phaser.Scene {
         this.load.audio('coreMusic', 'music_sfx/coreLevel.mp3');
 
         // sfx
-        this.load.audio('temp_menu_sfx', 'temp_menu_sfx.wav');
+        this.load.audio('collapse_sfx', 'music_sfx/collapse_sfx.mp3');
+        this.load.audio('crystal_sfx', 'music_sfx/crystal_sfx.wav');
+        this.load.audio('jump_sfx', 'music_sfx/jump_sfx.wav');
+        this.load.audio('menuClick_sfx', 'music_sfx/menuClick_sfx.wav');
+        this.load.audio('menuHover_sfx', 'music_sfx/menuHover_sfx.wav');
+        this.load.audio('shard_sfx', 'music_sfx/shard_sfx.wav');
+        this.load.audio('bounce_sfx', 'music_sfx/bounce_sfx.wav');
 
         // credits
         this.load.image("credits_bkg", "menu/credits_bkg.jpg");
@@ -105,6 +111,7 @@ class Load extends Phaser.Scene {
         this.createAnimations();
         console.log('loading done');
         this.scene.start("menuScene");
+        
     }
 
     createAnimations() {

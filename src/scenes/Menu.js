@@ -7,6 +7,10 @@ class Menu extends Phaser.Scene {
         // set currentScene var for pause use
         currentScene = 'menuScene';
 
+        // add sound
+        this.hover = this.sound.add("menuHover_sfx");
+        this.click = this.sound.add("menuClick_sfx");
+
         // config title anims
         var titleConfig = {
             key: "float",
@@ -38,17 +42,17 @@ class Menu extends Phaser.Scene {
 
         // create interactive menu text
         this.startText = this.add.text(game.config.width/2, game.config.height/1.4, 'START', menuConfig).setOrigin(0.5).setInteractive()
-            .on('pointerover', () => this.startText.setStyle({fontSize: '45px', fill: '#d1405a'}))
+            .on('pointerover', () => (this.startText.setStyle({fontSize: '45px', fill: '#d1405a'}), this.hover.play({volume:0.1})))
             .on('pointerout', () => this.startText.setStyle({fontSize: '40px', fill: '#2b397c'}))
             .on('pointerdown', () => this.startText.setStyle({fontSize: '40px', fill: '#d1405a'}))
-            .on('pointerup', () => this.scene.start("coreScene"))
+            .on('pointerup', () => (this.scene.start("coreScene"),this.click.play({volume:0.3})))
         menuConfig.fontSize = '30px';
         menuConfig.strokeThickness = 4;
-        this.creditText = this.add.text(game.config.width/2, game.config.height/1.15, 'CREDITS', menuConfig).setOrigin(0.5).setInteractive();
-        this.creditText.on('pointerover', () => this.creditText.setStyle({fontSize: '35px', fill: '#d1405a'}))
-        this.creditText.on('pointerout', () => this.creditText.setStyle({fontSize: '30px', fill: '#2b397c'}))
-        .on('pointerdown', () => this.creditText.setStyle({fontSize: '30px', fill: '#d1405a'}))
-        this.creditText.on('pointerup', () => this.scene.start("creditsScene"))
+        this.creditText = this.add.text(game.config.width/2, game.config.height/1.15, 'CREDITS', menuConfig).setOrigin(0.5).setInteractive()
+            .on('pointerover', () => (this.creditText.setStyle({fontSize: '35px', fill: '#d1405a'}), this.hover.play({volume:0.1})))
+            .on('pointerout', () => this.creditText.setStyle({fontSize: '30px', fill: '#2b397c'}))
+            .on('pointerdown', () => this.creditText.setStyle({fontSize: '30px', fill: '#d1405a'}))
+            .on('pointerup', () => (this.scene.start("creditsScene"),this.click.play({volume:0.1})))
     }
 }
 

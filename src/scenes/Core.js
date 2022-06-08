@@ -8,7 +8,7 @@ class Core extends Phaser.Scene {
         
         //music configuration and playing for level
         let musicConfig = {
-            volume: 0.7,
+            volume: 0.2,
             loop: true,
         }
         this.coreMusic = this.sound.add('coreMusic');

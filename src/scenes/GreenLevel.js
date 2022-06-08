@@ -10,11 +10,18 @@ class GreenLevel extends Phaser.Scene {
 
         //music configuration and playing for level
         let musicConfig = {
-            volume: 0.8,
+            volume: 0.2,
             loop: true,
         }
         this.greenMusic = this.sound.add('greenMusic');
         this.greenMusic.play(musicConfig);
+
+        // sfx config
+        let sfxConfig = {
+            volume: 0.3,
+            loop: false
+        }
+        this.shard_sfx = this.sound.add('shard_sfx');
         
         // variables and settings
         this.physics.world.gravity.y = GRAV;
@@ -170,7 +177,7 @@ class GreenLevel extends Phaser.Scene {
             on: false
         });
         this.physics.add.overlap(this.player, this.shardGroup, (obj1, obj2) => {
-            //this.sound.play('temporaryCoin');
+            this.sound.play('shard_sfx', sfxConfig);
             this.shardVfxEffect.explode();
             playerHealth += 33;
             obj2.destroy();

@@ -12,6 +12,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         playerHealth = 99;
         this.invincible = false;
         this.anims.play('player_idle', true);
+        this.jump = scene.sound.add('jump_sfx', {volume: 0.1});
 
     }
     create() {
@@ -71,8 +72,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // jumping
         if (Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(cursors.space) || Phaser.Input.Keyboard.JustDown(keyW) && this.body.onFloor) {
             this.setVelocityY(-JUMPHEIGHT);
+            this.jump.play();
             this.anims.play('player_jump_up', true);
-
         }
 
         // check for death scene
