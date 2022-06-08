@@ -8,7 +8,7 @@
 ******************************************************************/
 let cursors;
 let currentScene;
-let GameState = 0;
+let GameState = 5;
 let CurrentRoom = 0;
 let playerHealth = 99;
 let maxHealth = 99;
@@ -40,7 +40,7 @@ let config = {
             tileBias: 32,
         }
     },
-    scene: [Load, Menu, Credits, Death, Pause, Core, RedLevel, GreenLevel, BlueLevel]
+    scene: [Load, Menu, Credits, Death, Pause, Core, RedLevel, GreenLevel, BlueLevel, End]
 }
 
 let game = new Phaser.Game(config);

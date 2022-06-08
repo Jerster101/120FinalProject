@@ -108,26 +108,6 @@ class Core extends Phaser.Scene {
 
         // set up core boundary
         this.crystalCore = map.findObject("core", obj => obj.name === "core");
-        /*this.crystalCore = this.add.sprite(crystalCore.x, crystalCore.y, 'blue_crystal').setOrigin(0);
-        this.physics.world.enable(this.crystalCore, Phaser.Physics.Arcade.STATIC_BODY);
-        this.physics.add.overlap(this.player, this.crystalCore, (obj1, obj2) => {
-            if (GameState == 1) {
-                GameState = 2;
-                console.log(GameState);
-                this.player.recolor(this);
-                this.no_crystal = this.add.image(608, 352, 'R_crystal').setScrollFactor(1);
-            } else if (GameState == 3) {
-                GameState = 4;
-                this.player.recolor(this);
-                this.no_crystal = this.add.image(608, 352, 'RG_crystal').setScrollFactor(1);
-            } else if (GameState == 5) {
-                GameState = 6;
-                this.player.recolor(this);
-                this.no_crystal = this.add.image(608, 352, 'RGB_crystal').setScrollFactor(1);
-            }; 
-        });
-        this.physics.add.collider(this.crystalCore, platformLayer);*/
-
 
         // camera
         this.cameras.main.setBounds(0,0,1216, 704);
@@ -244,6 +224,10 @@ class Core extends Phaser.Scene {
                 this.no_crystal.destroy();
                 this.no_crystal = this.add.image(608, 352, 'RGB_crystal').setScrollFactor(1).setDepth(-1).setDepth(-1);
                 this.sound.play('crystal_sfx', {volume: 0.3});
+                this.scene.pause();
+                this.coreMusic.stop();
+                this.scene.launch("endScene");
+                //this.time.delayedCall(000, this.scene.launch("endScene"), [], this);
             }; 
         }
     }
