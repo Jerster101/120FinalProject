@@ -119,7 +119,7 @@ class BlueLevel extends Phaser.Scene {
             frame: 0
             });
         this.physics.world.enable(this.enemy01, Phaser.Physics.Arcade.STATIC_BODY);
-        this.enemy01.depth = 3;
+        this.enemy01.depth = 5;
         this.physics.add.collider(this.enemy01, platformLayer);
         this.enemy01Group = this.add.group(this.enemy01);
         this.enemy01Group.setOrigin(0.5);
@@ -132,7 +132,7 @@ class BlueLevel extends Phaser.Scene {
             frame: 0
         });
         this.physics.world.enable(this.enemy02, Phaser.Physics.Arcade.STATIC_BODY);
-        this.enemy02.depth = 3;
+        this.enemy02.depth = 5;
         this.physics.add.collider(this.enemy02, platformLayer);
         this.enemy02Group = this.add.group(this.enemy02);
         this.enemy02Group.setOrigin(0.5);
@@ -177,6 +177,7 @@ class BlueLevel extends Phaser.Scene {
         const blueCrystal = map.findObject("crystal", obj => obj.name === "crystal");
         this.blueCrystal = this.add.sprite(blueCrystal.x, blueCrystal.y, 'blue_crystal').setOrigin(0.5, 0);
         this.blueCrystal.anims.play("blue_float", true);
+        this.blueCrystal.setDepth(5);
         this.physics.world.enable(this.blueCrystal, Phaser.Physics.Arcade.STATIC_BODY);
         this.blueCrystalVfxManager = this.add.particles('blue_crystal', 0);
         this.blueCrystalVfxEffect = this.blueCrystalVfxManager.createEmitter({

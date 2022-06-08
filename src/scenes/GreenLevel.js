@@ -155,7 +155,7 @@ class GreenLevel extends Phaser.Scene {
             frame: 0
         });
         this.physics.world.enable(this.enemy01, Phaser.Physics.Arcade.STATIC_BODY);
-        this.enemy01.depth = 2;
+        this.enemy01.depth = 5;
         this.physics.add.collider(this.enemy01, platformLayer);
         this.enemy01Group = this.add.group(this.enemy01);
         this.enemy01Group.setOrigin(0.5);
@@ -168,7 +168,7 @@ class GreenLevel extends Phaser.Scene {
             frame: 0
         });
         this.physics.world.enable(this.enemy02, Phaser.Physics.Arcade.STATIC_BODY);
-        this.enemy02.depth = 2;
+        this.enemy02.depth = 5;
         this.physics.add.collider(this.enemy02, platformLayer);
         this.physics.add.collider(this.enemy02, this.passPlatforms1);
         this.physics.add.collider(this.enemy02, this.passPlatforms2);
@@ -217,6 +217,7 @@ class GreenLevel extends Phaser.Scene {
         const greenCrystal = map.findObject("crystal", obj => obj.name === "crystal");
         this.greenCrystal = this.add.sprite(greenCrystal.x, greenCrystal.y, 'green_crystal').setOrigin(0.5, 0);
         this.greenCrystal.anims.play("green_float", true);
+        this.greenCrystal.setDepth(5);
         this.physics.world.enable(this.greenCrystal, Phaser.Physics.Arcade.STATIC_BODY);
         this.greenCrystalVfxManager = this.add.particles('green_crystal', 0);
         this.greenCrystalVfxEffect = this.greenCrystalVfxManager.createEmitter({

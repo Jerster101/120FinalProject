@@ -124,7 +124,7 @@ class RedLevel extends Phaser.Scene {
             frame: 0
         });
         this.physics.world.enable(this.enemy01, Phaser.Physics.Arcade.STATIC_BODY);
-        this.enemy01.depth = 2;
+        this.enemy01.depth = 5;
         this.physics.add.collider(this.enemy01, platformLayer);
         this.enemy01Group = this.add.group(this.enemy01);
         this.enemy01Group.setOrigin(0.5);
@@ -137,7 +137,7 @@ class RedLevel extends Phaser.Scene {
             frame: 0
         });
         this.physics.world.enable(this.enemy02, Phaser.Physics.Arcade.STATIC_BODY);
-        this.enemy02.depth = 2;
+        this.enemy02.depth = 5;
         this.physics.add.collider(this.enemy02, platformLayer);
         this.enemy02Group = this.add.group(this.enemy02);
         this.enemy02Group.setOrigin(0.5);
@@ -182,6 +182,7 @@ class RedLevel extends Phaser.Scene {
         const redCrystal = map.findObject("crystal", obj => obj.name === "crystal");
         this.redCrystal = this.add.sprite(redCrystal.x, redCrystal.y, 'red_crystal').setOrigin(0.5, 0);
         this.redCrystal.anims.play("red_float", true);
+        this.redCrystal.setDepth(5);
         this.physics.world.enable(this.redCrystal, Phaser.Physics.Arcade.STATIC_BODY);
         this.redCrystalVfxManager = this.add.particles('red_crystal', 0);
         this.redCrystalVfxEffect = this.redCrystalVfxManager.createEmitter({
