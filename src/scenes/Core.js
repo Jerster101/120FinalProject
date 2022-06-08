@@ -121,11 +121,13 @@ class Core extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.scene.launch("pauseScene");
             this.scene.pause();
-            this.coreMusic.pause();
-            if(Phaser.Input.Keyboard.JustDown(keyESC)) {
-                this.coreMusic.resume(musicConfig);
-            }
         }
+        this.events.on('pause', function() {
+            this.coreMusic.pause();
+        }, this);
+        this.events.on('resume', function() {
+            this.coreMusic.resume();
+        }, this);
 
         if(this.checkCollision(this.player, this.green_bound)) {
             this.coreMusic.stop();
