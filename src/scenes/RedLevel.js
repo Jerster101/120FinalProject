@@ -7,11 +7,19 @@ class RedLevel extends Phaser.Scene {
         currentScene = 'redScene';
         //music configuration and playing for level
         let musicConfig = {
-            volume: 0.6,
+            volume: 0.05,
             loop: true,
         }
         this.redMusic = this.sound.add('redMusic');
         this.redMusic.play(musicConfig);
+
+        // sfx config
+        let sfxConfig = {
+            volume: 0.3,
+            loop: false
+        }
+        this.shard_sfx = this.sound.add('shard_sfx');
+        this.collapse_sfx = this.sound.add('collapse_sfx', {volume:0.1, loop: false});
         
         // add scrolling clouds & parallax environment
         this.bkg1 = this.add.image(1216, 944,'red_bkg1').setScrollFactor(1);
@@ -165,7 +173,7 @@ class RedLevel extends Phaser.Scene {
             on: false
         });
         this.physics.add.overlap(this.player, this.shardGroup, (obj1, obj2) => {
-            //this.sound.play('temporaryCoin');
+            this.sound.play('shard_sfx', sfxConfig);
             this.shardVfxEffect.explode();
             playerHealth += 33;
             obj2.destroy();
@@ -331,6 +339,7 @@ class RedLevel extends Phaser.Scene {
     }
 
     shakePlatform(player, platform) {
+        this.sound.play('collapse_sfx', {volume: 0.05});
         /*stupidly long series of functions that allow the platforms to collapse,
         as well as, hopefully soon, having them respawn a few moments later*/
         if(player.body.blocked.down) {      //if the player is standing on the platform
