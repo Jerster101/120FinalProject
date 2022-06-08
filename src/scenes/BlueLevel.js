@@ -211,8 +211,15 @@ class BlueLevel extends Phaser.Scene {
          if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.scene.launch("pauseScene");
             this.scene.pause();
-            this.blueMusic.stop();
         }
+
+        this.events.on('pause', function() {
+            this.blueMusic.pause();
+        }, this);
+
+        this.events.on('resume', function() {
+            this.blueMusic.resume();
+        }, this);
 
         // check enemy collision
         if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
