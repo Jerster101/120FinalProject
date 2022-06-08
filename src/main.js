@@ -8,7 +8,7 @@
 ******************************************************************/
 let cursors;
 let currentScene;
-let GameState = 5;
+let GameState = 0;
 let CurrentRoom = 0;
 let playerHealth = 99;
 let maxHealth = 99;
