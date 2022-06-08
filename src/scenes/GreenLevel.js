@@ -247,8 +247,15 @@ class GreenLevel extends Phaser.Scene {
          if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.scene.launch("pauseScene");
             this.scene.pause();
-            this.greenMusic.stop();
         }
+
+        this.events.on('pause', function() {
+            this.greenMusic.pause();
+        }, this);
+
+        this.events.on('resume', function() {
+            this.greenMusic.resume();
+        }, this);
 
         if(this.checkCollision(this.player, this.core_boundG)) {
             spawnpoint = "green_spawn";
