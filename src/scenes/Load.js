@@ -114,7 +114,6 @@ class Load extends Phaser.Scene {
         this.createAnimations();
         console.log('loading done');
         this.scene.start("menuScene");
-        
     }
 
     createAnimations() {

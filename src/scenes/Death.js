@@ -7,6 +7,15 @@ class Death extends Phaser.Scene {
         // ensure this scene displays above others
         this.scene.bringToTop();
 
+        // add color overlay background over game scene
+        var death_bkg = this.add.sprite(game.config.width/2,game.config.height/2, "credits_bkg");
+        death_bkg.alpha = 0.6;
+
+        // add sound
+        var hover = this.sound.add("menuHover_sfx");
+        var click = this.sound.add("menuClick_sfx");
+
+        // config menu text
         let menuConfig = {
             fontFamily: 'Square',
             fontSize: '30px',
@@ -18,15 +27,15 @@ class Death extends Phaser.Scene {
         
         // add text
         this.restartText = this.add.text(game.config.width/2, game.config.height/2.2, 'RESTART', menuConfig).setOrigin(0.5).setInteractive()
-        .on('pointerover', () => this.restartText.setStyle({fontSize: '35px', fill: '#d1405a'}))
+        .on('pointerover', () => (this.restartText.setStyle({fontSize: '35px', fill: '#d1405a'}), hover.play({volume:0.1})))
         .on('pointerout', () => this.restartText.setStyle({fontSize: '30px', fill: '#2b397c'}))
         .on('pointerdown', () => this.restartText.setStyle({fontSize: '30px', fill: '#d1405a'}))
-        .on('pointerup', () => {CurrentRoom = 0, this.scene.stop(currentScene), this.scene.start('coreScene'), playerHealth = maxHealth, currentScene = 'coreScene', spawnpoint = "start", CurrentRoom = 0;});
+        .on('pointerup', () => {CurrentRoom = 0, this.scene.stop(currentScene), this.scene.start('coreScene'), playerHealth = maxHealth, currentScene = 'coreScene', spawnpoint = "start", click.play({volume:0.1}), CurrentRoom = 0;});
         this.menuText = this.add.text(game.config.width/2, game.config.height/1.7, 'MAIN MENU', menuConfig).setOrigin(0.5).setInteractive()
-        .on('pointerover', () => this.menuText.setStyle({fontSize: '35px', fill: '#d1405a'}))
+        .on('pointerover', () => (this.menuText.setStyle({fontSize: '35px', fill: '#d1405a'}), hover.play({volume:0.1})))
         .on('pointerout', () => this.menuText.setStyle({fontSize: '30px', fill: '#2b397c'}))
         .on('pointerdown', () => this.menuText.setStyle({fontSize: '30px', fill: '#d1405a'}))
-        .on('pointerup', () => {this.scene.stop(currentScene), this.scene.start('menuScene'), playerHealth = maxHealth});
+        .on('pointerup', () => {this.scene.stop(currentScene), this.scene.start('menuScene'), playerHealth = maxHealth, click.play({volume:0.1})});
         menuConfig.fontSize = '15px';
         menuConfig.color = '#8a0303';
         this.add.text(game.config.width/2, game.config.height/3, 'You Have Died', menuConfig).setOrigin(0.5);
