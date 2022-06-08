@@ -108,9 +108,9 @@ class Core extends Phaser.Scene {
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
         
         // create three hearts
-        this.hearts1 = this.add.sprite(game.config.width/2, game.config.height/2, 'heart').setDepth(3);
-        this.hearts2 = this.add.sprite(game.config.width/2 + 40, game.config.height/2, 'heart').setDepth(3);
-        this.hearts3 = this.add.sprite(game.config.width/2 + 80, game.config.height/2, 'heart').setDepth(3);
+        this.hearts1 = this.add.sprite(game.config.width/2, game.config.height/2, 'heart').setDepth(5);
+        this.hearts2 = this.add.sprite(game.config.width/2 + 40, game.config.height/2, 'heart').setDepth(5);
+        this.hearts3 = this.add.sprite(game.config.width/2 + 80, game.config.height/2, 'heart').setDepth(5);
         hearts = [this.hearts1, this.hearts2, this.hearts3];
         this.updateHearts();
     }

@@ -87,8 +87,19 @@ class Load extends Phaser.Scene {
         this.load.image("tut_pause", "tutorials/tut_pause.png");
 
         // color masks
-        this.load.image('circle', 'color_masks/red2.png');
-        this.load.image('circle2', 'color_masks/whiteborder.png');
+        this.load.image('white_fill', 'color_masks/white_fill.png');
+        this.load.image('black_fill', 'color_masks/black_fill.png');
+        this.load.image('yellow_fill', 'color_masks/yellow_fill.png');
+        this.load.image('red_fill', 'color_masks/red_fill.jpg');
+        this.load.image('cyan_fill', 'color_masks/cyan_fill.png');
+        this.load.image('blue_fill', 'color_masks/blue_fill.png');
+        this.load.image('red_circle', 'color_masks/red_circle.png');
+        this.load.image('red_circle_white', 'color_masks/red_circle_white.png');
+        this.load.image('red_only_circle', 'color_masks/red_only_circle.png');
+        this.load.image('white_border', 'color_masks/whiteborder.png');
+        this.load.image('yellow_border', 'color_masks/yellow_border.png');
+        this.load.image('red_border', 'color_masks/red2.png');
+        this.load.image('red_yellow', 'color_masks/red_yellow_circle.png');
         
         // pause
         this.load.image("credits_bkg", "menu/credits_bkg.jpg");

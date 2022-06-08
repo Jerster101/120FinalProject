@@ -188,6 +188,7 @@ class GreenLevel extends Phaser.Scene {
             shard.body.setCircle(12).setOffset(4,4);
         })
         this.shardGroup = this.add.group(this.shard);
+        this.shardGroup.setDepth(5);
         for (var i = 0; i < this.shard.length; i++) {
             this.shard[i].anims.play("shard_float");
         }
@@ -229,6 +230,8 @@ class GreenLevel extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.greenCrystal, (obj1, obj2) => {
             this.sound.play('crystal_sfx', sfxConfig);
             this.greenCrystalVfxEffect.explode();
+            GameState = 3;
+            this.player.recolor(this);
             obj2.destroy();
         });
         this.physics.add.collider(this.greenCrystal, platformLayer);
@@ -238,9 +241,9 @@ class GreenLevel extends Phaser.Scene {
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
 
          // create three hearts
-         this.hearts1 = this.add.sprite(game.config.width/2, game.config.height/2, 'heart').setDepth(3);
-         this.hearts2 = this.add.sprite(game.config.width/2 + 40, game.config.height/2, 'heart').setDepth(3);
-         this.hearts3 = this.add.sprite(game.config.width/2 + 80, game.config.height/2, 'heart').setDepth(3);
+         this.hearts1 = this.add.sprite(game.config.width/2, game.config.height/2, 'heart').setDepth(5);
+         this.hearts2 = this.add.sprite(game.config.width/2 + 40, game.config.height/2, 'heart').setDepth(5);
+         this.hearts3 = this.add.sprite(game.config.width/2 + 80, game.config.height/2, 'heart').setDepth(5);
          hearts = [this.hearts1, this.hearts2, this.hearts3];
          this.updateHearts();
     }
@@ -338,7 +341,7 @@ class GreenLevel extends Phaser.Scene {
         }
 
         if (GameState > 2) {
-            this.tutorial.visible = false;
+            this.tutorial4.visible = false;
         }
 
         if (this.hearts1) {

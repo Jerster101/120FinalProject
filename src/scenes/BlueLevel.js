@@ -74,7 +74,7 @@ class BlueLevel extends Phaser.Scene {
         this.green_boundG = map.findObject("boundary", obj => obj.name === "green boundary");
 
         // layer foreground over player & all backgrounds
-        this.blue_bkg6 = this.add.image(1216, 640,'blue_bkg6').setDepth(2).setScrollFactor(1.1,1);
+        this.blue_bkg6 = this.add.image(1216, 640,'blue_bkg6').setDepth(1).setScrollFactor(1.1,1);
 
         // bounce tutorial
         this.tutorial5 = this.add.sprite(core_spawnB.x+180, core_spawnB.y+300, "tut_bounce").setOrigin(0.5).setAlpha(0.6);
@@ -119,7 +119,7 @@ class BlueLevel extends Phaser.Scene {
             frame: 0
             });
         this.physics.world.enable(this.enemy01, Phaser.Physics.Arcade.STATIC_BODY);
-        this.enemy01.depth = 2;
+        this.enemy01.depth = 3;
         this.physics.add.collider(this.enemy01, platformLayer);
         this.enemy01Group = this.add.group(this.enemy01);
         this.enemy01Group.setOrigin(0.5);
@@ -132,7 +132,7 @@ class BlueLevel extends Phaser.Scene {
             frame: 0
         });
         this.physics.world.enable(this.enemy02, Phaser.Physics.Arcade.STATIC_BODY);
-        this.enemy02.depth = 2;
+        this.enemy02.depth = 3;
         this.physics.add.collider(this.enemy02, platformLayer);
         this.enemy02Group = this.add.group(this.enemy02);
         this.enemy02Group.setOrigin(0.5);
@@ -148,6 +148,7 @@ class BlueLevel extends Phaser.Scene {
             shard.body.setCircle(12).setOffset(4,4);
         })
         this.shardGroup = this.add.group(this.shard);
+        this.shardGroup.setDepth(5);
         for (var i = 0; i < this.shard.length; i++) {
             this.shard[i].anims.play("shard_float");
         }
@@ -189,6 +190,8 @@ class BlueLevel extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.blueCrystal, (obj1, obj2) => {
             this.sound.play('crystal_sfx', sfxConfig);
             this.blueCrystalVfxEffect.explode();
+            GameState = 5;
+            this.player.recolor(this);
             obj2.destroy();
         });
         this.physics.add.collider(this.blueCrystal, platformLayer);
@@ -198,9 +201,9 @@ class BlueLevel extends Phaser.Scene {
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
 
         // create three hearts
-        this.hearts1 = this.add.sprite(game.config.width/2, game.config.height/2, 'heart').setDepth(3);
-        this.hearts2 = this.add.sprite(game.config.width/2 + 40, game.config.height/2, 'heart').setDepth(3);
-        this.hearts3 = this.add.sprite(game.config.width/2 + 80, game.config.height/2, 'heart').setDepth(3);
+        this.hearts1 = this.add.sprite(game.config.width/2, game.config.height/2, 'heart').setDepth(5);
+        this.hearts2 = this.add.sprite(game.config.width/2 + 40, game.config.height/2, 'heart').setDepth(5);
+        this.hearts3 = this.add.sprite(game.config.width/2 + 80, game.config.height/2, 'heart').setDepth(5);
         hearts = [this.hearts1, this.hearts2, this.hearts3];
         this.updateHearts();
     }

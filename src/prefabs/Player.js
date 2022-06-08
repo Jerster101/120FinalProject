@@ -7,25 +7,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);       // add physics body
 
         // set properties
-        this.depth = 2;
+        this.depth = 5;
         this.body.setMaxVelocity(MAX_X_VEL, MAX_Y_VEL);
         this.invincible = false;
         this.anims.play('player_idle', true);
         this.jumps = 1;
         this.jump = scene.sound.add('jump_sfx', {volume: 0.1});
-        console.log(playerHealth);
-    }
-
-    create() {
-        // turns area around player red but reveals green near player
-        // used for following level crystal gained but not yet added to center
-        //this.r1 = scene.add.image(this.x, this.y, 'circle');
-        //this.r1.depth = 8;
-        // erases area around player, could use opposed to desaturate
-        //this.r1 = this.add.image(200, 1200, 'circle').setBlendMode(Phaser.BlendModes.ERASE);
-        // desaturates area around player, used for when crystal is obtained
-        //this.r2 = this.add.image(200, 1200, 'circle2').setBlendMode(Phaser.BlendModes.SATURATION);
-        //this.r2.depth = 1;
+        this.recolor(scene);
     }
     
     update() {
@@ -64,23 +52,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.anims.play('player_jump_up', true);
             this.jumps -= 1;
         }
-
         if (this.body.onFloor() == true){
             this.jumps = 1;
         }
 
-        // check for death scene
-        /*if(playerHealth <= 0) {
-            this.scene.launch("deathScene");
-            this.scene.pause("currentScene");
-        }*/
-
-        // image masks follow player
-        //if (this.heart1) {
-        //    this.heart1.x = this.cameraX;
-        //    this.heart1.y = this.cameraY;
-        //}
-       
+        // color masks follow player
+        if (this.colorMask) {
+            this.colorMask.x = this.x;
+            this.colorMask.y = this.y;
+        }
     }
 
     setVulnerable() {
@@ -88,4 +68,29 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setAlpha(1);
     }
 
+    recolor(scene) {
+        // color revealing mask set to game state
+        if (GameState == 0) {   
+            //black & white full mask
+            this.colorMask = scene.add.image(this.x, this.y, 'white_fill').setBlendMode(Phaser.BlendModes.HUE).setDepth(4);
+        } else if (GameState == 1) {                        
+            //red circle mask
+            this.colorMask = scene.add.image(this.x, this.y, 'red_circle_white').setBlendMode(Phaser.BlendModes.COLOR).setDepth(4);    
+        } else if (GameState == 2) {                 
+            //red full mask
+            this.colorMask = scene.add.image(this.x, this.y, 'red_fill').setBlendMode(Phaser.BlendModes.HUE).setDepth(4);     
+        } else if (GameState == 3) {    
+            //red & green circle mask
+            this.colorMask = scene.add.image(this.x, this.y, 'red_yellow').setBlendMode(Phaser.BlendModes.MULTIPLY).setDepth(4);    
+        } else if (GameState == 4) {    
+            //red & green full mask
+            this.colorMask = scene.add.image(this.x, this.y, 'yellow_fill').setBlendMode(Phaser.BlendModes.MULTIPLY).setDepth(4);    
+        } else if (GameState == 5) {    
+            //rgb circle mask
+            this.colorMask = scene.add.image(this.x, this.y, 'yellow_border').setBlendMode(Phaser.BlendModes.MULTIPLY).setDepth(4);    
+        } else if (GameState == 5) {    
+            // invisible mask, full color
+            this.colorMask = scene.add.image(this.x, this.y, 'white_fill').setBlendMode(Phaser.BlendModes.MULTIPLY).setDepth(4);   
+        }
+    }
 }

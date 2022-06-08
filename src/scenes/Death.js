@@ -7,6 +7,8 @@ class Death extends Phaser.Scene {
         // ensure this scene displays above others
         this.scene.bringToTop();
 
+        GameState = 0;
+
         // add color overlay background over game scene
         var death_bkg = this.add.sprite(game.config.width/2,game.config.height/2, "credits_bkg");
         death_bkg.alpha = 0.6;
