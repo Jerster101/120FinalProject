@@ -64,27 +64,22 @@ class Core extends Phaser.Scene {
 
         // player spawn based upon previous boundary
         if (spawnpoint == "start") {
-            console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, start_spawn.x, start_spawn.y, 'idle', 0);
             this.cameras.main.fadeIn(1500, 0, 0, 0)
         } else if (spawnpoint == "red_spawn") {
-            console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, red_spawn.x, red_spawn.y, 'idle', 0);
             this.cameras.main.fadeIn(500, 0, 0, 0)
         } else if (spawnpoint == "red_spawn2") {
-            console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, red_spawn2.x, red_spawn2.y, 'idle', 0);
             this.cameras.main.fadeIn(500, 0, 0, 0)
-        } else if (spawnpoint == "green_spawn") {
-            console.log(spawnpoint);
+        } else if (spawnpoint == "green_spawn") {;
             spawnpoint = "";
             this.player = new Player(this, green_spawn.x, green_spawn.y, 'idle', 0);
             this.cameras.main.fadeIn(500, 0, 0, 0)
         } else if (spawnpoint == "blue_spawn") {
-            console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, blue_spawn.x, blue_spawn.y, 'idle', 0);
             this.cameras.main.fadeIn(500, 0, 0, 0)
@@ -109,13 +104,21 @@ class Core extends Phaser.Scene {
 
         // camera
         this.cameras.main.setBounds(0,0,1216, 704);
-        this.cameras.main.setRoundPixels(true);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
+        
+        // create three hearts
+        this.hearts1 = this.add.sprite(game.config.width/2, game.config.height/2, 'heart').setDepth(3);
+        this.hearts2 = this.add.sprite(game.config.width/2 + 40, game.config.height/2, 'heart').setDepth(3);
+        this.hearts3 = this.add.sprite(game.config.width/2 + 80, game.config.height/2, 'heart').setDepth(3);
+        hearts = [this.hearts1, this.hearts2, this.hearts3];
+        this.updateHearts();
     }
 
     update() {
         
         this.player.update();
+        this.cam_pos_x = this.cameraPos(null).x;
+        this.cam_pos_y = this.cameraPos(null).y;
 
         // pause scene 
         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
@@ -130,28 +133,24 @@ class Core extends Phaser.Scene {
         if(this.checkCollision(this.player, this.green_bound)) {
             this.coreMusic.stop();
             spawnpoint = "core_spawnG";
-            console.log(spawnpoint);
             this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("greenScene");
         }
         if(this.checkCollision(this.player, this.blue_bound)) {
             this.coreMusic.stop();
             spawnpoint = "core_spawnB";
-            console.log(spawnpoint);
             this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("blueScene");
         }
         if(this.checkCollision(this.player, this.red_bound)) {
             this.coreMusic.stop();
             spawnpoint = "core_spawnR";
-            console.log(spawnpoint);
             this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("redScene");
         }
         if(this.checkCollision(this.player, this.red_bound2)) {
             this.coreMusic.stop();
             spawnpoint = "core_spawnR2";
-            console.log(spawnpoint);
             this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("redScene");
         }
@@ -167,6 +166,19 @@ class Core extends Phaser.Scene {
             this.tutorial1.visible = false;
             this.tutorial2.visible = false;
             this.tutorial3.visible = false;
+        }
+
+        if (this.hearts1) {
+            this.hearts1.x = this.cam_pos_x;
+            this.hearts1.y = this.cam_pos_y;
+        }
+        if (this.hearts2) {
+            this.hearts2.x = this.cam_pos_x + 40;
+            this.hearts2.y = this.cam_pos_y;
+        }
+        if (this.hearts3) {
+            this.hearts3.x = this.cam_pos_x + 80;
+            this.hearts3.y = this.cam_pos_y;
         }
     }
 
@@ -184,5 +196,25 @@ class Core extends Phaser.Scene {
     setVulnerable() {
         this.invincible = false;
         this.player.setAlpha(1);
+    }
+
+    cameraPos() {
+        return {
+            x: this.cameras.main.worldView.x + 30,
+            y: this.cameras.main.worldView.y + 30
+        }
+    }
+    
+    updateHearts() {
+        if (playerHealth == 99) {
+            this.hearts3.setAlpha(1);
+            this.hearts2.setAlpha(1);
+        } else if (playerHealth == 66) {
+            this.hearts3.setAlpha(0);
+        } else if (playerHealth == 33) {
+        this.hearts2.setAlpha(0);
+        } else if (playerHealth == 0) {
+            this.hearts1.setAlpha(0);
+        }
     }
 }

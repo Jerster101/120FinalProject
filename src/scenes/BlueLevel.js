@@ -64,12 +64,10 @@ class BlueLevel extends Phaser.Scene {
         const core_spawnB = map.findObject("spawn", obj => obj.name === "core spawn");
         const green_spawnB = map.findObject("spawn", obj => obj.name === "green spawn");
         if (spawnpoint == "core_spawnB") {
-            console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, core_spawnB.x, core_spawnB.y, 'idle', 0);
             this.cameras.main.fadeIn(500, 0, 0, 0)
         } else if (spawnpoint == "green_spawn") {
-            console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, green_spawnB.x, green_spawnB.y, 'idle', 0);
             this.cameras.main.fadeIn(500, 0, 0, 0)
@@ -82,9 +80,11 @@ class BlueLevel extends Phaser.Scene {
         // layer foreground over player & all backgrounds
         this.blue_bkg6 = this.add.image(1216, 640,'blue_bkg6').setDepth(2).setScrollFactor(1.1,1);
 
+        // bounce tutorial
+        this.tutorial5 = this.add.sprite(core_spawnB.x+180, core_spawnB.y+300, "tut_bounce").setOrigin(0.5).setAlpha(0.6);
+
         // add physics collider
         this.physics.add.collider(this.player, platformLayer);
-
         this.physics.add.collider(this.player, this.bouncePlatforms, bouncePlayer, null, this);
 
         // set up key input
@@ -115,31 +115,31 @@ class BlueLevel extends Phaser.Scene {
             });
         }
 
-       // add enemy jumpers from object layer
-       this.enemy01 = map.createFromObjects("enemy", {
-        name: "jumper",
-        key: "jumper",
-        classType: EnemyJumper,
-        frame: 0
-    });
-    this.physics.world.enable(this.enemy01, Phaser.Physics.Arcade.STATIC_BODY);
-    this.enemy01.depth = 2;
-    this.physics.add.collider(this.enemy01, platformLayer);
-    this.enemy01Group = this.add.group(this.enemy01);
-    this.enemy01Group.setOrigin(0.5);
+        // add enemy jumpers from object layer
+        this.enemy01 = map.createFromObjects("enemy", {
+            name: "jumper",
+            key: "jumper",
+            classType: EnemyJumper,
+            frame: 0
+            });
+        this.physics.world.enable(this.enemy01, Phaser.Physics.Arcade.STATIC_BODY);
+        this.enemy01.depth = 2;
+        this.physics.add.collider(this.enemy01, platformLayer);
+        this.enemy01Group = this.add.group(this.enemy01);
+        this.enemy01Group.setOrigin(0.5);
 
-    // add enemy patrollers from object layer
-    this.enemy02 = map.createFromObjects("enemy", {
-        name: "patroller",
-        key: "patroller",
-        classType: EnemyPatroller,
-        frame: 0
-    });
-    this.physics.world.enable(this.enemy02, Phaser.Physics.Arcade.STATIC_BODY);
-    this.enemy02.depth = 2;
-    this.physics.add.collider(this.enemy02, platformLayer);
-    this.enemy02Group = this.add.group(this.enemy02);
-    this.enemy02Group.setOrigin(0.5);
+        // add enemy patrollers from object layer
+        this.enemy02 = map.createFromObjects("enemy", {
+            name: "patroller",
+            key: "patroller",
+            classType: EnemyPatroller,
+            frame: 0
+        });
+        this.physics.world.enable(this.enemy02, Phaser.Physics.Arcade.STATIC_BODY);
+        this.enemy02.depth = 2;
+        this.physics.add.collider(this.enemy02, platformLayer);
+        this.enemy02Group = this.add.group(this.enemy02);
+        this.enemy02Group.setOrigin(0.5);
 
         // add health shard
         this.shard = map.createFromObjects("shard", {
@@ -167,8 +167,11 @@ class BlueLevel extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.shardGroup, (obj1, obj2) => {
             this.sound.play('shard_sfx', sfxConfig);
             this.shardVfxEffect.explode();
-            playerHealth += 33;
             console.log(playerHealth);
+            if (playerHealth <= maxHealth) {
+                playerHealth += 33;
+                this.updateHearts();
+            }
             obj2.destroy();
         });
         this.physics.add.collider(this.shard, platformLayer);
@@ -176,17 +179,28 @@ class BlueLevel extends Phaser.Scene {
         // camera
         this.cameras.main.setBounds(0,0,2432, 1280);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
+
+        // create three hearts
+        this.hearts1 = this.add.sprite(game.config.width/2, game.config.height/2, 'heart').setDepth(3);
+        this.hearts2 = this.add.sprite(game.config.width/2 + 40, game.config.height/2, 'heart').setDepth(3);
+        this.hearts3 = this.add.sprite(game.config.width/2 + 80, game.config.height/2, 'heart').setDepth(3);
+        hearts = [this.hearts1, this.hearts2, this.hearts3];
+        this.updateHearts();
     }
 
     update() {
 
         this.player.update();
+        this.cam_pos_x = this.cameraPos(null).x;
+        this.cam_pos_y = this.cameraPos(null).y;
+        
 
         //enemy collision
         this.enemy01Group.getChildren().forEach(function(enemy) {
             if (this.checkCollision(this.player, enemy)) {
                 if (!this.player.invincible) {
                     playerHealth -=33;
+                    this.updateHearts();
                     this.player.setVelocityX(500);
                     this.player.invincible = true;
                     this.player.setAlpha(0.5);
@@ -199,6 +213,7 @@ class BlueLevel extends Phaser.Scene {
             if (this.checkCollision(this.player, enemy)) {
                 if (!this.player.invincible) {
                     playerHealth -=33;
+                    this.updateHearts();
                     this.player.setVelocityX(500);
                     this.player.invincible = true;
                     this.player.setAlpha(0.5);
@@ -218,6 +233,7 @@ class BlueLevel extends Phaser.Scene {
         if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
             if (!this.invincible) {
                 playerHealth -=33;
+                this.updateHearts();
                 this.player.setVelocityX(500);
                 this.invincible = true;
                 this.player.setAlpha(0.5);
@@ -235,17 +251,28 @@ class BlueLevel extends Phaser.Scene {
         // movement between scenes
         if(this.checkCollision(this.player, this.core_boundG)) {
             spawnpoint = "blue_spawn";
-            console.log(spawnpoint);
             this.blueMusic.stop();
             this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("coreScene");
         }
         if(this.checkCollision(this.player, this.green_boundG)) {
             spawnpoint = "blue_spawn";
-            console.log(spawnpoint);
             this.blueMusic.stop();
             this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("greenScene");
+        }
+
+        if (this.hearts1) {
+            this.hearts1.x = this.cam_pos_x;
+            this.hearts1.y = this.cam_pos_y;
+        }
+        if (this.hearts2) {
+            this.hearts2.x = this.cam_pos_x + 40;
+            this.hearts2.y = this.cam_pos_y;
+        }
+        if (this.hearts3) {
+            this.hearts3.x = this.cam_pos_x + 80;
+            this.hearts3.y = this.cam_pos_y;
         }
     }
 
@@ -263,6 +290,28 @@ class BlueLevel extends Phaser.Scene {
     setVulnerable() {
         this.player.invincible = false;
         this.player.setAlpha(1);
+    }
+
+    cameraPos() {
+        return {
+            x: this.cameras.main.worldView.x + 30,
+            y: this.cameras.main.worldView.y + 30
+        }
+    }
+
+    updateHearts() {
+        if (playerHealth == 99) {
+            this.hearts3.setAlpha(1);
+            this.hearts2.setAlpha(1);
+        } else if (playerHealth == 66) {
+            this.hearts3.setAlpha(0);
+            this.hearts2.setAlpha(1);
+        } else if (playerHealth == 33) {
+        this.hearts2.setAlpha(0);
+        this.hearts3.setAlpha(0);
+        } else if (playerHealth == 0) {
+            this.hearts1.setAlpha(0);
+        }
     }
 }
 
