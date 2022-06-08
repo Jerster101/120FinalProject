@@ -85,6 +85,7 @@ class Load extends Phaser.Scene {
         this.load.image("tut_double_jump", "tutorials/tut_double_jump.png");
         this.load.image("tut_bounce", "tutorials/tut_bounce.png");
         this.load.image("tut_pause", "tutorials/tut_pause.png");
+        this.load.image("tut_start", "tutorials/tut_start.png");
 
         // color masks
         this.load.image('white_fill', 'color_masks/white_fill.png');
@@ -92,7 +93,7 @@ class Load extends Phaser.Scene {
         this.load.image('red_fill', 'color_masks/red_fill.jpg');
         this.load.image('red_circle_white', 'color_masks/red_circle_white.png');
         this.load.image('yellow_border', 'color_masks/yellow_border.png');
-        this.load.image('red_yellow', 'color_masks/red_yellow_circle.png');
+        this.load.image('red_yellow', 'color_masks/red_yellow_circle2.png');
         
         // pause
         this.load.image("credits_bkg", "menu/credits_bkg.jpg");
