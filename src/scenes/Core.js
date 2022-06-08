@@ -48,7 +48,8 @@ class Core extends Phaser.Scene {
             this.tutorial1 = this.add.sprite(start_spawn.x+30, start_spawn.y+50,"tut_move").setOrigin(0.5).setAlpha(0.6);
             this.tutorial2 = this.add.sprite(start_spawn.x+205, start_spawn.y+35, "tut_jump").setOrigin(0.5).setAlpha(0.6);
             this.tutorial3 = this.add.sprite(start_spawn.x+205, start_spawn.y+75, "tut_double_jump").setOrigin(0.5).setAlpha(0.6);
-        
+            this.tutorial4 = this.add.sprite(start_spawn.x-115, start_spawn.y+50, "tut_pause").setOrigin(0.5).setAlpha(0.6);
+
             spawnpoint = "start";
         } else if (CurrentRoom == 1) {
             spawnpoint = "red_spawn";

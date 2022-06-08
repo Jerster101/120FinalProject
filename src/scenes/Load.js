@@ -79,11 +79,12 @@ class Load extends Phaser.Scene {
         this.load.spritesheet("title", "menu/title_spritesheet.png", {frameWidth: 483, frameHeight: 107});
 
         // tutorial
-        this.load.image("tut_move", "tut_move.png");
-        this.load.image("tut_jump", "tut_jump.png");
-        this.load.image("tut_fall", "tut_fall.png");
-        this.load.image("tut_double_jump", "tut_double_jump.png");
-        this.load.image("tut_bounce", "tut_bounce.png");
+        this.load.image("tut_move", "tutorials/tut_move.png");
+        this.load.image("tut_jump", "tutorials/tut_jump.png");
+        this.load.image("tut_fall", "tutorials/tut_fall.png");
+        this.load.image("tut_double_jump", "tutorials/tut_double_jump.png");
+        this.load.image("tut_bounce", "tutorials/tut_bounce.png");
+        this.load.image("tut_pause", "tutorials/tut_pause.png");
 
         // color masks
         this.load.image('circle', 'color_masks/red2.png');
