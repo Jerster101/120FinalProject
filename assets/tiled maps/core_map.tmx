@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.5" orientation="orthogonal" renderorder="left-up" width="38" height="22" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="10">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="left-up" width="38" height="22" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="12">
  <editorsettings>
   <export target="../core/core_map.json" format="json"/>
  </editorsettings>
@@ -22,7 +22,7 @@
   </tile>
   <tile id="3">
    <properties>
-    <property name="collides" type="bool" value="true"/>
+    <property name="collides" type="bool" value="false"/>
    </properties>
   </tile>
   <tile id="4">
@@ -352,6 +352,9 @@
   <object id="5" name="green spawn" x="1135" y="415">
    <point/>
   </object>
+ </objectgroup>
+ <objectgroup id="8" name="core">
+  <object id="11" name="core" gid="4" x="513" y="432" width="191" height="194"/>
  </objectgroup>
  <objectgroup id="7" name="boundary">
   <object id="6" name="green boundary" x="1184" y="288" width="31" height="128"/>

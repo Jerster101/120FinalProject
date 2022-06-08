@@ -12,14 +12,15 @@ class Core extends Phaser.Scene {
             loop: true,
         }
         this.coreMusic = this.sound.add('coreMusic');
+        this.crystal_sfx = this.sound.add('crystal_sfx');
         this.coreMusic.play(musicConfig);
         
         // add parallax background
-        this.bkg_core = this.add.image(608, 352,'bkg').setScrollFactor(1);
-        this.rocks = this.add.image(608, 352,'rocks').setScrollFactor(0.6);
-        this.trees = this.add.image(608, 352,'trees').setScrollFactor(0.7);
-        this.strings = this.add.image(608, 352,'strings').setScrollFactor(0.8);
-        this.no_crystal = this.add.image(608, 352, 'no_crystal').setScrollFactor(1);
+        this.bkg_core = this.add.image(608, 352,'bkg').setScrollFactor(1).setDepth(-5);
+        this.rocks = this.add.image(608, 352,'rocks').setScrollFactor(0.6).setDepth(-4);
+        this.trees = this.add.image(608, 352,'trees').setScrollFactor(0.7).setDepth(-3);
+        this.strings = this.add.image(608, 352,'strings').setScrollFactor(0.8).setDepth(-2);
+        this.no_crystal = this.add.image(608, 352, 'no_crystal').setScrollFactor(1).setDepth(-1);
         
         // variables and settings
         this.physics.world.gravity.y = GRAV;
@@ -97,11 +98,34 @@ class Core extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
-
+        // set boundaries
         this.green_bound = map.findObject("boundary", obj => obj.name === "green boundary");
         this.red_bound = map.findObject("boundary", obj => obj.name === "red boundary");
         this.red_bound2 = map.findObject("boundary", obj => obj.name === "red boundary 2");
         this.blue_bound = map.findObject("boundary", obj => obj.name === "blue boundary");
+
+        // set up core boundary
+        this.crystalCore = map.findObject("core", obj => obj.name === "core");
+        /*this.crystalCore = this.add.sprite(crystalCore.x, crystalCore.y, 'blue_crystal').setOrigin(0);
+        this.physics.world.enable(this.crystalCore, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.add.overlap(this.player, this.crystalCore, (obj1, obj2) => {
+            if (GameState == 1) {
+                GameState = 2;
+                console.log(GameState);
+                this.player.recolor(this);
+                this.no_crystal = this.add.image(608, 352, 'R_crystal').setScrollFactor(1);
+            } else if (GameState == 3) {
+                GameState = 4;
+                this.player.recolor(this);
+                this.no_crystal = this.add.image(608, 352, 'RG_crystal').setScrollFactor(1);
+            } else if (GameState == 5) {
+                GameState = 6;
+                this.player.recolor(this);
+                this.no_crystal = this.add.image(608, 352, 'RGB_crystal').setScrollFactor(1);
+            }; 
+        });
+        this.physics.add.collider(this.crystalCore, platformLayer);*/
+
 
         // camera
         this.cameras.main.setBounds(0,0,1216, 704);
@@ -172,6 +196,16 @@ class Core extends Phaser.Scene {
             this.tutorial2.visible = false;
             this.tutorial3.visible = false;
         }
+        if (GameState == 0) {
+            this.no_crystal.destroy();
+            this.no_crystal = this.add.image(608, 352, 'no_crystal').setScrollFactor(1).setDepth(-1);
+        } else if (GameState == 2) {
+            this.no_crystal.destroy();
+            this.no_crystal = this.add.image(608, 352, 'R_crystal').setScrollFactor(1).setDepth(-1);
+        } else if (GameState == 4) {
+            this.no_crystal.destroy();
+            this.no_crystal = this.add.image(608, 352, 'RG_crystal').setScrollFactor(1).setDepth(-1);
+        }
 
         if (this.hearts1) {
             this.hearts1.x = this.cam_pos_x;
@@ -184,6 +218,30 @@ class Core extends Phaser.Scene {
         if (this.hearts3) {
             this.hearts3.x = this.cam_pos_x + 80;
             this.hearts3.y = this.cam_pos_y;
+        }
+
+        // core state change
+        if(this.checkCollision(this.player, this.crystalCore)) {
+            if (GameState == 1) {
+                GameState = 2;
+                console.log(GameState);
+                this.player.recolor(this);
+                this.no_crystal.destroy();
+                this.no_crystal = this.add.image(608, 352, 'R_crystal').setScrollFactor(1).setDepth(-1);
+                this.sound.play('crystal_sfx', {volume: 0.3});
+            } else if (GameState == 3) {
+                GameState = 4;
+                this.player.recolor(this);
+                this.no_crystal.destroy();
+                this.no_crystal = this.add.image(608, 352, 'RG_crystal').setScrollFactor(1).setDepth(-1);
+                this.sound.play('crystal_sfx', {volume: 0.3});
+            } else if (GameState == 5) {
+                GameState = 6;
+                this.player.recolor(this);
+                this.no_crystal.destroy();
+                this.no_crystal = this.add.image(608, 352, 'RGB_crystal').setScrollFactor(1).setDepth(-1).setDepth(-1);
+                this.sound.play('crystal_sfx', {volume: 0.3});
+            }; 
         }
     }
 

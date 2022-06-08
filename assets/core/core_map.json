@@ -89,6 +89,29 @@
         }, 
         {
          "draworder":"topdown",
+         "id":8,
+         "name":"core",
+         "objects":[
+                {
+                 "gid":4,
+                 "height":194,
+                 "id":11,
+                 "name":"core",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":191,
+                 "x":513,
+                 "y":432
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":7,
          "name":"boundary",
          "objects":[
@@ -142,11 +165,11 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":8,
- "nextobjectid":10,
+ "nextlayerid":9,
+ "nextobjectid":12,
  "orientation":"orthogonal",
  "renderorder":"left-up",
- "tiledversion":"1.8.5",
+ "tiledversion":"1.8.4",
  "tileheight":32,
  "tilesets":[
         {
@@ -194,7 +217,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":true
+                         "value":false
                         }]
                 }, 
                 {
