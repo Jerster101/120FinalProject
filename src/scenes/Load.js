@@ -82,6 +82,7 @@ class Load extends Phaser.Scene {
         this.load.image("tut_jump", "tut_jump.png");
         this.load.image("tut_fall", "tut_fall.png");
         this.load.image("tut_double_jump", "tut_double_jump.png");
+        this.load.image("tut_bounce", "tut_bounce.png");
 
         // color masks
         this.load.image('circle', 'color_masks/red2.png');

@@ -55,8 +55,6 @@ class RedLevel extends Phaser.Scene {
             frame: 9
         });
 
-        console.log(this.collapse1);
-
         this.collapse2 = map.createFromObjects("collapsible", {
             name: "collapse2",
             key: "red_tiles",
@@ -88,17 +86,14 @@ class RedLevel extends Phaser.Scene {
         CurrentRoom = 2;
 
         if (spawnpoint == "core_spawnR") {
-            console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, core_spawnR.x, core_spawnR.y, 'idle', 0);
             this.cameras.main.fadeIn(500, 0, 0, 0)
         } else if (spawnpoint == "core_spawnR2") {
-            console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, core_spawn2R.x, core_spawn2R.y, 'idle', 0);
             this.cameras.main.fadeIn(500, 0, 0, 0)
         } else if (spawnpoint == "green_spawn") {
-            console.log(spawnpoint);
             spawnpoint = "";
             this.player = new Player(this, green_spawn.x, green_spawn.y, 'idle', 0);
             this.cameras.main.fadeIn(500, 0, 0, 0)
@@ -175,7 +170,11 @@ class RedLevel extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.shardGroup, (obj1, obj2) => {
             this.sound.play('shard_sfx', sfxConfig);
             this.shardVfxEffect.explode();
-            playerHealth += 33;
+            console.log(playerHealth);
+            if (playerHealth <= maxHealth) {
+                playerHealth += 33;
+                this.updateHearts();
+            }
             obj2.destroy();
         });
         this.physics.add.collider(this.shard, platformLayer);
@@ -184,6 +183,13 @@ class RedLevel extends Phaser.Scene {
         // camera
         this.cameras.main.setBounds(0,0,2432, 1888);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
+
+        // create three hearts
+        this.hearts1 = this.add.sprite(game.config.width/2, game.config.height/2, 'heart').setDepth(3);
+        this.hearts2 = this.add.sprite(game.config.width/2 + 40, game.config.height/2, 'heart').setDepth(3);
+        this.hearts3 = this.add.sprite(game.config.width/2 + 80, game.config.height/2, 'heart').setDepth(3);
+        hearts = [this.hearts1, this.hearts2, this.hearts3];
+        this.updateHearts();
 
         //variable that creates a timed event that will hopefully allow us to respawn the platforms a few seconds after they collapse
         var timer = this.time.addEvent({
@@ -198,7 +204,6 @@ class RedLevel extends Phaser.Scene {
     it's not very flashy when doing so, but I doubt it really matters
     many thanks to Storm for helping me work through this*/
     regenPlatforms(){
-        console.log("Regenerate Platforms");
         var i = 0;
         var anyDestroyed = false;
         while (i < this.collapse1.length && !anyDestroyed){
@@ -268,12 +273,15 @@ class RedLevel extends Phaser.Scene {
     update() {
 
         this.player.update();
+        this.cam_pos_x = this.cameraPos(null).x;
+        this.cam_pos_y = this.cameraPos(null).y;
 
         //enemy collision
         this.enemy01Group.getChildren().forEach(function(enemy) {
             if (this.checkCollision(this.player, enemy)) {
                 if (!this.player.invincible) {
                     playerHealth -=33;
+                    this.updateHearts();
                     this.player.setVelocityX(500);
                     this.player.invincible = true;
                     this.player.setAlpha(0.5);
@@ -286,6 +294,7 @@ class RedLevel extends Phaser.Scene {
             if (this.checkCollision(this.player, enemy)) {
                 if (!this.player.invincible) {
                     playerHealth -=33;
+                    this.updateHearts();
                     this.player.setVelocityX(500);
                     this.player.invincible = true;
                     this.player.setAlpha(0.5);
@@ -310,7 +319,6 @@ class RedLevel extends Phaser.Scene {
 
         if(this.checkCollision(this.player, this.core_boundR)) {
             spawnpoint = "red_spawn";
-            console.log(spawnpoint);
             CurrentRoom = 1
             this.redMusic.stop();
             this.cameras.main.fadeOut(500, 0, 0, 0)
@@ -318,14 +326,12 @@ class RedLevel extends Phaser.Scene {
         }
         if(this.checkCollision(this.player, this.core_bound2R)) {
             spawnpoint = "red_spawn";
-            console.log(spawnpoint);
             this.redMusic.stop();
             this.cameras.main.fadeOut(500, 0, 0, 0)
             this.scene.start("coreScene");
         }
         if(this.checkCollision(this.player, this.green_boundR)) {
             spawnpoint = "red_spawn";
-            console.log(spawnpoint);
             CurrentRoom = 5;
             this.redMusic.stop();
             this.cameras.main.fadeOut(500, 0, 0, 0)
@@ -341,6 +347,19 @@ class RedLevel extends Phaser.Scene {
             this.scene.launch("deathScene");
             this.scene.pause();
             this.redMusic.stop();
+        }
+
+        if (this.hearts1) {
+            this.hearts1.x = this.cam_pos_x;
+            this.hearts1.y = this.cam_pos_y;
+        }
+        if (this.hearts2) {
+            this.hearts2.x = this.cam_pos_x + 40;
+            this.hearts2.y = this.cam_pos_y;
+        }
+        if (this.hearts3) {
+            this.hearts3.x = this.cam_pos_x + 80;
+            this.hearts3.y = this.cam_pos_y;
         }
     }
 
@@ -404,6 +423,33 @@ class RedLevel extends Phaser.Scene {
         }
         else {
             return false;
+        }
+    }
+
+    cameraPos() {
+        return {
+            x: this.cameras.main.worldView.x + 30,
+            y: this.cameras.main.worldView.y + 30
+        }
+    }
+
+    updateHearts() {
+        if (playerHealth == 99) {
+            this.hearts1.setAlpha(1);
+            this.hearts2.setAlpha(1);
+            this.hearts3.setAlpha(1);
+        } else if (playerHealth == 66) {
+            this.hearts1.setAlpha(1);
+            this.hearts2.setAlpha(1);
+            this.hearts3.setAlpha(0);
+        } else if (playerHealth == 33) {
+            this.hearts1.setAlpha(1);
+            this.hearts2.setAlpha(0);
+            this.hearts3.setAlpha(0);
+        } else if (playerHealth == 0) {
+            this.hearts1.setAlpha(0);
+            this.hearts1.setAlpha(0);
+            this.hearts1.setAlpha(0);
         }
     }
 }
