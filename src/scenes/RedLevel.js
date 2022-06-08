@@ -184,6 +184,13 @@ class RedLevel extends Phaser.Scene {
         this.cameras.main.setBounds(0,0,2432, 1888);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
 
+        // create three hearts
+        this.hearts1 = this.add.sprite(game.config.width/2, game.config.height/2, 'heart').setDepth(3);
+        this.hearts2 = this.add.sprite(game.config.width/2 + 40, game.config.height/2, 'heart').setDepth(3);
+        this.hearts3 = this.add.sprite(game.config.width/2 + 80, game.config.height/2, 'heart').setDepth(3);
+        hearts = [this.hearts1, this.hearts2, this.hearts3];
+        this.updateHearts();
+
         //variable that creates a timed event that will hopefully allow us to respawn the platforms a few seconds after they collapse
         var timer = this.time.addEvent({
             delay: 7000,
@@ -260,13 +267,6 @@ class RedLevel extends Phaser.Scene {
             this.physics.world.enable(this.collapse3, Phaser.Physics.Arcade.STATIC_BODY);
             this.shakyGround3 = this.add.group(this.collapse3);
             this.physics.add.collider(this.player, this.shakyGround3, this.shakePlatform, this.checkOneWay, this);
-        
-        // create three hearts
-        this.hearts1 = this.add.sprite(game.config.width/2, game.config.height/2, 'heart').setDepth(3);
-        this.hearts2 = this.add.sprite(game.config.width/2 + 40, game.config.height/2, 'heart').setDepth(3);
-        this.hearts3 = this.add.sprite(game.config.width/2 + 80, game.config.height/2, 'heart').setDepth(3);
-        hearts = [this.hearts1, this.hearts2, this.hearts3];
-        this.updateHearts();
         }
     }
 
@@ -428,15 +428,20 @@ class RedLevel extends Phaser.Scene {
 
     updateHearts() {
         if (playerHealth == 99) {
+            this.hearts1.setAlpha(1);
+            this.hearts2.setAlpha(1);
             this.hearts3.setAlpha(1);
-            this.hearts2.setAlpha(1);
         } else if (playerHealth == 66) {
-            this.hearts3.setAlpha(0);
+            this.hearts1.setAlpha(1);
             this.hearts2.setAlpha(1);
+            this.hearts3.setAlpha(0);
         } else if (playerHealth == 33) {
-        this.hearts2.setAlpha(0);
-        this.hearts3.setAlpha(0);
+            this.hearts1.setAlpha(1);
+            this.hearts2.setAlpha(0);
+            this.hearts3.setAlpha(0);
         } else if (playerHealth == 0) {
+            this.hearts1.setAlpha(0);
+            this.hearts1.setAlpha(0);
             this.hearts1.setAlpha(0);
         }
     }

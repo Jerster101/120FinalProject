@@ -347,15 +347,20 @@ class GreenLevel extends Phaser.Scene {
 
     updateHearts() {
         if (playerHealth == 99) {
+            this.hearts1.setAlpha(1);
+            this.hearts2.setAlpha(1);
             this.hearts3.setAlpha(1);
-            this.hearts2.setAlpha(1);
         } else if (playerHealth == 66) {
-            this.hearts3.setAlpha(0);
+            this.hearts1.setAlpha(1);
             this.hearts2.setAlpha(1);
+            this.hearts3.setAlpha(0);
         } else if (playerHealth == 33) {
-        this.hearts2.setAlpha(0);
-        this.hearts3.setAlpha(0);
+            this.hearts1.setAlpha(1);
+            this.hearts2.setAlpha(0);
+            this.hearts3.setAlpha(0);
         } else if (playerHealth == 0) {
+            this.hearts1.setAlpha(0);
+            this.hearts1.setAlpha(0);
             this.hearts1.setAlpha(0);
         }
     }
