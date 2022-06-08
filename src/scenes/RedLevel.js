@@ -231,7 +231,7 @@ class RedLevel extends Phaser.Scene {
             this.collapse1 = this.map.createFromObjects("collapsible", {
                 name: "collapse1",
                 key: "red_tiles",
-                frame: 9
+                frame: 9,
             });
             this.physics.world.enable(this.collapse1, Phaser.Physics.Arcade.STATIC_BODY);
             this.shakyGround1 = this.add.group(this.collapse1);
@@ -273,6 +273,7 @@ class RedLevel extends Phaser.Scene {
          if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.scene.launch("pauseScene");
             this.scene.pause();
+            this.redMusic.stop();
         }
 
         if(this.checkCollision(this.player, this.core_boundR)) {
