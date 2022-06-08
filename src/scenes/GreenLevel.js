@@ -22,6 +22,7 @@ class GreenLevel extends Phaser.Scene {
             loop: false
         }
         this.shard_sfx = this.sound.add('shard_sfx');
+        this.damage_sfx = this.sound.add('damage_sfx');
         
         // variables and settings
         this.physics.world.gravity.y = GRAV;
@@ -233,6 +234,7 @@ class GreenLevel extends Phaser.Scene {
             if (this.checkCollision(this.player, enemy)) {
                 if (!this.player.invincible) {
                     playerHealth -=33;
+                    this.sound.play('damage_sfx', {volume: 0.3});
                     this.updateHearts();
                     this.player.setVelocityX(500);
                     this.player.invincible = true;
@@ -246,6 +248,7 @@ class GreenLevel extends Phaser.Scene {
             if (this.checkCollision(this.player, enemy)) {
                 if (!this.player.invincible) {
                     playerHealth -=33;
+                    this.sound.play('damage_sfx', {volume: 0.3});
                     this.updateHearts();
                     this.player.setVelocityX(500);
                     this.player.invincible = true;
@@ -292,6 +295,7 @@ class GreenLevel extends Phaser.Scene {
         if(this.checkCollision(this.player, this.enemy01) || this.checkCollision(this.player, this.enemy02)) {
             if (!this.invincible) {
                 playerHealth -=33;
+                this.sound.play('damage_sfx', {volume: 0.3});
                 this.updateHearts();
                 if ((this.player.x < this.enemy01) || (this.player.x < this.enemy02)) {
                     this.player.setVelocityX(-500);

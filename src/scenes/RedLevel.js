@@ -20,6 +20,7 @@ class RedLevel extends Phaser.Scene {
         }
         this.shard_sfx = this.sound.add('shard_sfx');
         this.collapse_sfx = this.sound.add('collapse_sfx', {volume:0.1, loop: false});
+        this.damage_sfx = this.sound.add('damage_sfx');
         
         // add scrolling clouds & parallax environment
         this.bkg1 = this.add.image(1216, 944,'red_bkg1').setScrollFactor(1);
@@ -281,6 +282,7 @@ class RedLevel extends Phaser.Scene {
             if (this.checkCollision(this.player, enemy)) {
                 if (!this.player.invincible) {
                     playerHealth -=33;
+                    this.sound.play('damage_sfx', {volume: 0.3});
                     this.updateHearts();
                     this.player.setVelocityX(500);
                     this.player.invincible = true;
@@ -294,6 +296,7 @@ class RedLevel extends Phaser.Scene {
             if (this.checkCollision(this.player, enemy)) {
                 if (!this.player.invincible) {
                     playerHealth -=33;
+                    this.sound.play('damage_sfx', {volume: 0.3});
                     this.updateHearts();
                     this.player.setVelocityX(500);
                     this.player.invincible = true;

@@ -22,8 +22,8 @@ class BlueLevel extends Phaser.Scene {
         }
         this.shard_sfx = this.sound.add('shard_sfx');
         this.bounce_sfx = this.sound.add('bounce_sfx');
+        this.damage_sfx = this.sound.add('damage_sfx');
 
-        
         // add parallax background
         this.blue_bkg1 = this.add.image(1216, 640,'blue_bkg1');
         this.blue_bkg2 = this.add.image(1216, 640,'blue_bkg2').setScrollFactor(0.3);
@@ -200,6 +200,7 @@ class BlueLevel extends Phaser.Scene {
             if (this.checkCollision(this.player, enemy)) {
                 if (!this.player.invincible) {
                     playerHealth -=33;
+                    this.sound.play('damage_sfx', {volume: 0.3});
                     this.updateHearts();
                     this.player.setVelocityX(500);
                     this.player.invincible = true;
@@ -213,6 +214,7 @@ class BlueLevel extends Phaser.Scene {
             if (this.checkCollision(this.player, enemy)) {
                 if (!this.player.invincible) {
                     playerHealth -=33;
+                    this.sound.play('damage_sfx', {volume: 0.3});
                     this.updateHearts();
                     this.player.setVelocityX(500);
                     this.player.invincible = true;
@@ -241,6 +243,7 @@ class BlueLevel extends Phaser.Scene {
             if (!this.invincible) {
                 playerHealth -=33;
                 this.updateHearts();
+                this.sound.play('damage_sfx', {volume: 0.3});
                 this.player.setVelocityX(500);
                 this.invincible = true;
                 this.player.setAlpha(0.5);
