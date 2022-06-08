@@ -173,6 +173,10 @@ class GreenLevel extends Phaser.Scene {
         this.physics.world.enable(this.enemy02, Phaser.Physics.Arcade.STATIC_BODY);
         this.enemy02.depth = 2;
         this.physics.add.collider(this.enemy02, platformLayer);
+        this.physics.add.collider(this.enemy02, this.passPlatforms1);
+        this.physics.add.collider(this.enemy02, this.passPlatforms2);
+        this.physics.add.collider(this.enemy02, this.passPlatforms3);
+        this.physics.add.collider(this.enemy02, this.passPlatforms4);
         this.enemy02Group = this.add.group(this.enemy02);
         this.enemy02Group.setOrigin(0.5);
 

@@ -121,10 +121,12 @@ class Core extends Phaser.Scene {
         this.cam_pos_y = this.cameraPos(null).y;
 
         // pause scene 
+        
         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.scene.launch("pauseScene");
             this.scene.pause();
         }
+
         this.events.on('pause', function() {
             this.coreMusic.pause();
         }, this);
@@ -135,25 +137,25 @@ class Core extends Phaser.Scene {
         if(this.checkCollision(this.player, this.green_bound)) {
             this.coreMusic.stop();
             spawnpoint = "core_spawnG";
-            this.cameras.main.fadeOut(500, 0, 0, 0)
+            this.cameras.main.fadeOut(500, 0, 0, 0);
             this.scene.start("greenScene");
         }
         if(this.checkCollision(this.player, this.blue_bound)) {
             this.coreMusic.stop();
             spawnpoint = "core_spawnB";
-            this.cameras.main.fadeOut(500, 0, 0, 0)
+            this.cameras.main.fadeOut(500, 0, 0, 0);
             this.scene.start("blueScene");
         }
         if(this.checkCollision(this.player, this.red_bound)) {
             this.coreMusic.stop();
             spawnpoint = "core_spawnR";
-            this.cameras.main.fadeOut(500, 0, 0, 0)
+            this.cameras.main.fadeOut(500, 0, 0, 0);
             this.scene.start("redScene");
         }
         if(this.checkCollision(this.player, this.red_bound2)) {
             this.coreMusic.stop();
             spawnpoint = "core_spawnR2";
-            this.cameras.main.fadeOut(500, 0, 0, 0)
+            this.cameras.main.fadeOut(500, 0, 0, 0);
             this.scene.start("redScene");
         }
 

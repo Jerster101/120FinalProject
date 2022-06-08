@@ -4,10 +4,15 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
+
         // set currentScene var for pause use
         currentScene = 'menuScene';
         spawnpoint = "start";
         CurrentRoom = 0;
+
+        console.log(currentScene);
+        console.log(spawnpoint);
+        console.log(CurrentRoom);
 
         // add sound
         this.hover = this.sound.add("menuHover_sfx");

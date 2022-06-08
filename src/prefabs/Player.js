@@ -70,10 +70,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         // check for death scene
-        if(playerHealth <= 0) {
+        /*if(playerHealth <= 0) {
             this.scene.launch("deathScene");
             this.scene.pause("currentScene");
-        }
+        }*/
 
         // image masks follow player
         //if (this.heart1) {
