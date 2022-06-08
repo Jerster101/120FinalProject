@@ -50,6 +50,8 @@ class Core extends Phaser.Scene {
             this.tutorial2 = this.add.sprite(start_spawn.x+205, start_spawn.y+35, "tut_jump").setOrigin(0.5).setAlpha(0.6);
             this.tutorial3 = this.add.sprite(start_spawn.x+205, start_spawn.y+75, "tut_double_jump").setOrigin(0.5).setAlpha(0.6);
             this.tutorial4 = this.add.sprite(start_spawn.x-115, start_spawn.y+50, "tut_pause").setOrigin(0.5).setAlpha(0.6);
+            this.tutorial5 = this.add.sprite(start_spawn.x-125, start_spawn.y-60, "tut_start").setOrigin(0.5).setAlpha(0.6);
+            
 
             spawnpoint = "start";
         } else if (CurrentRoom == 1) {
@@ -195,6 +197,7 @@ class Core extends Phaser.Scene {
             this.tutorial1.visible = false;
             this.tutorial2.visible = false;
             this.tutorial3.visible = false;
+            this.tutorial4.visible = false;
         }
         if (GameState == 0) {
             this.no_crystal.destroy();
