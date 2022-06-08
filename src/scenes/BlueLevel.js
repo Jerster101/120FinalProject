@@ -168,7 +168,7 @@ class BlueLevel extends Phaser.Scene {
             this.sound.play('shard_sfx', sfxConfig);
             this.shardVfxEffect.explode();
             console.log(playerHealth);
-            if (playerHealth <= maxHealth) {
+            if (playerHealth < maxHealth) {
                 playerHealth += 33;
                 this.updateHearts();
             }
