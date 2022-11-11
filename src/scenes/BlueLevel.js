@@ -74,7 +74,7 @@ class BlueLevel extends Phaser.Scene {
         this.green_boundG = map.findObject("boundary", obj => obj.name === "green boundary");
 
         // layer foreground over player & all backgrounds
-        this.blue_bkg6 = this.add.image(1216, 640,'blue_bkg6').setDepth(1).setScrollFactor(1.1,1);
+        this.blue_bkg6 = this.add.image(1216, 640,'blue_bkg6').setDepth(6).setScrollFactor(1.1,1);
 
         // bounce tutorial
         this.tutorial5 = this.add.sprite(core_spawnB.x+180, core_spawnB.y+300, "tut_bounce").setOrigin(0.5).setAlpha(0.6);
